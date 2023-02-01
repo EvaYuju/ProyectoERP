@@ -12,9 +12,12 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("erp.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
-        stage.setTitle("Hello!");
+        stage.setTitle("ERP");
         stage.setScene(scene);
         stage.show();
+
+        ControladorPrincipal controlador = fxmlLoader.getController();
+        controlador.setFxmlLoader(fxmlLoader);
     }
 
     public static void main(String[] args) {
