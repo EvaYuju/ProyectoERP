@@ -15,9 +15,6 @@ public class Main extends Application {
         stage.setTitle("ERP");
         stage.setScene(scene);
         stage.show();
-
-        ControladorPrincipal controlador = fxmlLoader.getController();
-        controlador.setFxmlLoader(fxmlLoader);
     }
 
     public static void main(String[] args) {

@@ -201,14 +201,6 @@ public class ControladorPrincipal implements Initializable {
         panelBD.setVisible(true);
     }
 
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        //panelLogin.setVisible(true);
-
-    }
-
-
     /* PANEL BASES DE DATOS */
     @FXML
     void crearBD(ActionEvent event) {
