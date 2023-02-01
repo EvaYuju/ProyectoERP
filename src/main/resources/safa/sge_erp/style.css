@@ -1,0 +1,8 @@
+#panel{
+    -fx-background-image: url("img/fondo.jpg");
+    -fx-background-repeat: round;
+}
+
+#panelInterno{
+    -fx-background-color: white;
+}
