@@ -2,8 +2,14 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="safa.sge_erp.ControladorPrincipal">
@@ -29,17 +35,44 @@
                </children>
             </AnchorPane>
          </children></AnchorPane>
-      <AnchorPane id="panel" fx:id="panelBD" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" visible="false">
+      <AnchorPane id="panel" fx:id="panelBD" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css">
          <children>
-            <AnchorPane id="panelInterno" layoutX="603.0" layoutY="244.0" prefHeight="507.0" prefWidth="470.0" stylesheets="@style.css" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="100.0">
-               <children>
-                  <Label layoutX="101.0" layoutY="226.0" text="BIENVENIDO">
-                     <font>
-                        <Font size="45.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
+            <Label layoutX="60.0" layoutY="29.0" text="BASES DE DATOS" textFill="WHITE" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
+               <font>
+                  <Font name="Calibri Bold" size="60.0" />
+               </font>
+            </Label>
+            <Button id="boton" fx:id="btnCrear" layoutX="472.0" layoutY="36.0" mnemonicParsing="false" onAction="#crearBD" stylesheets="@style.css" text="Crear" AnchorPane.leftAnchor="470.0" AnchorPane.topAnchor="36.0" />
+            <Label fx:id="labelBienvenido" layoutX="821.0" layoutY="30.0" text="Bienvenido, " textFill="WHITE" AnchorPane.rightAnchor="200.5999999999999" AnchorPane.topAnchor="30.0">
+               <font>
+                  <Font name="Calibri Bold" size="50.0" />
+               </font>
+            </Label>
+            <SplitMenuButton id="botonOpciones" layoutX="1103.0" layoutY="38.0" mnemonicParsing="false" stylesheets="@style.css" text="Opciones" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="38.0">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Editar perfil" />
+                <MenuItem mnemonicParsing="false" text="Cerrar cesión" />
+              </items>
+               <font>
+                  <Font name="Calibri" size="20.0" />
+               </font>
+            </SplitMenuButton>
+            <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="540.0" layoutY="260.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <GridPane fx:id="gpBasesDeDatos" layoutX="14.0" layoutY="83.0" prefHeight="0.0" prefWidth="1208.0" vgap="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
          </children>
       </AnchorPane>
    </children>
