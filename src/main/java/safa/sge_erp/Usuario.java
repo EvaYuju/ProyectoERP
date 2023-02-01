@@ -1,5 +1,6 @@
 package safa.sge_erp;
 
+
 import java.util.List;
 
 public class Usuario {
@@ -30,6 +31,7 @@ public class Usuario {
         this.nombre = nombre;
     }
 
+
     public String getClave() {
         return clave;
     }
@@ -46,6 +48,7 @@ public class Usuario {
         this.email = email;
     }
 
+
     public List<String> getBasesDeDatos() {
         return basesDeDatos;
     }
@@ -54,3 +57,4 @@ public class Usuario {
         this.basesDeDatos = basesDeDatos;
     }
 }
+
