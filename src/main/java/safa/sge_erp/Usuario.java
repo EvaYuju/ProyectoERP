@@ -1,15 +1,26 @@
 package safa.sge_erp;
 
 
-public class Usuario {
-    private String nombre;
-    private String contraseña;
-    private String email;
+import java.util.List;
 
-    public Usuario (String nombre, String contraseña, String email) {
+public class Usuario {
+
+    String nombre;
+    String clave;
+    String email;
+    List<String> basesDeDatos;
+
+    public Usuario(String nombre, String clave, String email) {
         this.nombre = nombre;
-        this.contraseña = contraseña;
+        this.clave = clave;
         this.email = email;
+    }
+
+    public Usuario(String nombre, String clave, String email, List<String> basesDeDatos) {
+        this.nombre = nombre;
+        this.clave = clave;
+        this.email = email;
+        this.basesDeDatos = basesDeDatos;
     }
 
     public String getNombre() {
@@ -20,12 +31,13 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public String getContraseña() {
-        return contraseña;
+
+    public String getClave() {
+        return clave;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setClave(String clave) {
+        this.clave = clave;
     }
 
     public String getEmail() {
@@ -37,5 +49,12 @@ public class Usuario {
     }
 
 
+    public List<String> getBasesDeDatos() {
+        return basesDeDatos;
+    }
+
+    public void setBasesDeDatos(List<String> basesDeDatos) {
+        this.basesDeDatos = basesDeDatos;
+    }
 }
 
