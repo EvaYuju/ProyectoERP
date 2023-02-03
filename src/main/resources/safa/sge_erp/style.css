@@ -44,7 +44,7 @@
 }
 
 #panelConectar {
-    -fx-padding: 50;
+    -fx-padding: 30;
     -fx-border-color: black;
     -fx-border-style: solid;
     -fx-border-radius: 30;
@@ -55,6 +55,7 @@
 #labelConectar {
     -fx-font-size: 30px;
     -fx-font-weight: bold;
+    -fx-background-color: blue;
 }
 
 

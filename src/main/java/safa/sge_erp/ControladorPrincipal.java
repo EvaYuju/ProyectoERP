@@ -94,6 +94,7 @@ public class ControladorPrincipal implements Initializable {
             statement = connection.prepareStatement(sql);
             statement.setString(1, tfLoginUsuario.getText());
             statement.setString(2, tfLoginClave.getText());
+            System.out.println(statement);
             ResultSet result = statement.executeQuery();
 
             if (result.next()) {
@@ -130,9 +131,8 @@ public class ControladorPrincipal implements Initializable {
 
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1,tfRegistroUsuario.getText());
-            statement.setString(2,tfRegistroEmail.getText());
-            statement.setString(3,tfRegistroClave.getText());
-            statement.setString(3,tfRegistroConfirmaClave.getText());
+            statement.setString(3,tfRegistroEmail.getText());
+            statement.setString(2,tfRegistroClave.getText());
             statement.execute();
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -157,16 +157,6 @@ public class ControladorPrincipal implements Initializable {
         panelRegistro.setVisible(true);
 
     }
-
-    public void cleanFields(){
-        tfLoginClave.setText("");
-        tfLoginUsuario.setText("");
-        tfRegistroEmail.setText("");
-        tfRegistroClave.setText("");
-        tfRegistroUsuario.setText("");
-        tfRegistroConfirmaClave.setText("");
-    }
-
 
     @FXML
     void cancelaRegistro(ActionEvent event) {
@@ -252,6 +242,8 @@ public class ControladorPrincipal implements Initializable {
     void nuevaFila(String nombre) {
         Label lNombre = new Label(nombre);
         lNombre.setId("labelConectar");
+        lNombre.setMinWidth(750);
+        lNombre.setMaxWidth(750);
         Button btnConectar = new Button("CONECTAR >");
         btnConectar.setId("boton");
         Button btnEliminar = new Button("ELIMINAR");
@@ -261,7 +253,7 @@ public class ControladorPrincipal implements Initializable {
         btnEliminar.setOnAction(accesoBD(nombre));
 
         HBox hbox = new HBox(lNombre, btnConectar, btnEliminar);
-        hbox.setSpacing(300);
+        hbox.setSpacing(50);
 
         StackPane sp = new StackPane(hbox);
         sp.setId("panelConectar");
