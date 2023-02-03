@@ -1,23 +1,24 @@
 package safa.sge_erp;
 
+import com.google.gson.reflect.TypeToken;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-
-import javafx.fxml.FXMLLoader;
-
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.scene.control.*;
-
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 import java.sql.*;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import javafx.scene.layout.*;
+import com.google.gson.Gson;
 
 import static safa.sge_erp.ConexionBD.conexionBD;
 import static safa.sge_erp.ConexionBD.conexionMySQL;
@@ -25,8 +26,6 @@ import static safa.sge_erp.ConexionBD.conexionMySQL;
 
 public class ControladorPrincipal implements Initializable {
 
-    //public static FXMLLoader fxmlLoader;
-    private FXMLLoader fxmlLoader;
     @FXML
     private Button btnAcceder;
 
@@ -82,6 +81,7 @@ public class ControladorPrincipal implements Initializable {
     Usuario usuario;
     int contadorFilas = 0;
     Connection bdSeleccionada;
+    Gson gson = new Gson();
 
     // Métodos
     /* PANEL USUARIOS */
@@ -94,18 +94,17 @@ public class ControladorPrincipal implements Initializable {
             statement = connection.prepareStatement(sql);
             statement.setString(1, tfLoginUsuario.getText());
             statement.setString(2, tfLoginClave.getText());
-            System.out.println(statement);
-            ResultSet result = statement.executeQuery();
+            ResultSet rs = statement.executeQuery();
 
-            if (result.next()) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Información");
-                alert.setHeaderText("Mensaje de información");
-                alert.setContentText("Login correcto");
+            if (rs.next()) {
+                // Creamos el usuario
+                usuario = new Usuario(rs.getString("nombre"), rs.getString("clave"),
+                        rs.getString("email"));
+                cargaBasesDatos(rs);
 
-                alert.showAndWait();
-
+                // Cerramos la conexión con la base de datos de usuarios
                 connection.close();
+
                  // Carga el panel BD
                 panelLogin.setVisible(false);
                 panelBD.setVisible(true);
@@ -122,17 +121,30 @@ public class ControladorPrincipal implements Initializable {
         }catch (Exception e) {e.printStackTrace();}
     }
 
+    private void cargaBasesDatos(ResultSet rs) throws SQLException {
+        // Cargamos su tabla de bases de datos
+        String json = rs.getString("basesDatos");
+        if (json != null){ // Comprobamos que tenga alguna base de datos creada
+            List<String> basesDeDatos = gson.fromJson(json, new TypeToken<List<String>>() {}.getType());
+            usuario.setBasesDeDatos(basesDeDatos);
+            for (String bd : basesDeDatos){
+                nuevaFila(bd);
+            }
+        }
+    }
+
 
     @FXML
     void aceptaRegistro(ActionEvent event) throws SQLException, ClassNotFoundException {
         Connection connection = conexionBD("usuarios_erp");
-        String sql = "INSERT INTO usuarios VALUES (?,?,?)";
+        String sql = "INSERT INTO usuarios (nombre, clave, email) VALUES (?,?,?)";
         try {
 
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1,tfRegistroUsuario.getText());
-            statement.setString(3,tfRegistroEmail.getText());
             statement.setString(2,tfRegistroClave.getText());
+            statement.setString(3,tfRegistroEmail.getText());
+            System.out.println(statement);
             statement.execute();
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -149,7 +161,6 @@ public class ControladorPrincipal implements Initializable {
             e.printStackTrace();
         }
     }
-
 
     @FXML
     void nuevoRegistro(ActionEvent event) {
@@ -174,7 +185,7 @@ public class ControladorPrincipal implements Initializable {
      * Inserta nueva base de datos tras pulsar 'CREAR'
      */
     @FXML
-    void crearBD(ActionEvent event) {
+    void crearBD(ActionEvent event) throws SQLException, ClassNotFoundException {
         // Ventana de diálogo para introducir el nombre
         TextInputDialog nombreBD = new TextInputDialog();
         nombreBD.setTitle("INTRODUZCA NOMBRE");
@@ -182,10 +193,36 @@ public class ControladorPrincipal implements Initializable {
         Optional<String> resultado = nombreBD.showAndWait();
         // Si se recibe resultado, crea la bbdd y el panel
         if(resultado.isPresent()){
-            String nombre = resultado.get();
+            String nombre = resultado.get().replace(" ", "_");
             nuevaBD(nombre);
             nuevaFila(nombre);
+            actualizaBD(nombre);
         }
+    }
+
+    /**
+     * Actualiza la base de datos de usuario con la nueva base de datos
+     */
+    private void actualizaBD(String nombre) throws SQLException, ClassNotFoundException {
+        // Añadimos la nueva bd a la lista y la pasamos a json
+        List<String> listaActualizada = usuario.getBasesDeDatos();
+        listaActualizada.add(nombre);
+        usuario.setBasesDeDatos(listaActualizada);
+
+        String json = gson.toJson(listaActualizada);
+
+        // Nos conectamos a la bd de usuarios_erp para actualizarla
+        Connection connection = conexionBD("usuarios_erp");
+        String query = "UPDATE usuarios SET basesDatos = ? WHERE nombre = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, json);
+        statement.setString(2, usuario.nombre);
+        System.out.println(statement);
+        statement.executeUpdate();
+
+        // Cerramos la conexión
+        statement.close();
+        connection.close();
     }
 
     /**
