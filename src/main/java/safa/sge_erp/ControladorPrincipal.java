@@ -39,45 +39,32 @@ import java.util.ResourceBundle;
 public class ControladorPrincipal implements Initializable {
 
     //public static FXMLLoader fxmlLoader;
-    private FXMLLoader fxmlLoader;
     @FXML
-    private Button btnAcceder;
-
-    @FXML
-    private Button btnAceptarRegistro;
-
-    @FXML
-    private Button btnCancelarRegistro;
-
-    @FXML
-    private Button btnCrear;
-
-    @FXML
-    private Button btnRegistro;
-
-    @FXML
-    private GridPane gpBasesDeDatos;
-
-    @FXML
-    private Label labelBienvenido;
-
-    @FXML
-    private AnchorPane panelBD;
+    private AnchorPane panelUsuario;
 
     @FXML
     private AnchorPane panelLogin;
 
     @FXML
-    private AnchorPane panelRegistro;
-
-    @FXML
-    private AnchorPane panelUsuario;
+    private TextField tfLoginUsuario;
 
     @FXML
     private TextField tfLoginClave;
 
     @FXML
-    private TextField tfLoginUsuario;
+    private Button btnAcceder;
+
+    @FXML
+    private Button btnRegistro;
+
+    @FXML
+    private AnchorPane panelRegistro;
+
+    @FXML
+    private TextField tfRegistroUsuario;
+
+    @FXML
+    private TextField tfRegistroEmail;
 
     @FXML
     private TextField tfRegistroClave;
@@ -86,10 +73,54 @@ public class ControladorPrincipal implements Initializable {
     private TextField tfRegistroConfirmaClave;
 
     @FXML
-    private TextField tfRegistroEmail;
+    private Button btnAceptarRegistro;
 
     @FXML
-    private TextField tfRegistroUsuario;
+    private Button btnCancelarRegistro;
+
+    @FXML
+    private AnchorPane panelBD;
+
+    @FXML
+    private Button btnCrear;
+
+    @FXML
+    private Label labelBienvenido;
+
+    @FXML
+    private GridPane gpBasesDeDatos;
+
+    @FXML
+    private AnchorPane panelConectado;
+
+    @FXML
+    private AnchorPane panelMenu;
+
+    @FXML
+    private Button btnCompras;
+
+    @FXML
+    private Button btnVentas;
+
+    @FXML
+    private Button btnInventario;
+
+    @FXML
+    private Button btnFacturas;
+
+    @FXML
+    private AnchorPane panelCompra;
+
+    @FXML
+    private AnchorPane panelVentas;
+
+    @FXML
+    private AnchorPane panelInventario;
+
+    @FXML
+    private AnchorPane panelFacturas;
+
+
 
     // Atributos
     int counter = 0;
@@ -105,6 +136,32 @@ public class ControladorPrincipal implements Initializable {
             return  connect;
         } catch (Exception e) {e.printStackTrace();}
         return null;
+    }
+
+    // Cambio de paneles
+
+    @FXML
+    void entrarCompras(ActionEvent event) {
+        panelMenu.setVisible(false);
+        panelCompra.setVisible(true);
+    }
+
+    @FXML
+    void entrarFacturas(ActionEvent event) {
+        panelMenu.setVisible(false);
+        panelFacturas.setVisible(true);
+    }
+
+    @FXML
+    void entrarInventario(ActionEvent event) {
+        panelMenu.setVisible(false);
+        panelInventario.setVisible(true);
+    }
+
+    @FXML
+    void entrarVentas(ActionEvent event) {
+        panelMenu.setVisible(false);
+        panelVentas.setVisible(true);
     }
 
 
