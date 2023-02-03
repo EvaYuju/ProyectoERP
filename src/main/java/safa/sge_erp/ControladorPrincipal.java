@@ -6,34 +6,21 @@ import javafx.fxml.FXML;
 
 import javafx.fxml.FXMLLoader;
 
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import org.w3c.dom.events.MouseEvent;
 
 import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
+import static safa.sge_erp.ConexionBD.conexionBD;
+import static safa.sge_erp.ConexionBD.conexionMySQL;
 
 
 public class ControladorPrincipal implements Initializable {
@@ -92,37 +79,22 @@ public class ControladorPrincipal implements Initializable {
     private TextField tfRegistroUsuario;
 
     // Atributos
-    int counter = 0;
-
-    // Base de datos
-    private Connection connect;
-    private PreparedStatement statement;
-    private ResultSet result;
-
-    public Connection conectarBD() {
-        try {
-            connect = DriverManager.getConnection("jdbc:mysql://localhost:3307/usuarios_erp", "root", "root");
-            return  connect;
-        } catch (Exception e) {e.printStackTrace();}
-        return null;
-    }
-
+    Usuario usuario;
+    int contadorFilas = 0;
+    Connection bdSeleccionada;
 
     // Métodos
-    // LOGIN USUARIO
+    /* PANEL USUARIOS */
     @FXML
-    public void acceder(ActionEvent event) {
-        connect = conectarBD();
-        //Parent root = fxmlLoader.getRoot();
-
+    public void acceder(ActionEvent event) throws SQLException, ClassNotFoundException {
+        Connection connection = conexionBD("usuarios_erp");
+        String sql = "SELECT * FROM usuarios WHERE nombre=? AND clave = ?";
         try {
-
-            String sql = "SELECT * FROM usuarios WHERE nombre=? AND clave = ?";
-
-            statement = connect.prepareStatement(sql);
+            PreparedStatement statement;
+            statement = connection.prepareStatement(sql);
             statement.setString(1, tfLoginUsuario.getText());
             statement.setString(2, tfLoginClave.getText());
-            result = statement.executeQuery();
+            ResultSet result = statement.executeQuery();
 
             if (result.next()) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -131,6 +103,8 @@ public class ControladorPrincipal implements Initializable {
                 alert.setContentText("Login correcto");
 
                 alert.showAndWait();
+
+                connection.close();
                  // Carga el panel BD
                 panelLogin.setVisible(false);
                 panelBD.setVisible(true);
@@ -146,15 +120,15 @@ public class ControladorPrincipal implements Initializable {
 
         }catch (Exception e) {e.printStackTrace();}
     }
-    // REGISTRO USUARIO
+
+
     @FXML
-    void aceptaRegistro(ActionEvent event) {
-        connect = conectarBD();
-
+    void aceptaRegistro(ActionEvent event) throws SQLException, ClassNotFoundException {
+        Connection connection = conexionBD("usuarios_erp");
+        String sql = "INSERT INTO usuarios VALUES (?,?,?)";
         try {
-            String sql ="INSERT INTO usuarios VALUES(?,?,?)";
 
-            statement = conectarBD().prepareStatement(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1,tfRegistroUsuario.getText());
             statement.setString(2,tfRegistroEmail.getText());
             statement.setString(3,tfRegistroClave.getText());
@@ -166,11 +140,14 @@ public class ControladorPrincipal implements Initializable {
             alert.setHeaderText("Mensaje de información");
             alert.setContentText("USUARIO INSERTADO");
 
+            connection.close();
+
             panelRegistro.setVisible(false);
             panelLogin.setVisible(true);
 
-
-        }catch(Exception e) {e.printStackTrace();}
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -202,49 +179,120 @@ public class ControladorPrincipal implements Initializable {
     }
 
     /* PANEL BASES DE DATOS */
+
+    /**
+     * Inserta nueva base de datos tras pulsar 'CREAR'
+     */
     @FXML
     void crearBD(ActionEvent event) {
-        nuevaFila();
-        gpBasesDeDatos.setVgap(10);
+        // Ventana de diálogo para introducir el nombre
+        TextInputDialog nombreBD = new TextInputDialog();
+        nombreBD.setTitle("INTRODUZCA NOMBRE");
+        nombreBD.setHeaderText("Introduzca el nombre de la nueva base de datos");
+        Optional<String> resultado = nombreBD.showAndWait();
+        // Si se recibe resultado, crea la bbdd y el panel
+        if(resultado.isPresent()){
+            String nombre = resultado.get();
+            nuevaBD(nombre);
+            nuevaFila(nombre);
+        }
     }
 
-    void nuevaFila() {
-        Label label = new Label("Label " + counter);
-        Button button1 = new Button("Button 1 " + counter);
-        Button button2 = new Button("Button 2 " + counter);
+    /**
+     * Crea la base de datos con el nombre proporcionado
+     */
+    private void nuevaBD(String nombre) {
+        try {
+            String dbName = formatoNombre(nombre);
+            // Conexión con MySQL
+            Connection connection = conexionMySQL();
+            Statement statement = connection.createStatement();
 
-        EventHandler<ActionEvent> eventHandler = e -> {
-            Button b = (Button) e.getSource();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Button Information");
-            alert.setHeaderText(null);
-            alert.setContentText(b.getText());
-            alert.showAndWait();
-        };
+            // Creación de la base de datos
+            statement.executeUpdate("CREATE DATABASE " + dbName);
+            statement.close();
+            connection.close();
+            crearTablas(dbName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-        button1.setOnAction(eventHandler);
-        button2.setOnAction(eventHandler);
+    private String formatoNombre(String nombre) {
+        return "erp_" + usuario.getNombre() + "_" + nombre; // Nombre de la BD en la memoria
+    }
 
-        HBox hbox = new HBox(label, button1, button2);
-        hbox.setSpacing(400);
-        hbox.setAlignment(Pos.CENTER);
+    /**
+     * Añade las tablas necesarias para el ERP a la base de datos dada
+     */
+    private void crearTablas(String nombreBD) {
+        try {
+            // Conexión con la base de datos
+            Connection connection = conexionBD(nombreBD);
+            Statement statement = connection.createStatement();
+
+            // Creación de las tablas
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS compras (id INT AUTO_INCREMENT PRIMARY KEY, product_id INT, quantity INT, price DOUBLE);");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS facturas (id INT AUTO_INCREMENT PRIMARY KEY, date DATE, total DOUBLE);");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS productos (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), stock INT, price DOUBLE);");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS ventas (id INT AUTO_INCREMENT PRIMARY KEY, product_id INT, quantity INT, price DOUBLE);");
+
+            // Cerramos las conexiones
+            statement.close();
+            connection.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Añade una nueva fila al GridPane que muestra las bases de datos del usuario
+     */
+    void nuevaFila(String nombre) {
+        Label lNombre = new Label(nombre);
+        lNombre.setId("labelConectar");
+        Button btnConectar = new Button("CONECTAR >");
+        btnConectar.setId("boton");
+        Button btnEliminar = new Button("ELIMINAR");
+        btnEliminar.setId("botonEliminar");
+
+        btnConectar.setOnAction(accesoBD(nombre));
+        btnEliminar.setOnAction(accesoBD(nombre));
+
+        HBox hbox = new HBox(lNombre, btnConectar, btnEliminar);
+        hbox.setSpacing(300);
 
         StackPane sp = new StackPane(hbox);
-        sp.setPadding(new Insets(50));
-        sp.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(30), BorderWidths.DEFAULT)));
-        sp.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, new CornerRadii(30), Insets.EMPTY)));
+        sp.setId("panelConectar");
 
-        gpBasesDeDatos.addRow(counter + 1, sp);
+        gpBasesDeDatos.addRow(contadorFilas + 1, sp);
         GridPane.setHalignment(sp, HPos.CENTER);
         GridPane.setFillWidth(sp, true);
-        counter++;
+        contadorFilas++;
+    }
+
+
+    private EventHandler<ActionEvent> accesoBD(String nombre) {
+        return event -> {
+            try {
+                bdSeleccionada = conexionBD(formatoNombre(nombre));
+                Dialog<String> ventana = new Dialog<>();
+                ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+                ventana.setContentText("CONECTADO");
+                ventana.getDialogPane().getButtonTypes().add(type);
+                ventana.showAndWait();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        };
     }
 
     /* INICIALIZACIÓN */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        labelBienvenido.setText(labelBienvenido.getText()+"Paco");
-        gpBasesDeDatos.setVgap(0);
+        usuario = new Usuario("Fran", "1234", "a@a.a");
+        labelBienvenido.setText(labelBienvenido.getText()+usuario.getNombre());
     }
 
 }

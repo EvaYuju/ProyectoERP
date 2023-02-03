@@ -16,12 +16,45 @@
     -fx-border-width: 2px;
     -fx-border-radius: 20px;
     -fx-border-style: solid;
+    -fx-text-fill: white;
 }
 
 #boton:hover {
     -fx-effect:  innershadow(three-pass-box, #ffffff, 5 , 0.8, 0, 0);
 }
 
+#botonEliminar{
+    -fx-background-color: #d23030;
+    -fx-font-size: 22px;
+    -fx-background-radius: 20px;
+    -fx-background-insets: 0;
+    -fx-border-color: #ff0000;
+    -fx-border-width: 2px;
+    -fx-border-radius: 20px;
+    -fx-border-style: solid;
+    -fx-text-fill: white;
+}
+
+#botonEliminar:hover {
+    -fx-effect:  innershadow(three-pass-box, #ffffff, 5 , 0.8, 0, 0);
+}
+
 #botonOpciones {
     -fx-font-size: 22px;
 }
+
+#panelConectar {
+    -fx-padding: 50;
+    -fx-border-color: black;
+    -fx-border-style: solid;
+    -fx-border-radius: 30;
+    -fx-background-radius: 30;
+    -fx-background-color: lightgrey;
+}
+
+#labelConectar {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+}
+
+
