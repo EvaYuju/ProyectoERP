@@ -25,3 +25,19 @@
 #botonOpciones {
     -fx-font-size: 22px;
 }
+#botonCompras {
+    -fx-graphic: url("img/compras1.png");
+    -fx-graphic-size: 24px 24px;
+}
+#botonVentas {
+    -fx-graphic: url("img/ventas1.png");
+    -fx-graphic-size: 2px 2px;
+}
+#botonInventario {
+    -fx-graphic: url("img/inventario1.png");
+    -fx-graphic-size: 2px 2px;
+}
+#botonFacturacion {
+    -fx-graphic: url("img/facturacion.png");
+    -fx-graphic-size: 2px 2px;
+}

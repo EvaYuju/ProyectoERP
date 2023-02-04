@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.w3c.dom.events.MouseEvent;
@@ -163,6 +164,9 @@ public class ControladorPrincipal implements Initializable {
         panelMenu.setVisible(false);
         panelVentas.setVisible(true);
     }
+
+    // Estilos botones & imágenes
+
 
 
     // Métodos
