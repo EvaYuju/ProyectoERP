@@ -1,6 +1,7 @@
 package safa.sge_erp;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Usuario {
@@ -14,13 +15,7 @@ public class Usuario {
         this.nombre = nombre;
         this.clave = clave;
         this.email = email;
-    }
-
-    public Usuario(String nombre, String clave, String email, List<String> basesDeDatos) {
-        this.nombre = nombre;
-        this.clave = clave;
-        this.email = email;
-        this.basesDeDatos = basesDeDatos;
+        this.basesDeDatos = new ArrayList<>();
     }
 
     public String getNombre() {

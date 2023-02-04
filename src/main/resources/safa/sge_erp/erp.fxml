@@ -58,9 +58,9 @@
                   <Font name="Calibri" size="20.0" />
                </font>
             </SplitMenuButton>
-            <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="540.0" layoutY="260.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
+            <ScrollPane fitToHeight="true" fitToWidth="true" layoutX="540.0" layoutY="260.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-background: transparent;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
                <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: transparent;">
                      <children>
                         <GridPane fx:id="gpBasesDeDatos" layoutX="14.0" layoutY="83.0" prefHeight="0.0" prefWidth="1208.0" vgap="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
