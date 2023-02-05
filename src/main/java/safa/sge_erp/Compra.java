@@ -7,19 +7,19 @@ public class Compra {
     Integer cantidadC;
     Float totalC;
     String proveedorC;
-    String detelleC;
+    String detalleC;
 
-    public Compra(int referenciaC, String nombreC, float precioC, int cantidadC, float totalC, String proveedorC, String detelleC) {
+    public Compra(Integer referenciaC, String nombreC, Float precioC, Integer cantidadC, Float totalC, String proveedorC, String detalleC) {
         this.referenciaC = referenciaC;
         this.nombreC = nombreC;
         this.precioC = precioC;
         this.cantidadC = cantidadC;
         this.totalC = totalC;
         this.proveedorC = proveedorC;
-        this.detelleC = detelleC;
+        this.detalleC = detalleC;
     }
 
-    public int getReferenciaC() {
+    public Integer getReferenciaC() {
         return referenciaC;
     }
 
@@ -35,7 +35,7 @@ public class Compra {
         this.nombreC = nombreC;
     }
 
-    public float getPrecioC() {
+    public Float getPrecioC() {
         return precioC;
     }
 
@@ -43,7 +43,7 @@ public class Compra {
         this.precioC = precioC;
     }
 
-    public int getcantidadC() {
+    public Integer getcantidadC() {
         return cantidadC;
     }
 
@@ -51,7 +51,7 @@ public class Compra {
         this.cantidadC = cantidadC;
     }
 
-    public float getTotalC() {
+    public Float getTotalC() {
         return totalC;
     }
 
@@ -67,11 +67,11 @@ public class Compra {
         this.proveedorC = proveedorC;
     }
 
-    public String getDetelleC() {
-        return detelleC;
+    public String getdetalleC() {
+        return detalleC;
     }
 
-    public void setDetelleC(String detelleC) {
-        this.detelleC = detelleC;
+    public void setdetalleC(String detalleC) {
+        this.detalleC = detalleC;
     }
 }
