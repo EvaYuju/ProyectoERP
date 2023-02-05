@@ -1,4 +1,5 @@
 Revisado:
 	Controlar errores
 	Comprobar que las contraseñas coinciden en el registro
-	Implementar compra y venta 
+	Crear clase conexión externa al controlador
+	Implementar limpieza de campos
