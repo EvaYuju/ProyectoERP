@@ -1,12 +1,15 @@
 package safa.sge_erp;
 
 import com.google.gson.reflect.TypeToken;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -118,6 +121,37 @@ public class ControladorPrincipal implements Initializable {
 
     @FXML
     private Button btnVentasVolver;
+
+    @FXML
+    private TableView<Compra> tvCompras;
+
+    @FXML
+    private TableColumn<Compra, Integer> colRefC;
+
+    @FXML
+    private TableColumn<Compra, String> colNombreC;
+
+    @FXML
+    private TableColumn<Compra, Float> colPrecioUnitarioC;
+
+    @FXML
+    private TableColumn<Compra, Integer> colCantidadC;
+
+    @FXML
+    private TableColumn<Compra, Float> colPrecioTotalC;
+
+    @FXML
+    private TableColumn<Compra, String> colProveedorC;
+
+    @FXML
+    private TableColumn<Compra, String> colDetalleC;
+
+    @FXML
+    private TextField tfBuscarCompra;
+
+    @FXML
+    private Button btnCompraBuscar;
+
 
 
 
@@ -402,6 +436,36 @@ public class ControladorPrincipal implements Initializable {
 
     @FXML
     void crearPedidoCompra(ActionEvent event) {
+
+    }
+
+
+    @FXML
+    void cargarTablaCompra(ActionEvent event) throws SQLException, ClassNotFoundException {
+        ObservableList<Compra> listaCompras = FXCollections.observableArrayList();
+        Connection connection = conexionBD("usuarios_erp");
+        Statement stmt = connection.createStatement();
+
+        String query = "SELECT * FROM compras";
+        String filtro = tfBuscarCompra.getText();
+        if (!filtro.equals("")) {
+            query += " WHERE " + "referenciaC LIKE '%" + filtro + "%' OR " + "nombreC LIKE '%" + filtro + "%' OR " + "proveedorC LIKE '%" + filtro + "%' OR " + "idioma LIKE '%" + filtro + "%';";
+        }
+
+        ResultSet datos = stmt.executeQuery(query);
+        while (datos.next()) {
+            listaCompras.add(new Compra(datos.getInt("referenciaC"), datos.getString("nombreC"), datos.getFloat("precioC"), datos.getInt("cantidadC"), datos.getFloat("totalC"), datos.getString("proveedorC"), datos.getString("detalleC")));
+
+        }
+        tvCompras.setItems(listaCompras);
+
+        colRefC.setCellValueFactory(new PropertyValueFactory<>("referenciaC"));
+        colNombreC.setCellValueFactory(new PropertyValueFactory<>("nombreC"));
+        colPrecioUnitarioC.setCellValueFactory(new PropertyValueFactory<>("precioC"));
+        colCantidadC.setCellValueFactory(new PropertyValueFactory<>("cantidadC"));
+        colPrecioTotalC.setCellValueFactory(new PropertyValueFactory<>("totalC"));
+        colProveedorC.setCellValueFactory(new PropertyValueFactory<>("proveedorC"));
+        colDetalleC.setCellValueFactory(new PropertyValueFactory<>("detalleC"));
 
     }
 
