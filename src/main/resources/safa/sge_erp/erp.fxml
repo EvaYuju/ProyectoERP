@@ -7,11 +7,14 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="safa.sge_erp.ControladorPrincipal">
    <children>
@@ -78,19 +81,73 @@
       </AnchorPane>
       <AnchorPane id="panel" fx:id="panelConectado" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css">
          <children>
-            <AnchorPane fx:id="panelMenu" layoutY="100.0" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
+            <AnchorPane fx:id="panelMenu" layoutY="100.0" prefHeight="620.0" prefWidth="1280.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
                <children>
-                  <Button id="botonCompras" fx:id="btnCompras" layoutX="318.0" layoutY="89.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#entrarCompras" prefHeight="132.0" prefWidth="223.0" stylesheets="@style.css" text="Button" />
-                  <Button id="botonVentas" fx:id="btnVentas" layoutX="668.0" layoutY="89.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#entrarVentas" prefHeight="132.0" prefWidth="223.0" stylesheets="@style.css" text="Button" />
-                  <Button id="botonInventario" fx:id="btnInventario" contentDisplay="CENTER" layoutX="318.0" layoutY="300.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#entrarInventario" prefHeight="132.0" prefWidth="223.0" stylesheets="@style.css" text="Button" />
-                  <Button id="botonFacturacion" fx:id="btnFacturas" layoutX="668.0" layoutY="300.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#entrarFacturas" prefHeight="132.0" prefWidth="223.0" stylesheets="@style.css" text="Button" />
+
+                  <Button id="botonCompras" fx:id="btnCompras" layoutX="318.0" layoutY="89.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#entrarCompras" prefHeight="150.0" prefWidth="150.0" text="Compras">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/compras1.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+
+                  <Button id="botonVentas" fx:id="btnVentas" layoutX="668.0" layoutY="89.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#entrarVentas" prefHeight="150.0" prefWidth="150.0">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="668.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/ventas1.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+
+                  <Button id="botonInventario" fx:id="btnInventario" contentDisplay="CENTER" layoutX="318.0" layoutY="300.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#entrarInventario" prefHeight="150.0" prefWidth="150.0">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/inventario1.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+
+                  <Button id="botonFacturacion" fx:id="btnFacturas" layoutX="668.0" layoutY="300.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#entrarFacturas" prefHeight="150.0" prefWidth="150.0">
+                     <graphic>
+                        <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="668.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true">
+
+                           <image>
+                              <Image url="@img/facturacion.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+
+                  <Text id="textMenu" fill="WHITE" layoutX="342.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="COMPRAS" textAlignment="CENTER" />
+                  <Text id="textMenu" fill="WHITE" layoutX="704.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VENTAS" textAlignment="CENTER" />
+                  <Text id="textMenu" fill="WHITE" layoutX="670.0" layoutY="473.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FACTURACIÓN" textAlignment="CENTER" />
+                  <Text id="textMenu" fill="WHITE" layoutX="331.0" layoutY="473.0" strokeType="OUTSIDE" strokeWidth="0.0" text="INVENTARIO" textAlignment="CENTER" />
+
+
+
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="panelCompra" layoutX="35.0" layoutY="135.0" prefHeight="620.0" prefWidth="1280.0" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0" />
-            <AnchorPane fx:id="panelVentas" layoutX="45.0" layoutY="145.0" prefHeight="620.0" prefWidth="1280.0" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0" />
+            <AnchorPane fx:id="panelCompra" layoutX="35.0" layoutY="135.0" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
+               <children>
+                  <Button fx:id="btnCrearCompra" layoutX="54.0" layoutY="57.0" mnemonicParsing="false" onAction="#crearPedidoCompra" text="CREAR" />
+                  <Button fx:id="btnComprasVolver" layoutX="47.0" layoutY="508.0" mnemonicParsing="false" onAction="#volverMenu" text="VOLVER AL MENÚ" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="panelVentas" layoutX="45.0" layoutY="145.0" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
+               <children>
+                  <Button fx:id="btnVentasVolver" layoutX="41.0" layoutY="503.0" mnemonicParsing="false" onAction="#volverMenu" text="VOLVER AL MENÚ" />
+                  <Button fx:id="btnCrearVenta" layoutX="64.0" layoutY="57.0" mnemonicParsing="false" onAction="#crearPedidoVenta" text="CREAR" />
+               </children></AnchorPane>
             <AnchorPane fx:id="panelInventario" layoutX="55.0" layoutY="155.0" prefHeight="620.0" prefWidth="1280.0" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0" />
             <AnchorPane fx:id="panelFacturas" layoutX="65.0" layoutY="165.0" prefHeight="620.0" prefWidth="1280.0" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0" />
          </children>

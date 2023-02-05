@@ -107,6 +107,17 @@ public class ControladorPrincipal implements Initializable {
 
     @FXML
     private AnchorPane panelFacturas;
+    @FXML
+    private Button btnCrearCompra;
+
+    @FXML
+    private Button btnCrearVenta;
+
+    @FXML
+    private Button btnComprasVolver;
+
+    @FXML
+    private Button btnVentasVolver;
 
 
 
@@ -143,9 +154,14 @@ public class ControladorPrincipal implements Initializable {
         panelMenu.setVisible(false);
         panelVentas.setVisible(true);
     }
-
-    // Estilos botones & imágenes
-
+    @FXML
+    void volverMenu(ActionEvent event) {
+        panelCompra.setVisible(false);
+        panelVentas.setVisible(false);
+        panelFacturas.setVisible(false);
+        panelInventario.setVisible(false);
+        panelMenu.setVisible(true);
+    }
 
 
     // Métodos
@@ -381,6 +397,28 @@ public class ControladorPrincipal implements Initializable {
             }
         };
     }
+
+    /* PANEL COMPRAS */
+
+    @FXML
+    void crearPedidoCompra(ActionEvent event) {
+
+    }
+
+
+
+    /* PANEL VENTAS */
+
+    @FXML
+    void crearPedidoVenta(ActionEvent event) {
+
+    }
+
+
+
+    /* PANEL INVENTARIO */
+
+    /* PANEL FACTURACIÓN */
 
     /* INICIALIZACIÓN */
     @Override
