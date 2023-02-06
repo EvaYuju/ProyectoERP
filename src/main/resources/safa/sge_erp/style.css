@@ -16,7 +16,6 @@
     -fx-border-width: 2px;
     -fx-border-radius: 20px;
     -fx-border-style: solid;
-    -fx-text-fill: white;
 }
 
 #boton:hover {
@@ -33,6 +32,17 @@
     -fx-border-radius: 20px;
     -fx-border-style: solid;
     -fx-text-fill: white;
+}
+#textMenu{
+    -fx-font-family: "Selawik";
+    -fx-font-size: 20px;
+}
+
+#textLabelFormularios{
+    -fx-font-family: "Corbel";
+    -fx-font-size: 20px;
+    -fx-text-fill: black;
+
 }
 
 #botonEliminar:hover {

@@ -1,12 +1,15 @@
 package safa.sge_erp;
 
 import com.google.gson.reflect.TypeToken;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -26,44 +29,33 @@ import static safa.sge_erp.ConexionBD.conexionMySQL;
 
 public class ControladorPrincipal implements Initializable {
 
+    //public static FXMLLoader fxmlLoader;
     @FXML
-    private Button btnAcceder;
-
-    @FXML
-    private Button btnAceptarRegistro;
-
-    @FXML
-    private Button btnCancelarRegistro;
-
-    @FXML
-    private Button btnCrear;
-
-    @FXML
-    private Button btnRegistro;
-
-    @FXML
-    private GridPane gpBasesDeDatos;
-
-    @FXML
-    private Label labelBienvenido;
-
-    @FXML
-    private AnchorPane panelBD;
+    private AnchorPane panelUsuario;
 
     @FXML
     private AnchorPane panelLogin;
 
     @FXML
-    private AnchorPane panelRegistro;
-
-    @FXML
-    private AnchorPane panelUsuario;
+    private TextField tfLoginUsuario;
 
     @FXML
     private TextField tfLoginClave;
 
     @FXML
-    private TextField tfLoginUsuario;
+    private Button btnAcceder;
+
+    @FXML
+    private Button btnRegistro;
+
+    @FXML
+    private AnchorPane panelRegistro;
+
+    @FXML
+    private TextField tfRegistroUsuario;
+
+    @FXML
+    private TextField tfRegistroEmail;
 
     @FXML
     private TextField tfRegistroClave;
@@ -72,18 +64,211 @@ public class ControladorPrincipal implements Initializable {
     private TextField tfRegistroConfirmaClave;
 
     @FXML
-    private TextField tfRegistroEmail;
+    private Button btnAceptarRegistro;
 
     @FXML
-    private TextField tfRegistroUsuario;
+    private Button btnCancelarRegistro;
+
+    @FXML
+    private AnchorPane panelBD;
+
+    @FXML
+    private Button btnCrear;
+
+    @FXML
+    private Label labelBienvenido;
+
+    @FXML
+    private GridPane gpBasesDeDatos;
+
+    @FXML
+    private AnchorPane panelConectado;
+
+    @FXML
+    private AnchorPane panelMenu;
+
+    @FXML
+    private Button btnCompras;
+
+    @FXML
+    private Button btnVentas;
+
+    @FXML
+    private Button btnInventario;
+
+    @FXML
+    private Button btnFacturas;
+
+    @FXML
+    private AnchorPane panelCompra;
+
+    @FXML
+    private AnchorPane panelVentas;
+
+    @FXML
+    private AnchorPane panelInventario;
+
+    @FXML
+    private AnchorPane panelFacturas;
+    @FXML
+    private Button btnCrearCompra;
+
+    @FXML
+    private Button btnCrearVenta;
+
+    @FXML
+    private Button btnComprasVolver;
+
+    @FXML
+    private Button btnVentasVolver;
+
+    @FXML
+    private TableView<Compra> tvCompras;
+
+    @FXML
+    private TableColumn<Compra, Integer> colRefC;
+
+    @FXML
+    private TableColumn<Compra, String> colNombreC;
+
+    @FXML
+    private TableColumn<Compra, Float> colPrecioUnitarioC;
+
+    @FXML
+    private TableColumn<Compra, Integer> colCantidadC;
+
+    @FXML
+    private TableColumn<Compra, Float> colPrecioTotalC;
+
+    @FXML
+    private TableColumn<Compra, String> colProveedorC;
+
+    @FXML
+    private TableColumn<Compra, String> colDetalleC;
+
+    @FXML
+    private TextField tfBuscarCompra;
+
+    @FXML
+    private Button btnCompraBuscar;
+
+    @FXML
+    private AnchorPane panelFormularioCompra;
+
+    @FXML
+    private TextField tfFormCompraReferencia;
+
+    @FXML
+    private TextField tfFormCompraNombre;
+
+    @FXML
+    private TextField tfFormCompraCantidad;
+
+    @FXML
+    private TextField tfFormCompraProveedor;
+
+    @FXML
+    private TextField tfFormCompraPrecioUnit;
+
+    @FXML
+    private TextField tfFormCompraDetalle;
+
+    @FXML
+    private Button btnFormCompraCrear;
+
+    @FXML
+    private TextField tfFormCompraPrecioTotal;
+
+    @FXML
+    private Button btnVolverCompra;
+
+
+
 
     // Atributos
     Usuario usuario;
+    // Compra compra;
     int contadorFilas = 0;
     Connection bdSeleccionada;
     Gson gson = new Gson();
+    int counter = 0;
+    Boolean editaCompra;
+
+
+
+    // Cambio de paneles
+
+    @FXML
+    void entrarCompras(ActionEvent event) {
+        panelMenu.setVisible(false);
+        panelCompra.setVisible(true);
+    }
+
+    @FXML
+    void entrarFacturas(ActionEvent event) {
+        panelMenu.setVisible(false);
+        panelFacturas.setVisible(true);
+    }
+
+    @FXML
+    void entrarInventario(ActionEvent event) {
+        panelMenu.setVisible(false);
+        panelInventario.setVisible(true);
+    }
+
+    @FXML
+    void entrarVentas(ActionEvent event) {
+        panelMenu.setVisible(false);
+        panelVentas.setVisible(true);
+    }
+    @FXML
+    void volverMenu(ActionEvent event) {
+        panelCompra.setVisible(false);
+        panelVentas.setVisible(false);
+        panelFacturas.setVisible(false);
+        panelInventario.setVisible(false);
+        panelMenu.setVisible(true);
+    }
+
+    @FXML
+    void volverCompras(ActionEvent event) {
+        panelFormularioCompra.setVisible(false);
+        panelCompra.setVisible(true);
+        panelVentas.setVisible(false);
+        panelFacturas.setVisible(false);
+        panelInventario.setVisible(false);
+
+        tfFormCompraReferencia.setText("");
+        tfFormCompraReferencia.setId("tfNormal");
+        tfFormCompraNombre.setText("");
+        tfFormCompraNombre.setId("tfNormal");
+        tfFormCompraPrecioUnit.setText("");
+        tfFormCompraPrecioUnit.setId("tfNormal");
+        tfFormCompraCantidad.setText("");
+        tfFormCompraCantidad.setId("tfNormal");
+        tfFormCompraPrecioTotal.setText("");
+        tfFormCompraPrecioTotal.setId("tfNormal");
+        tfFormCompraProveedor.setText("");
+        tfFormCompraProveedor.setId("tfNormal");
+        tfFormCompraDetalle.setText("");
+        tfFormCompraDetalle.setId("tfNormal");
+
+    }
+
 
     // Métodos
+
+    /* MÉTODOS COMUNES */
+    private static void ventanaDialogo(String titulo, String mensaje) {
+        // Ventana de error
+        Dialog<String> ventana = new Dialog<>();
+        ventana.setTitle(titulo);
+        ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
+        ventana.setContentText(mensaje);
+        ventana.getDialogPane().getButtonTypes().add(type);
+        ventana.showAndWait();
+    }
+
     /* PANEL USUARIOS */
     @FXML
     public void acceder(ActionEvent event) throws SQLException, ClassNotFoundException {
@@ -317,11 +502,123 @@ public class ControladorPrincipal implements Initializable {
         };
     }
 
+    /* PANEL COMPRAS */
+
+    // en formulario pedido -> clic botón crear pedido
+    @FXML
+    void aceptarCompra(ActionEvent event) throws SQLException, ClassNotFoundException {
+        if (editaCompra) {
+            actualizarCompra();
+        } else {
+            insertarCompra();
+        }
+    }
+
+    private void actualizarCompra() {
+    }
+
+    // Botón borrar
+
+    // Botón modificar
+
+    // private void cargarFormCompra
+
+    // Botón crear de panel compra
+    @FXML
+    void crearPedidoCompra(ActionEvent event) {
+        panelCompra.setVisible(false);
+        panelFormularioCompra.setVisible(true);
+
+        editaCompra = false;
+        tfFormCompraReferencia.setVisible(true);
+    }
+
+    // Cargar en la tabla los pedidos
+    @FXML
+    void cargarTablaCompra() throws SQLException, ClassNotFoundException {
+        ObservableList<Compra> listaCompras = FXCollections.observableArrayList();
+
+        // Conexión con la base de datos
+        //Connection connection = conexionBD("usuarios_erp");
+        Statement statement = conexionBD("usuarios_erp").createStatement();
+
+        String query = "SELECT * FROM compras";
+        String filtro = tfBuscarCompra.getText();
+        if (!filtro.equals("")) {
+            query += " WHERE " + "referenciaC LIKE '%" + filtro + "%' OR " + "nombreC LIKE '%" + filtro + "%' OR " + "proveedorC LIKE '%" + filtro + "%' OR " + "detalleC LIKE '%" + filtro + "%';";
+        }
+
+        ResultSet datos = statement.executeQuery(query);
+        while (datos.next()) {
+            listaCompras.add(new Compra(datos.getInt("referenciaC"), datos.getString("nombreC"), datos.getFloat("precioC"), datos.getInt("cantidadC"), datos.getFloat("totalC"), datos.getString("proveedorC"), datos.getString("detalleC")));
+
+        }
+        tvCompras.setItems(listaCompras);
+
+        colRefC.setCellValueFactory(new PropertyValueFactory<>("referenciaC"));
+        colNombreC.setCellValueFactory(new PropertyValueFactory<>("nombreC"));
+        colPrecioUnitarioC.setCellValueFactory(new PropertyValueFactory<>("precioC"));
+        colCantidadC.setCellValueFactory(new PropertyValueFactory<>("cantidadC"));
+        colPrecioTotalC.setCellValueFactory(new PropertyValueFactory<>("totalC"));
+        colProveedorC.setCellValueFactory(new PropertyValueFactory<>("proveedorC"));
+        colDetalleC.setCellValueFactory(new PropertyValueFactory<>("detalleC"));
+    }
+
+    // INSERT
+    private void insertarCompra() throws SQLException, ClassNotFoundException {
+        Compra compra = null;
+        consultaInsertarPedidoCompra(compra);
+        //cargarTablaCompra();
+        //volverCompras();
+    }
+
+    private void consultaInsertarPedidoCompra(Compra compra) throws SQLException, ClassNotFoundException {
+        // Conexión con la base de datos
+        Connection connection = conexionBD("usuarios_erp");
+
+        String sql = "INSERT INTO compras (referenciaC, nombreC, precioC, cantidadC, totalC, proveedorC, detalleC) " + "VALUES (?, ?, ?, ?, ?, ?, ?)"; // Consulta para insertar pedido producto en la base de datos
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            int i = 1;
+            statement.setInt(1, compra.getReferenciaC());
+            statement.setString(2, compra.getNombreC());
+            statement.setFloat(3, compra.getPrecioC());
+            statement.setInt(4, compra.getcantidadC());
+            statement.setFloat(5, compra.getTotalC());
+            statement.setString(6, compra.getProveedorC());
+            statement.setString(7, compra.getdetalleC());
+
+
+            statement.executeUpdate();// Ejecutar la consulta
+            ventanaDialogo("INSERTAR PEDIDO", "Pedido insertado con éxito");
+        }
+    }
+
+
+
+    /* PANEL VENTAS */
+
+    @FXML
+    void crearPedidoVenta(ActionEvent event) {
+
+    }
+
+
+
+    /* PANEL INVENTARIO */
+
+    /* PANEL FACTURACIÓN */
+
     /* INICIALIZACIÓN */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         usuario = new Usuario("Fran", "1234", "a@a.a");
         labelBienvenido.setText(labelBienvenido.getText()+usuario.getNombre());
+        try {
+            cargarTablaCompra();
+
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
