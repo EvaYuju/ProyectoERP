@@ -126,25 +126,25 @@ public class ControladorPrincipal implements Initializable {
     private TableView<Compra> tvCompras;
 
     @FXML
-    private TableColumn<Compra, Integer> colRefC;
+    private TableColumn<Compra, Integer> colRef;
 
     @FXML
-    private TableColumn<Compra, String> colNombreC;
+    private TableColumn<Compra, String> colNombre;
 
     @FXML
-    private TableColumn<Compra, Float> colPrecioUnitarioC;
+    private TableColumn<Compra, Float> colPrecioUnitario;
 
     @FXML
-    private TableColumn<Compra, Integer> colCantidadC;
+    private TableColumn<Compra, Integer> colCantidad;
 
     @FXML
-    private TableColumn<Compra, Float> colPrecioTotalC;
+    private TableColumn<Compra, Float> colPrecioTotal;
 
     @FXML
-    private TableColumn<Compra, String> colProveedorC;
+    private TableColumn<Compra, String> colProveedor;
 
     @FXML
-    private TableColumn<Compra, String> colDetalleC;
+    private TableColumn<Compra, String> colDetalle;
 
     @FXML
     private TextField tfBuscarCompra;
@@ -177,10 +177,14 @@ public class ControladorPrincipal implements Initializable {
     private Button btnFormCompraCrear;
 
     @FXML
-    private TextField tfFormCompraPrecioTotal;
+    private Button btnVolverCompra;
 
     @FXML
-    private Button btnVolverCompra;
+    private Button btnComprasBorrar;
+
+    @FXML
+    private Button btnComprasModificar;
+
 
 
 
@@ -231,7 +235,7 @@ public class ControladorPrincipal implements Initializable {
     }
 
     @FXML
-    void volverCompras(ActionEvent event) {
+    void volverCompras() {
         panelFormularioCompra.setVisible(false);
         panelCompra.setVisible(true);
         panelVentas.setVisible(false);
@@ -246,8 +250,6 @@ public class ControladorPrincipal implements Initializable {
         tfFormCompraPrecioUnit.setId("tfNormal");
         tfFormCompraCantidad.setText("");
         tfFormCompraCantidad.setId("tfNormal");
-        tfFormCompraPrecioTotal.setText("");
-        tfFormCompraPrecioTotal.setId("tfNormal");
         tfFormCompraProveedor.setText("");
         tfFormCompraProveedor.setId("tfNormal");
         tfFormCompraDetalle.setText("");
@@ -268,6 +270,25 @@ public class ControladorPrincipal implements Initializable {
         ventana.getDialogPane().getButtonTypes().add(type);
         ventana.showAndWait();
     }
+
+    public static Alert ventanaConfirmacion(String titulo, String cabecera, String contenido) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(cabecera);
+        alert.setContentText(contenido);
+
+        ButtonType buttonTypeYes = new ButtonType("Si");
+        ButtonType buttonTypeNo = new ButtonType("No");
+
+        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+        return alert;
+    }
+
+    String leerCampo(String nombrecampo, String texto, String criterioValidacion) {
+        return (texto == null || !texto.matches(criterioValidacion)) ? null : texto;
+    }
+
 
     /* PANEL USUARIOS */
     @FXML
@@ -444,10 +465,10 @@ public class ControladorPrincipal implements Initializable {
             Statement statement = connection.createStatement();
 
             // Creación de las tablas
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS compras (id INT AUTO_INCREMENT PRIMARY KEY, product_id INT, quantity INT, price DOUBLE);");
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS facturas (id INT AUTO_INCREMENT PRIMARY KEY, date DATE, total DOUBLE);");
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS productos (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), stock INT, price DOUBLE);");
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS ventas (id INT AUTO_INCREMENT PRIMARY KEY, product_id INT, quantity INT, price DOUBLE);");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS compras ('referencia' INT PRIMARY KEY, 'nombre' VARCHAR(50), 'precio' FLOAT, 'cantidad' INT, 'total' FLOAT, 'proveedor' VARCHAR(50), 'detalle' VARCHAR(100));");
+            //statement.executeUpdate("CREATE TABLE IF NOT EXISTS facturas (id INT AUTO_INCREMENT PRIMARY KEY, total DOUBLE);"); // ME DAN ERROR LA CREACION DE TABLAS: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''referencia' INT PRIMARY KEY, 'nombre' VARCHAR, 'precio' FLOAT, 'cantidad' IN...' at line 1
+           // statement.executeUpdate("CREATE TABLE IF NOT EXISTS productos (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), stock INT, price DOUBLE);");
+           // statement.executeUpdate("CREATE TABLE IF NOT EXISTS ventas (id INT AUTO_INCREMENT PRIMARY KEY, product_id INT, quantity INT, price DOUBLE);");
 
             // Cerramos las conexiones
             statement.close();
@@ -496,6 +517,7 @@ public class ControladorPrincipal implements Initializable {
                 ventana.setContentText("CONECTADO");
                 ventana.getDialogPane().getButtonTypes().add(type);
                 ventana.showAndWait();
+
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -504,7 +526,7 @@ public class ControladorPrincipal implements Initializable {
 
     /* PANEL COMPRAS */
 
-    // en formulario pedido -> clic botón crear pedido
+    // En formulario pedido -> clic botón crear pedido
     @FXML
     void aceptarCompra(ActionEvent event) throws SQLException, ClassNotFoundException {
         if (editaCompra) {
@@ -514,14 +536,51 @@ public class ControladorPrincipal implements Initializable {
         }
     }
 
-    private void actualizarCompra() {
+    // Botón borrar
+    @FXML
+    void borrarCompra(ActionEvent event) throws SQLException {
+        try {
+            String nombre = tvCompras.getSelectionModel().getSelectedItem().getNombre();
+            Alert confirmar = ventanaConfirmacion("ELIMINAR PEDIDO", "Eliminar pedido", "¿Está seguro de que desea eliminar este pedido?");
+            Optional<ButtonType> resultado = confirmar.showAndWait();
+            if (resultado.get() == confirmar.getButtonTypes().get(0)) {
+                eliminarCompra(nombre);
+                cargarTablaCompra();
+            }
+        } catch (NullPointerException | ClassNotFoundException e) {
+            ventanaDialogo("ERROR", "No hay ningún pedido seleccionado");
+        }
     }
 
-    // Botón borrar
-
     // Botón modificar
+    @FXML
+    void modificarCompra(ActionEvent event) throws SQLException {
+        try {
+            cargarFormUsuarios(tvCompras.getSelectionModel().getSelectedItem().getReferencia());
+            panelFormularioCompra.setVisible(true);
+            editaCompra = true;
+        } catch (NullPointerException | ClassNotFoundException npe) {
+            ventanaDialogo("ERROR", "No hay ningún usuario seleccionado");
+        }
+    }
 
-    // private void cargarFormCompra
+
+    private void cargarFormUsuarios(Integer referencia) throws SQLException, ClassNotFoundException {
+        Compra compra = null;
+        Statement statement = conexionBD("usuarios_erp").createStatement();
+        String query = "SELECT * FROM compras WHERE referencia = '" + referencia + "'";
+        ResultSet datos = statement.executeQuery(query);
+        while (datos.next()) {
+            compra = new Compra(datos.getInt("referencia"), datos.getString("nombre"), datos.getFloat("precio"), datos.getInt("cantidad"), datos.getFloat("total"), datos.getString("proveedor"), datos.getString("detalle"));
+        }
+        tfFormCompraReferencia.setEditable(false);
+        tfFormCompraReferencia.setText(String.valueOf(compra.getReferencia()));
+        tfFormCompraNombre.setText(compra.getNombre());
+        tfFormCompraPrecioUnit.setText(String.valueOf(compra.getPrecio()));
+        tfFormCompraCantidad.setText(String.valueOf(compra.getCantidad()));
+        tfFormCompraProveedor.setText(compra.getProveedor());
+        tfFormCompraDetalle.setText(compra.getDetalle());
+    }
 
     // Botón crear de panel compra
     @FXML
@@ -530,8 +589,9 @@ public class ControladorPrincipal implements Initializable {
         panelFormularioCompra.setVisible(true);
 
         editaCompra = false;
-        tfFormCompraReferencia.setVisible(true);
+        tfFormCompraReferencia.setEditable(true);
     }
+
 
     // Cargar en la tabla los pedidos
     @FXML
@@ -545,47 +605,156 @@ public class ControladorPrincipal implements Initializable {
         String query = "SELECT * FROM compras";
         String filtro = tfBuscarCompra.getText();
         if (!filtro.equals("")) {
-            query += " WHERE " + "referenciaC LIKE '%" + filtro + "%' OR " + "nombreC LIKE '%" + filtro + "%' OR " + "proveedorC LIKE '%" + filtro + "%' OR " + "detalleC LIKE '%" + filtro + "%';";
+            query += " WHERE " + "referencia LIKE '%" + filtro + "%' OR " + "nombre LIKE '%" + filtro + "%' OR " + "proveedor LIKE '%" + filtro + "%' OR " + "detalle LIKE '%" + filtro + "%';";
         }
 
         ResultSet datos = statement.executeQuery(query);
         while (datos.next()) {
-            listaCompras.add(new Compra(datos.getInt("referenciaC"), datos.getString("nombreC"), datos.getFloat("precioC"), datos.getInt("cantidadC"), datos.getFloat("totalC"), datos.getString("proveedorC"), datos.getString("detalleC")));
+            listaCompras.add(new Compra(datos.getInt("referencia"), datos.getString("nombre"), datos.getFloat("precio"), datos.getInt("cantidad"), datos.getFloat("total"), datos.getString("proveedor"), datos.getString("detalle")));
 
         }
         tvCompras.setItems(listaCompras);
 
-        colRefC.setCellValueFactory(new PropertyValueFactory<>("referenciaC"));
-        colNombreC.setCellValueFactory(new PropertyValueFactory<>("nombreC"));
-        colPrecioUnitarioC.setCellValueFactory(new PropertyValueFactory<>("precioC"));
-        colCantidadC.setCellValueFactory(new PropertyValueFactory<>("cantidadC"));
-        colPrecioTotalC.setCellValueFactory(new PropertyValueFactory<>("totalC"));
-        colProveedorC.setCellValueFactory(new PropertyValueFactory<>("proveedorC"));
-        colDetalleC.setCellValueFactory(new PropertyValueFactory<>("detalleC"));
+        colRef.setCellValueFactory(new PropertyValueFactory<>("referencia"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colPrecioUnitario.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        colPrecioTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+        colProveedor.setCellValueFactory(new PropertyValueFactory<>("proveedor"));
+        colDetalle.setCellValueFactory(new PropertyValueFactory<>("detalle"));
+    }
+
+
+    Compra leerValoresCompra(){
+        Integer referencia = Integer.valueOf(leerCampo("referencia",tfFormCompraReferencia.getText(),"^[1-9]\\d*(\\.\\d+)?$"));
+        String nombre = leerCampo("nombre", tfFormCompraNombre.getText(), ".{1,50}");
+        Float precio = Float.valueOf(leerCampo("precio", tfFormCompraPrecioUnit.getText(), "^[1-9]\\d*(\\.\\d+)?$"));
+        Integer cantidad = Integer.valueOf(leerCampo("cantidad", tfFormCompraCantidad.getText(), "^[1-9]\\d*(\\.\\d+)?$"));
+        Float total = precio * cantidad;
+        String proveedor = leerCampo("proveedor", tfFormCompraProveedor.getText(), ".{1,50}");
+        String detalle = leerCampo("detalle", tfFormCompraDetalle.getText(), ".{1,50}");
+        return new Compra(referencia, nombre, precio, cantidad, total, proveedor, detalle);
+    }
+
+    // métodos comprueba error
+
+    private boolean compruebaReferencia(String referencia, StringBuilder mensajeError) {
+        if (referencia == null) {
+            mensajeError.append("Referencia (Escriba la referencia correcta)\n");
+            tfFormCompraReferencia.setId("tfError");
+            return true;
+        } else {
+            tfFormCompraReferencia.setId("tfNormal");
+        }
+        return false;
+    }
+
+    private boolean compruebaNombre(String nombre, StringBuilder mensajeError) {
+        if (nombre == null) {
+            mensajeError.append("Nombre (No puede estar vacío. Máximo 50 caracteres)\n");
+            tfFormCompraNombre.setId("tfError");
+            return true;
+        } else {
+            tfFormCompraNombre.setId("tfNormal");
+        }
+        return false;
+    }
+
+    private boolean compruebaPrecio(Float precio, StringBuilder mensajeError) {
+        if (precio == null) {
+            mensajeError.append("Precio (No puede estar vacío. Ingrese una cantidad)\n");
+            tfFormCompraPrecioUnit.setId("tfError");
+            return true;
+        } else {
+            tfFormCompraPrecioUnit.setId("tfNormal");
+        }
+        return false;
+    }
+    private boolean compruebaCantidad(Integer cantidad, StringBuilder mensajeError) {
+        if (cantidad == null) {
+            mensajeError.append("Precio (No puede estar vacío. Ingrese una cantidad)\n");
+            tfFormCompraCantidad.setId("tfError");
+            return true;
+        } else {
+            tfFormCompraCantidad.setId("tfNormal");
+        }
+        return false;
+    }
+
+    private boolean compruebaProveedor(String proveedor, StringBuilder mensajeError) {
+        if (proveedor == null) {
+            mensajeError.append("Proveedor (No puede estar vacío.)\n");
+            tfFormCompraProveedor.setId("tfError");
+            return true;
+        } else {
+            tfFormCompraProveedor.setId("tfNormal");
+        }
+        return false;
+    }
+
+    private boolean compruebaDetalle(String detalle, StringBuilder mensajeError) {
+        if (detalle == null) {
+            mensajeError.append("Detalle (No puede estar vacío.)\n");
+            tfFormCompraDetalle.setId("tfError");
+            return true;
+        } else {
+            tfFormCompraDetalle.setId("tfNormal");
+        }
+        return false;
+    }
+
+
+    boolean mensajeErrorCompra(Compra compra) {
+        boolean hayError = false;
+        StringBuilder mensajeError = new StringBuilder();
+
+        hayError = compruebaReferencia(compra.getNombre(), mensajeError) ? true : hayError;
+        hayError = compruebaNombre(compra.getNombre(), mensajeError) ? true : hayError;
+        hayError = compruebaPrecio(compra.getPrecio(), mensajeError) ? true : hayError;
+        hayError = compruebaCantidad(compra.getCantidad(), mensajeError) ? true : hayError;
+        hayError = compruebaProveedor(compra.getProveedor(), mensajeError) ? true : hayError;
+        hayError = compruebaDetalle(compra.getDetalle(), mensajeError) ? true : hayError;
+
+
+        if (hayError) {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Error");
+            error.setHeaderText("CAMPOS ERRÓNEOS");
+            error.setContentText("Hay error en los siguientes campos:\n" + mensajeError.toString());
+            error.showAndWait();
+        }
+        return hayError;
+
+
     }
 
     // INSERT
     private void insertarCompra() throws SQLException, ClassNotFoundException {
-        Compra compra = null;
-        consultaInsertarPedidoCompra(compra);
-        //cargarTablaCompra();
-        //volverCompras();
+        Compra compra = leerValoresCompra();
+        if (!mensajeErrorCompra(compra)) {
+            consultaInsertarPedidoCompra(compra);
+            cargarTablaCompra();
+            volverCompras();
+        }
     }
+
 
     private void consultaInsertarPedidoCompra(Compra compra) throws SQLException, ClassNotFoundException {
         // Conexión con la base de datos
         Connection connection = conexionBD("usuarios_erp");
 
-        String sql = "INSERT INTO compras (referenciaC, nombreC, precioC, cantidadC, totalC, proveedorC, detalleC) " + "VALUES (?, ?, ?, ?, ?, ?, ?)"; // Consulta para insertar pedido producto en la base de datos
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+
+        String sql = "INSERT INTO compras (referencia, nombre, precio, cantidad, total, proveedor, detalle) " + "VALUES (?, ?, ?, ?, ?, ?, ?)"; // Consulta para insertar pedido producto en la base de datos
+        try (PreparedStatement statement = connection.prepareStatement(sql))
+        {
             int i = 1;
-            statement.setInt(1, compra.getReferenciaC());
-            statement.setString(2, compra.getNombreC());
-            statement.setFloat(3, compra.getPrecioC());
-            statement.setInt(4, compra.getcantidadC());
-            statement.setFloat(5, compra.getTotalC());
-            statement.setString(6, compra.getProveedorC());
-            statement.setString(7, compra.getdetalleC());
+            statement.setInt(1, compra.getReferencia());
+            statement.setString(2, compra.getNombre());
+            statement.setFloat(3, compra.getPrecio());
+            statement.setInt(4, compra.getCantidad());
+            statement.setFloat(5, compra.getTotal());
+            statement.setString(6, compra.getProveedor());
+            statement.setString(7, compra.getDetalle());
 
 
             statement.executeUpdate();// Ejecutar la consulta
@@ -593,6 +762,48 @@ public class ControladorPrincipal implements Initializable {
         }
     }
 
+    // DELETE
+    void eliminarCompra(String referencia) throws SQLException, ClassNotFoundException {
+        // Conexión con la base de datos
+        Connection connection = conexionBD("usuarios_erp");
+
+        String sql = "DELETE FROM compras WHERE referencia = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, referencia);
+            statement.executeUpdate();
+        }
+    }
+
+    // UPDATE
+    private void actualizarCompra() throws SQLException, ClassNotFoundException {
+        Compra compra = leerValoresCompra();
+        if (!mensajeErrorCompra(compra)) {
+            consultaActualizarCompra(compra);
+            cargarTablaCompra();
+            volverCompras();
+        }
+    }
+
+    private void consultaActualizarCompra(Compra compra) throws SQLException, ClassNotFoundException {
+        // Conexión con la base de datos
+        Connection conexionBD = conexionBD("usuarios_erp");
+        String sql = "UPDATE compras SET nombre=?, precio=?, cantidad=?, total=?, proveedor=?, detalle=? WHERE referencia=?";
+        try (PreparedStatement statement = conexionBD.prepareStatement(sql)) {
+            int i = 1;
+            statement.setString(1, compra.getNombre());
+            statement.setFloat(2, compra.getPrecio());
+            statement.setInt(3, compra.getCantidad());
+            statement.setFloat(4, compra.getTotal());
+            statement.setString(5, compra.getProveedor());
+            statement.setString(6, compra.getDetalle());
+
+            statement.executeUpdate();// Ejecutar la consulta
+            ventanaDialogo("ACTUALIZAR PEDIDO", "Pedido actualizado con éxito");
+        }
+    }
+
+    // private void cargarFormCompra
 
 
     /* PANEL VENTAS */
@@ -613,12 +824,7 @@ public class ControladorPrincipal implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         usuario = new Usuario("Fran", "1234", "a@a.a");
         labelBienvenido.setText(labelBienvenido.getText()+usuario.getNombre());
-        try {
-            cargarTablaCompra();
 
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }

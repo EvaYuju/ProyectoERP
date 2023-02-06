@@ -20,9 +20,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="safa.sge_erp.ControladorPrincipal">
    <children>
-      <AnchorPane id="panel" fx:id="panelUsuario" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane id="panel" fx:id="panelUsuario" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane id="panelInterno" fx:id="panelLogin" layoutX="603.0" layoutY="244.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@style.css" visible="false" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="100.0">
+            <AnchorPane id="panelInterno" fx:id="panelLogin" layoutX="603.0" layoutY="244.0" prefHeight="200.0" prefWidth="200.0" stylesheets="@style.css" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="100.0">
                <children>
                   <TextField fx:id="tfLoginUsuario" layoutX="165.0" layoutY="137.0" promptText="Nombre de usuario" />
                   <TextField fx:id="tfLoginClave" layoutX="163.0" layoutY="231.0" promptText="Clave" />
@@ -41,7 +41,7 @@
                </children>
             </AnchorPane>
          </children></AnchorPane>
-      <AnchorPane id="panel" fx:id="panelBD" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css">
+      <AnchorPane id="panel" fx:id="panelBD" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" visible="false">
          <children>
             <Label layoutX="60.0" layoutY="29.0" text="BASES DE DATOS" textFill="WHITE" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
                <font>
@@ -139,42 +139,44 @@
 
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="panelCompra" layoutX="35.0" layoutY="135.0" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
+            <AnchorPane fx:id="panelCompra" layoutX="35.0" layoutY="135.0" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: white;" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
                <children>
                   <Button fx:id="btnCrearCompra" layoutX="54.0" layoutY="57.0" mnemonicParsing="false" onAction="#crearPedidoCompra" text="CREAR" />
                   <Button fx:id="btnComprasVolver" layoutX="47.0" layoutY="508.0" mnemonicParsing="false" onAction="#volverMenu" text="VOLVER AL MENÚ" />
                   <TableView fx:id="tvCompras" layoutX="71.0" layoutY="198.0" prefHeight="280.0" prefWidth="909.0">
                     <columns>
-                      <TableColumn fx:id="colRefC" prefWidth="125.0" text="Referencia producto" />
-                      <TableColumn fx:id="colNombreC" prefWidth="186.0" text="Nombre producto" />
-                        <TableColumn fx:id="colPrecioUnitarioC" prefWidth="90.0" text="Precio Unitario" />
-                        <TableColumn fx:id="colCantidadC" prefWidth="59.0" text="Cantidad" />
-                        <TableColumn fx:id="colPrecioTotalC" prefWidth="74.0" text="Precio Total" />
-                        <TableColumn fx:id="colProveedorC" prefWidth="133.0" text="Proveedor" />
-                        <TableColumn fx:id="colDetalleC" prefWidth="241.0" text="Detalles producto" />
+                      <TableColumn fx:id="colRef" prefWidth="125.0" text="Referencia producto" />
+                      <TableColumn fx:id="colNombre" prefWidth="186.0" text="Nombre producto" />
+                        <TableColumn fx:id="colPrecioUnitario" prefWidth="90.0" text="Precio Unitario" />
+                        <TableColumn fx:id="colCantidad" prefWidth="59.0" text="Cantidad" />
+                        <TableColumn fx:id="colPrecioTotal" prefWidth="74.0" text="Precio Total" />
+                        <TableColumn fx:id="colProveedor" prefWidth="133.0" text="Proveedor" />
+                        <TableColumn fx:id="colDetalle" prefWidth="241.0" text="Detalles producto" />
                     </columns>
                   </TableView>
                   <TextField fx:id="tfBuscarCompra" layoutX="71.0" layoutY="144.0" prefHeight="25.0" prefWidth="365.0" />
                   <Button fx:id="btnCompraBuscar" layoutX="484.0" layoutY="144.0" mnemonicParsing="false" onAction="#cargarTablaCompra" prefHeight="25.0" prefWidth="92.0" text="BUSCAR" />
+                  <Button fx:id="btnComprasBorrar" layoutX="545.0" layoutY="508.0" mnemonicParsing="false" onAction="#borrarCompra" text="BORRAR" />
+                  <Button fx:id="btnComprasModificar" layoutX="429.0" layoutY="508.0" mnemonicParsing="false" onAction="#modificarCompra" text="MODIFICAR" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="panelVentas" layoutX="35.0" layoutY="135.0" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
+            <AnchorPane fx:id="panelVentas" layoutX="35.0" layoutY="135.0" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: white;" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
                <children>
                   <Button fx:id="btnVentasVolver" layoutX="41.0" layoutY="503.0" mnemonicParsing="false" onAction="#volverMenu" text="VOLVER AL MENÚ" />
                   <Button fx:id="btnCrearVenta" layoutX="64.0" layoutY="57.0" mnemonicParsing="false" onAction="#crearPedidoVenta" text="CREAR" />
                </children></AnchorPane>
             <AnchorPane fx:id="panelInventario" layoutX="55.0" layoutY="155.0" prefHeight="620.0" prefWidth="1280.0" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0" />
-            <AnchorPane fx:id="panelFacturas" layoutX="65.0" layoutY="165.0" prefHeight="620.0" prefWidth="1280.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0" />
-            <AnchorPane fx:id="panelFormularioCompra" layoutX="35.0" layoutY="135.0" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: turquoise;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
+            <AnchorPane fx:id="panelFacturas" layoutX="65.0" layoutY="165.0" prefHeight="620.0" prefWidth="1280.0" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0" />
+            <AnchorPane fx:id="panelFormularioCompra" layoutX="35.0" layoutY="135.0" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: turquoise;" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
                <children>
                   <Label layoutX="65.0" layoutY="51.0" prefHeight="17.0" prefWidth="177.0" text="Formulario compra producto" />
-                  <Label id="textLabelFormularios" layoutX="59.0" layoutY="120.0" prefHeight="17.0" prefWidth="206.0" stylesheets="@style.css" text="Referencia del producto" />
+                  <Label id="textLabelFormularios" layoutX="65.0" layoutY="123.0" stylesheets="@style.css" text="Referencia del producto" />
                   <Label id="textLabelFormularios" layoutX="59.0" layoutY="200.0" prefHeight="17.0" prefWidth="206.0" stylesheets="@style.css" text="Nombre del producto" />
                   <Label id="textLabelFormularios" layoutX="483.0" layoutY="200.0" prefHeight="23.0" prefWidth="243.0" stylesheets="@style.css" text="Precio unitario del producto" />
                   <Label id="textLabelFormularios" layoutX="483.0" layoutY="120.0" prefHeight="17.0" prefWidth="206.0" stylesheets="@style.css" text="Cantidad de producto" />
                   <Label id="textLabelFormularios" layoutX="59.0" layoutY="279.0" prefHeight="17.0" prefWidth="206.0" stylesheets="@style.css" text="Proveedor" />
                   <Label id="textLabelFormularios" layoutX="483.0" layoutY="285.0" prefHeight="17.0" prefWidth="206.0" stylesheets="@style.css" text="Detalle del producto" />
-                  <TextField fx:id="tfFormCompraReferencia" layoutX="59.0" layoutY="154.0" prefHeight="25.0" prefWidth="339.0" promptText="Ingrese la referencia del producto" />
+                  <TextField fx:id="tfFormCompraReferencia" layoutX="59.0" layoutY="154.0" prefHeight="25.0" prefWidth="243.0" />
                   <TextField fx:id="tfFormCompraNombre" layoutX="59.0" layoutY="233.0" prefHeight="25.0" prefWidth="339.0" promptText="Ingrese el nombre del producto" />
                   <TextField fx:id="tfFormCompraCantidad" layoutX="483.0" layoutY="154.0" prefHeight="25.0" prefWidth="230.0" promptText="Ingrese la cantidad de producto" />
                   <TextField fx:id="tfFormCompraProveedor" layoutX="59.0" layoutY="312.0" prefHeight="25.0" prefWidth="339.0" promptText="Ingrese el proveedor del producto" />
@@ -182,8 +184,6 @@
                   <TextField fx:id="tfFormCompraDetalle" layoutX="483.0" layoutY="318.0" prefHeight="25.0" prefWidth="365.0" promptText="Opcional" />
                   <Button fx:id="btnVolverCompra" layoutX="39.0" layoutY="510.0" mnemonicParsing="false" onAction="#volverCompras" text="VOLVER A COMPRAS" />
                   <Button fx:id="btnFormCompraCrear" layoutX="653.0" layoutY="385.0" mnemonicParsing="false" onAction="#aceptarCompra" prefHeight="58.0" prefWidth="167.0" text="CREAR PEDIDO" />
-                  <Label id="textLabelFormularios" layoutX="737.0" layoutY="200.0" prefHeight="23.0" prefWidth="167.0" stylesheets="@style.css" text="Precio total" />
-                  <TextField fx:id="tfFormCompraPrecioTotal" layoutX="737.0" layoutY="233.0" prefHeight="25.0" prefWidth="113.0" promptText="Cantidad x Precio" />
                </children>
             </AnchorPane>
          </children>
