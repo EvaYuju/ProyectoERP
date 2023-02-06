@@ -269,6 +269,10 @@ public class ControladorPrincipal implements Initializable {
         ventana.showAndWait();
     }
 
+    String leerCampo(String nombreCampoL, String texto, String criterioValidacion) {
+        return (texto == null || !texto.matches(criterioValidacion)) ? null : texto;
+    }
+
     /* PANEL USUARIOS */
     @FXML
     public void acceder(ActionEvent event) throws SQLException, ClassNotFoundException {
@@ -504,6 +508,16 @@ public class ControladorPrincipal implements Initializable {
 
     /* PANEL COMPRAS */
 
+    Compra leerValoresCompra(){
+        String nombre = leerCampo("Nombre", tfFormCompraNombre.getText(), ".{1,50}");
+        Float precio = Float.valueOf(leerCampo("Nombre", tfFormCompraPrecioUnit.getText(), "^[1-9]\\d*(\\.\\d+)?$"));
+        Integer cantidad = Integer.valueOf(leerCampo("Nombre", tfFormCompraCantidad.getText(), "^[1-9]\\d*(\\.\\d+)?$"));
+        Float total = precio * cantidad;
+        String proveedor = leerCampo("Nombre", tfFormCompraProveedor.getText(), ".{1,50}");
+        String detalle = leerCampo("Nombre", tfFormCompraDetalle.getText(), ".{1,50}");
+        return new Compra(nombre, precio, cantidad, total, proveedor, detalle);
+    }
+
     // en formulario pedido -> clic botón crear pedido
     @FXML
     void aceptarCompra(ActionEvent event) throws SQLException, ClassNotFoundException {
@@ -613,12 +627,6 @@ public class ControladorPrincipal implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         usuario = new Usuario("Fran", "1234", "a@a.a");
         labelBienvenido.setText(labelBienvenido.getText()+usuario.getNombre());
-        try {
-            cargarTablaCompra();
-
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }

@@ -7,10 +7,20 @@ public class Compra {
     Integer cantidadC;
     Float totalC;
     String proveedorC;
-    String detalleC;
 
     public Compra(Integer referenciaC, String nombreC, Float precioC, Integer cantidadC, Float totalC, String proveedorC, String detalleC) {
         this.referenciaC = referenciaC;
+        this.nombreC = nombreC;
+        this.precioC = precioC;
+        this.cantidadC = cantidadC;
+        this.totalC = totalC;
+        this.proveedorC = proveedorC;
+        this.detalleC = detalleC;
+    }
+
+    String detalleC;
+
+    public Compra(String nombreC, Float precioC, Integer cantidadC, Float totalC, String proveedorC, String detalleC) {
         this.nombreC = nombreC;
         this.precioC = precioC;
         this.cantidadC = cantidadC;
