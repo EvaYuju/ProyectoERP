@@ -1,6 +1,7 @@
 package safa.sge_erp;
 
 public class Compra {
+
     Integer referencia;
     String nombre;
     Float precio;
@@ -15,6 +16,7 @@ public class Compra {
 
     public void setReferencia(Integer referencia) {
         this.referencia = referencia;
+
     }
 
     public String getNombre() {

@@ -526,7 +526,17 @@ public class ControladorPrincipal implements Initializable {
 
     /* PANEL COMPRAS */
 
-    // En formulario pedido -> clic botón crear pedido
+    Compra leerValoresCompra(){
+        String nombre = leerCampo("Nombre", tfFormCompraNombre.getText(), ".{1,50}");
+        Float precio = Float.valueOf(leerCampo("Nombre", tfFormCompraPrecioUnit.getText(), "^[1-9]\\d*(\\.\\d+)?$"));
+        Integer cantidad = Integer.valueOf(leerCampo("Nombre", tfFormCompraCantidad.getText(), "^[1-9]\\d*(\\.\\d+)?$"));
+        Float total = precio * cantidad;
+        String proveedor = leerCampo("Nombre", tfFormCompraProveedor.getText(), ".{1,50}");
+        String detalle = leerCampo("Nombre", tfFormCompraDetalle.getText(), ".{1,50}");
+        return new Compra(nombre, precio, cantidad, total, proveedor, detalle);
+    }
+
+
     @FXML
     void aceptarCompra(ActionEvent event) throws SQLException, ClassNotFoundException {
         if (editaCompra) {
@@ -824,7 +834,6 @@ public class ControladorPrincipal implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         usuario = new Usuario("Fran", "1234", "a@a.a");
         labelBienvenido.setText(labelBienvenido.getText()+usuario.getNombre());
-
     }
 
 }
