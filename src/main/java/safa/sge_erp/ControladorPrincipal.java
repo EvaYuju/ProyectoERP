@@ -306,12 +306,14 @@ public class ControladorPrincipal implements Initializable {
                 // Creamos el usuario
                 usuario = new Usuario(rs.getString("nombre"), rs.getString("clave"),
                         rs.getString("email"));
+                labelBienvenido.setText(labelBienvenido.getText()+usuario.getNombre());
                 cargaBasesDatos(rs);
 
                 // Cerramos la conexión con la base de datos de usuarios
                 connection.close();
 
-                 // Carga el panel BD
+                // Cargar usuario
+                // Carga el panel BD
                 panelLogin.setVisible(false);
                 panelBD.setVisible(true);
             } else {
@@ -465,10 +467,10 @@ public class ControladorPrincipal implements Initializable {
             Statement statement = connection.createStatement();
 
             // Creación de las tablas
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS compras ('referencia' INT PRIMARY KEY, 'nombre' VARCHAR(50), 'precio' FLOAT, 'cantidad' INT, 'total' FLOAT, 'proveedor' VARCHAR(50), 'detalle' VARCHAR(100));");
-            //statement.executeUpdate("CREATE TABLE IF NOT EXISTS facturas (id INT AUTO_INCREMENT PRIMARY KEY, total DOUBLE);"); // ME DAN ERROR LA CREACION DE TABLAS: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''referencia' INT PRIMARY KEY, 'nombre' VARCHAR, 'precio' FLOAT, 'cantidad' IN...' at line 1
-           // statement.executeUpdate("CREATE TABLE IF NOT EXISTS productos (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), stock INT, price DOUBLE);");
-           // statement.executeUpdate("CREATE TABLE IF NOT EXISTS ventas (id INT AUTO_INCREMENT PRIMARY KEY, product_id INT, quantity INT, price DOUBLE);");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS compras (referencia INT PRIMARY KEY, nombre VARCHAR(50), precio FLOAT, cantidad INT, total FLOAT, proveedor VARCHAR(50), detalle VARCHAR(100));");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS facturas (id INT AUTO_INCREMENT PRIMARY KEY, total DOUBLE);"); // ME DAN ERROR LA CREACION DE TABLAS: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''referencia' INT PRIMARY KEY, 'nombre' VARCHAR, 'precio' FLOAT, 'cantidad' IN...' at line 1
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS productos (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), stock INT, price DOUBLE);");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS ventas (id INT AUTO_INCREMENT PRIMARY KEY, product_id INT, quantity INT, price DOUBLE);");
 
             // Cerramos las conexiones
             statement.close();
@@ -514,9 +516,8 @@ public class ControladorPrincipal implements Initializable {
                 bdSeleccionada = conexionBD(formatoNombre(nombre));
                 Dialog<String> ventana = new Dialog<>();
                 ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
-                ventana.setContentText("CONECTADO");
-                ventana.getDialogPane().getButtonTypes().add(type);
-                ventana.showAndWait();
+                panelBD.setVisible(false);
+                panelConectado.setVisible(true);
 
             } catch (Exception e){
                 e.printStackTrace();
@@ -525,17 +526,6 @@ public class ControladorPrincipal implements Initializable {
     }
 
     /* PANEL COMPRAS */
-
-    Compra leerValoresCompra(){
-        String nombre = leerCampo("Nombre", tfFormCompraNombre.getText(), ".{1,50}");
-        Float precio = Float.valueOf(leerCampo("Nombre", tfFormCompraPrecioUnit.getText(), "^[1-9]\\d*(\\.\\d+)?$"));
-        Integer cantidad = Integer.valueOf(leerCampo("Nombre", tfFormCompraCantidad.getText(), "^[1-9]\\d*(\\.\\d+)?$"));
-        Float total = precio * cantidad;
-        String proveedor = leerCampo("Nombre", tfFormCompraProveedor.getText(), ".{1,50}");
-        String detalle = leerCampo("Nombre", tfFormCompraDetalle.getText(), ".{1,50}");
-        return new Compra(nombre, precio, cantidad, total, proveedor, detalle);
-    }
-
 
     @FXML
     void aceptarCompra(ActionEvent event) throws SQLException, ClassNotFoundException {
@@ -751,11 +741,8 @@ public class ControladorPrincipal implements Initializable {
 
     private void consultaInsertarPedidoCompra(Compra compra) throws SQLException, ClassNotFoundException {
         // Conexión con la base de datos
-        Connection connection = conexionBD("usuarios_erp");
-
-
         String sql = "INSERT INTO compras (referencia, nombre, precio, cantidad, total, proveedor, detalle) " + "VALUES (?, ?, ?, ?, ?, ?, ?)"; // Consulta para insertar pedido producto en la base de datos
-        try (PreparedStatement statement = connection.prepareStatement(sql))
+        try (PreparedStatement statement = bdSeleccionada.prepareStatement(sql))
         {
             int i = 1;
             statement.setInt(1, compra.getReferencia());
@@ -775,11 +762,10 @@ public class ControladorPrincipal implements Initializable {
     // DELETE
     void eliminarCompra(String referencia) throws SQLException, ClassNotFoundException {
         // Conexión con la base de datos
-        Connection connection = conexionBD("usuarios_erp");
 
         String sql = "DELETE FROM compras WHERE referencia = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = bdSeleccionada.prepareStatement(sql)) {
             statement.setString(1, referencia);
             statement.executeUpdate();
         }
@@ -797,9 +783,8 @@ public class ControladorPrincipal implements Initializable {
 
     private void consultaActualizarCompra(Compra compra) throws SQLException, ClassNotFoundException {
         // Conexión con la base de datos
-        Connection conexionBD = conexionBD("usuarios_erp");
         String sql = "UPDATE compras SET nombre=?, precio=?, cantidad=?, total=?, proveedor=?, detalle=? WHERE referencia=?";
-        try (PreparedStatement statement = conexionBD.prepareStatement(sql)) {
+        try (PreparedStatement statement = bdSeleccionada.prepareStatement(sql)) {
             int i = 1;
             statement.setString(1, compra.getNombre());
             statement.setFloat(2, compra.getPrecio());
@@ -832,8 +817,8 @@ public class ControladorPrincipal implements Initializable {
     /* INICIALIZACIÓN */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        usuario = new Usuario("Fran", "1234", "a@a.a");
-        labelBienvenido.setText(labelBienvenido.getText()+usuario.getNombre());
+
+
     }
 
 }
