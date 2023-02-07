@@ -685,7 +685,7 @@ public class ControladorPrincipal implements Initializable {
 
         // Conexión con la base de datos
         //Connection connection = conexionBD("usuarios_erp");
-        Statement statement = conexionBD("usuarios_erp").createStatement();
+        Statement statement = bdSeleccionada.createStatement();
 
         String query = "SELECT * FROM compras";
         String filtro = tfBuscarCompra.getText();
@@ -928,7 +928,7 @@ public class ControladorPrincipal implements Initializable {
 
     private void cargarFormVentas(Integer referencia) throws SQLException, ClassNotFoundException {
         Venta venta = null;
-        Statement statement = conexionBD("usuarios_erp").createStatement();
+        Statement statement = bdSeleccionada.createStatement();
         String query = "SELECT * FROM ventas WHERE referencia = '" + referencia + "'";
         ResultSet datos = statement.executeQuery(query);
         while (datos.next()) {
@@ -960,7 +960,7 @@ public class ControladorPrincipal implements Initializable {
 
         // Conexión con la base de datos
         //Connection connection = conexionBD("usuarios_erp");
-        Statement statement = conexionBD("usuarios_erp").createStatement();
+        Statement statement = bdSeleccionada.createStatement();
 
         String query = "SELECT * FROM ventas";
         String filtro = tfBuscarVenta.getText();
@@ -1141,9 +1141,9 @@ public class ControladorPrincipal implements Initializable {
 
     private void consultaActualizarVenta(Venta venta) throws SQLException, ClassNotFoundException {
         // Conexión con la base de datos
-        Connection conexionBD = conexionBD("usuarios_erp");
+
         String sql = "UPDATE ventas SET nombre=?, proveedor=?, precio=?, cantidad=?, total=?, detalle=? WHERE referencia=?";
-        try (PreparedStatement statement = conexionBD.prepareStatement(sql)) {
+        try (PreparedStatement statement = bdSeleccionada.prepareStatement(sql)) {
             int i = 1;
             statement.setString(1, venta.getNombre());
             statement.setString(2, venta.getCliente());
