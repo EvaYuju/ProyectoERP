@@ -123,30 +123,6 @@ public class ControladorPrincipal implements Initializable {
     private Button btnVentasVolver;
 
     @FXML
-    private TableView<Compra> tvCompras;
-
-    @FXML
-    private TableColumn<Compra, Integer> colRef;
-
-    @FXML
-    private TableColumn<Compra, String> colNombre;
-
-    @FXML
-    private TableColumn<Compra, Float> colPrecioUnitario;
-
-    @FXML
-    private TableColumn<Compra, Integer> colCantidad;
-
-    @FXML
-    private TableColumn<Compra, Float> colPrecioTotal;
-
-    @FXML
-    private TableColumn<Compra, String> colProveedor;
-
-    @FXML
-    private TableColumn<Compra, String> colDetalle;
-
-    @FXML
     private TextField tfBuscarCompra;
 
     @FXML
@@ -185,6 +161,92 @@ public class ControladorPrincipal implements Initializable {
     @FXML
     private Button btnComprasModificar;
 
+    @FXML
+    private TableView<Compra> tvCompras;
+
+    @FXML
+    private TableColumn<Compra, Integer> colRef;
+
+    @FXML
+    private TableColumn<Compra, String> colNombre;
+
+    @FXML
+    private TableColumn<Compra, Float> colPrecioUnitario;
+
+    @FXML
+    private TableColumn<Compra, Integer> colCantidad;
+
+    @FXML
+    private TableColumn<Compra, Float> colPrecioTotal;
+
+    @FXML
+    private TableColumn<Compra, String> colProveedor;
+
+    @FXML
+    private TableColumn<Compra, String> colDetalle;
+
+    @FXML
+    private TableView<Venta> tvVentas;
+
+    @FXML
+    private TableColumn<Venta, Integer> colRefV;
+
+    @FXML
+    private TableColumn<Venta, String> colNombreV;
+
+    @FXML
+    private TableColumn<Venta, String> colClienteV;
+
+    @FXML
+    private TableColumn<Venta, Float> colPrecioUnitV;
+
+    @FXML
+    private TableColumn<Venta, Integer> colCantidadV;
+
+    @FXML
+    private TableColumn<Venta, Float> colTotalV;
+
+    @FXML
+    private TableColumn<Venta, String> colDetalleV;
+
+    @FXML
+    private TextField tfBuscarVenta;
+
+    @FXML
+    private Button btnVentasModificar;
+
+    @FXML
+    private Button btnVentasBorrar;
+
+    @FXML
+    private Button btnVentaBuscar;
+
+    @FXML
+    private AnchorPane panelFormularioVenta;
+
+    @FXML
+    private TextField tfFormVentaReferencia;
+
+    @FXML
+    private TextField tfFormVentaNombre;
+
+    @FXML
+    private TextField tfFormVentaCantidad;
+
+    @FXML
+    private TextField tfFormVentaCliente;
+
+    @FXML
+    private TextField tfFormVentaPrecioUnit;
+
+    @FXML
+    private TextField tfFormVentaDetalle;
+
+    @FXML
+    private Button btnVolverVenta;
+
+    @FXML
+    private Button btnFormVentaCrear;
 
 
 
@@ -197,6 +259,7 @@ public class ControladorPrincipal implements Initializable {
     Gson gson = new Gson();
     int counter = 0;
     Boolean editaCompra;
+    Boolean editaVenta;
 
 
 
@@ -239,8 +302,8 @@ public class ControladorPrincipal implements Initializable {
         panelFormularioCompra.setVisible(false);
         panelCompra.setVisible(true);
         panelVentas.setVisible(false);
-        panelFacturas.setVisible(false);
-        panelInventario.setVisible(false);
+        //panelFacturas.setVisible(false);
+        //panelInventario.setVisible(false);
 
         tfFormCompraReferencia.setText("");
         tfFormCompraReferencia.setId("tfNormal");
@@ -252,6 +315,28 @@ public class ControladorPrincipal implements Initializable {
         tfFormCompraCantidad.setId("tfNormal");
         tfFormCompraProveedor.setText("");
         tfFormCompraProveedor.setId("tfNormal");
+        tfFormCompraDetalle.setText("");
+        tfFormCompraDetalle.setId("tfNormal");
+
+    }
+    @FXML
+    void volverVentas() {
+        panelFormularioVenta.setVisible(false);
+        panelCompra.setVisible(false);
+        panelVentas.setVisible(true);
+        //panelFacturas.setVisible(false);
+        //panelInventario.setVisible(false);
+
+        tfFormVentaReferencia.setText("");
+        tfFormVentaReferencia.setId("tfNormal");
+        tfFormVentaNombre.setText("");
+        tfFormVentaNombre.setId("tfNormal");
+        tfFormVentaCliente.setText("");
+        tfFormVentaCliente.setId("tfNormal");
+        tfFormVentaPrecioUnit.setText("");
+        tfFormVentaPrecioUnit.setId("tfNormal");
+        tfFormVentaCantidad.setText("");
+        tfFormVentaCantidad.setId("tfNormal");
         tfFormCompraDetalle.setText("");
         tfFormCompraDetalle.setId("tfNormal");
 
@@ -556,7 +641,7 @@ public class ControladorPrincipal implements Initializable {
     @FXML
     void modificarCompra(ActionEvent event) throws SQLException {
         try {
-            cargarFormUsuarios(tvCompras.getSelectionModel().getSelectedItem().getReferencia());
+            cargarFormCompras(tvCompras.getSelectionModel().getSelectedItem().getReferencia());
             panelFormularioCompra.setVisible(true);
             editaCompra = true;
         } catch (NullPointerException | ClassNotFoundException npe) {
@@ -565,7 +650,7 @@ public class ControladorPrincipal implements Initializable {
     }
 
 
-    private void cargarFormUsuarios(Integer referencia) throws SQLException, ClassNotFoundException {
+    private void cargarFormCompras(Integer referencia) throws SQLException, ClassNotFoundException {
         Compra compra = null;
         Statement statement = conexionBD("usuarios_erp").createStatement();
         String query = "SELECT * FROM compras WHERE referencia = '" + referencia + "'";
@@ -803,12 +888,274 @@ public class ControladorPrincipal implements Initializable {
 
     /* PANEL VENTAS */
 
+    // En formulario pedido -> clic botón crear pedido
+    @FXML
+    void aceptarVenta(ActionEvent event) throws SQLException, ClassNotFoundException {
+        if (editaVenta) {
+            actualizarVenta();
+        } else {
+            insertarVenta();
+        }
+    }
+
+    // Botón borrar
+    @FXML
+    void borrarVenta(ActionEvent event) throws SQLException {
+        try {
+            String nombre = tvVentas.getSelectionModel().getSelectedItem().getNombre();
+            Alert confirmar = ventanaConfirmacion("ELIMINAR PEDIDO", "Eliminar pedido", "¿Está seguro de que desea eliminar este pedido?");
+            Optional<ButtonType> resultado = confirmar.showAndWait();
+            if (resultado.get() == confirmar.getButtonTypes().get(0)) {
+                eliminarCompra(nombre);
+                cargarTablaCompra();
+            }
+        } catch (NullPointerException | ClassNotFoundException e) {
+            ventanaDialogo("ERROR", "No hay ningún pedido seleccionado");
+        }
+    }
+
+    // Botón modificar
+    @FXML
+    void modificarVenta(ActionEvent event) throws SQLException {
+        try {
+            cargarFormVentas(tvVentas.getSelectionModel().getSelectedItem().getReferencia());
+            panelFormularioCompra.setVisible(true);
+            editaCompra = true;
+        } catch (NullPointerException | ClassNotFoundException npe) {
+            ventanaDialogo("ERROR", "No hay ningún usuario seleccionado");
+        }
+    }
+
+    private void cargarFormVentas(Integer referencia) throws SQLException, ClassNotFoundException {
+        Venta venta = null;
+        Statement statement = conexionBD("usuarios_erp").createStatement();
+        String query = "SELECT * FROM ventas WHERE referencia = '" + referencia + "'";
+        ResultSet datos = statement.executeQuery(query);
+        while (datos.next()) {
+            venta = new Venta(datos.getInt("referencia"), datos.getString("nombre"), datos.getString("cliente"), datos.getFloat("precio"), datos.getInt("cantidad"), datos.getFloat("total"), datos.getString("detalle"));
+        }
+        tfFormVentaReferencia.setEditable(false);
+        tfFormVentaReferencia.setText(String.valueOf(venta.getReferencia()));
+        tfFormVentaNombre.setText(venta.getNombre());
+        tfFormVentaCliente.setText(venta.getCliente());
+        tfFormVentaPrecioUnit.setText(String.valueOf(venta.getPrecio()));
+        tfFormVentaCantidad.setText(String.valueOf(venta.getCantidad()));
+        tfFormVentaDetalle.setText(venta.getDetalle());
+    }
+
+    // Botón crear de panel compra
     @FXML
     void crearPedidoVenta(ActionEvent event) {
+        panelVentas.setVisible(false);
+        panelFormularioVenta.setVisible(true);
 
+        editaVenta = false;
+        tfFormVentaReferencia.setEditable(true);
+    }
+
+    // Cargar en la tabla los pedidos
+    @FXML
+    void cargarTablaVenta() throws SQLException, ClassNotFoundException {
+        ObservableList<Venta> listaVentas = FXCollections.observableArrayList();
+
+        // Conexión con la base de datos
+        //Connection connection = conexionBD("usuarios_erp");
+        Statement statement = conexionBD("usuarios_erp").createStatement();
+
+        String query = "SELECT * FROM ventas";
+        String filtro = tfBuscarVenta.getText();
+        if (!filtro.equals("")) {
+            query += " WHERE " + "referencia LIKE '%" + filtro + "%' OR " + "nombre LIKE '%" + filtro + "%' OR " + "cliente LIKE '%" + filtro + "%' OR " + "detalle LIKE '%" + filtro + "%';";
+        }
+
+        ResultSet datos = statement.executeQuery(query);
+        while (datos.next()) {
+            listaVentas.add(new Venta(datos.getInt("referencia"), datos.getString("nombre"), datos.getString("cliente"), datos.getFloat("precio"), datos.getInt("cantidad"), datos.getFloat("total"), datos.getString("detalle")));
+
+        }
+        tvVentas.setItems(listaVentas);
+
+        colRefV.setCellValueFactory(new PropertyValueFactory<>("referencia"));
+        colNombreV.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colClienteV.setCellValueFactory(new PropertyValueFactory<>("cliente"));
+        colPrecioUnitV.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        colCantidadV.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        colTotalV.setCellValueFactory(new PropertyValueFactory<>("total"));
+        colDetalle.setCellValueFactory(new PropertyValueFactory<>("detalle"));
+    }
+
+    Venta leerValoresVenta(){
+        Integer referencia = Integer.valueOf(leerCampo("referencia",tfFormVentaReferencia.getText(),"^[1-9]\\d*(\\.\\d+)?$"));
+        String nombre = leerCampo("nombre", tfFormCompraNombre.getText(), ".{1,50}");
+        String cliente = leerCampo("cliente", tfFormVentaCliente.getText(), ".{1,50}");
+        Float precio = Float.valueOf(leerCampo("precio", tfFormVentaPrecioUnit.getText(), "^[1-9]\\d*(\\.\\d+)?$"));
+        Integer cantidad = Integer.valueOf(leerCampo("cantidad", tfFormVentaCantidad.getText(), "^[1-9]\\d*(\\.\\d+)?$"));
+        Float total = precio * cantidad;
+        String detalle = leerCampo("detalle", tfFormVentaDetalle.getText(), ".{1,50}");
+        return new Venta(referencia, nombre, cliente, precio, cantidad, total, detalle);
+    }
+
+    // métodos comprueba error
+    private boolean compruebaReferenciaV(String referencia, StringBuilder mensajeError) {
+        if (referencia == null) {
+            mensajeError.append("Referencia (Escriba la referencia correcta)\n");
+            tfFormVentaReferencia.setId("tfError");
+            return true;
+        } else {
+            tfFormVentaReferencia.setId("tfNormal");
+        }
+        return false;
+    }
+
+    private boolean compruebaNombreV(String nombre, StringBuilder mensajeError) {
+        if (nombre == null) {
+            mensajeError.append("Nombre (No puede estar vacío. Máximo 50 caracteres)\n");
+            tfFormVentaNombre.setId("tfError");
+            return true;
+        } else {
+            tfFormVentaNombre.setId("tfError");
+        }
+        return false;
+    }
+
+    private boolean compruebaProveedorV(String cliente, StringBuilder mensajeError) {
+        if (cliente == null) {
+            mensajeError.append("Cliente (No puede estar vacío.)\n");
+            tfFormVentaCliente.setId("tfError");
+            return true;
+        } else {
+            tfFormVentaCliente.setId("tfNormal");
+        }
+        return false;
+    }
+
+    private boolean compruebaPrecioV(Float precio, StringBuilder mensajeError) {
+        if (precio == null) {
+            mensajeError.append("Precio (No puede estar vacío. Ingrese una cantidad)\n");
+            tfFormVentaPrecioUnit.setId("tfError");
+            return true;
+        } else {
+            tfFormVentaPrecioUnit.setId("tfNormal");
+        }
+        return false;
+    }
+    private boolean compruebaCantidadV(Integer cantidad, StringBuilder mensajeError) {
+        if (cantidad == null) {
+            mensajeError.append("Precio (No puede estar vacío. Ingrese una cantidad)\n");
+            tfFormVentaCantidad.setId("tfError");
+            return true;
+        } else {
+            tfFormVentaCantidad.setId("tfNormal");
+        }
+        return false;
     }
 
 
+    private boolean compruebaDetalleV(String detalle, StringBuilder mensajeError) {
+        if (detalle == null) {
+            mensajeError.append("Detalle (No puede estar vacío.)\n");
+            tfFormVentaDetalle.setId("tfError");
+            return true;
+        } else {
+            tfFormVentaDetalle.setId("tfNormal");
+        }
+        return false;
+    }
+
+
+    boolean mensajeErrorVenta(Venta venta) {
+        boolean hayError = false;
+        StringBuilder mensajeError = new StringBuilder();
+
+        hayError = compruebaReferencia(venta.getNombre(), mensajeError) ? true : hayError;
+        hayError = compruebaNombre(venta.getNombre(), mensajeError) ? true : hayError;
+        hayError = compruebaProveedor(venta.getCliente(), mensajeError) ? true : hayError;
+        hayError = compruebaPrecio(venta.getPrecio(), mensajeError) ? true : hayError;
+        hayError = compruebaCantidad(venta.getCantidad(), mensajeError) ? true : hayError;
+        hayError = compruebaDetalle(venta.getDetalle(), mensajeError) ? true : hayError;
+
+
+        if (hayError) {
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Error");
+            error.setHeaderText("CAMPOS ERRÓNEOS");
+            error.setContentText("Hay error en los siguientes campos:\n" + mensajeError.toString());
+            error.showAndWait();
+        }
+        return hayError;
+        
+    }
+
+    // INSERT
+    private void insertarVenta() throws SQLException, ClassNotFoundException {
+        Venta venta = leerValoresVenta();
+        if (!mensajeErrorVenta(venta)) {
+            consultaInsertarPedidoVenta(venta);
+            cargarTablaVenta();
+            volverVentas();
+        }
+    }
+
+    private void consultaInsertarPedidoVenta(Venta venta) throws SQLException, ClassNotFoundException {
+        // Conexión con la base de datos
+
+
+
+        String sql = "INSERT INTO ventas (referencia, nombre, cliente, precio, cantidad, total, detalle) " + "VALUES (?, ?, ?, ?, ?, ?, ?)"; // Consulta para insertar pedido producto en la base de datos
+        try (PreparedStatement statement = bdSeleccionada.prepareStatement(sql))
+        {
+
+            statement.setInt(1, venta.getReferencia());
+            statement.setString(2, venta.getNombre());
+            statement.setString(3, venta.getCliente());
+            statement.setFloat(4, venta.getPrecio());
+            statement.setInt(5, venta.getCantidad());
+            statement.setFloat(6, venta.getTotal());
+            statement.setString(7, venta.getDetalle());
+
+
+            statement.executeUpdate();// Ejecutar la consulta
+            ventanaDialogo("INSERTAR PEDIDO", "Pedido insertado con éxito");
+        }
+    }
+    // DELETE
+    void eliminarVenta(String referencia) throws SQLException, ClassNotFoundException {
+        // Conexión con la base de datos
+
+        String sql = "DELETE FROM ventas WHERE referencia = ?";
+
+        try (PreparedStatement statement = bdSeleccionada.prepareStatement(sql)) {
+            statement.setString(1, referencia);
+            statement.executeUpdate();
+        }
+    }
+    // UPDATE
+    private void actualizarVenta() throws SQLException, ClassNotFoundException {
+        Venta venta = leerValoresVenta();
+        if (!mensajeErrorVenta(venta)) {
+            consultaActualizarVenta(venta);
+            cargarTablaVenta();
+            volverVentas();
+        }
+    }
+
+    private void consultaActualizarVenta(Venta venta) throws SQLException, ClassNotFoundException {
+        // Conexión con la base de datos
+        Connection conexionBD = conexionBD("usuarios_erp");
+        String sql = "UPDATE ventas SET nombre=?, proveedor=?, precio=?, cantidad=?, total=?, detalle=? WHERE referencia=?";
+        try (PreparedStatement statement = conexionBD.prepareStatement(sql)) {
+            int i = 1;
+            statement.setString(1, venta.getNombre());
+            statement.setString(2, venta.getCliente());
+            statement.setFloat(3, venta.getPrecio());
+            statement.setInt(4, venta.getCantidad());
+            statement.setFloat(5, venta.getTotal());
+            statement.setString(6, venta.getDetalle());
+
+            statement.executeUpdate();// Ejecutar la consulta
+            ventanaDialogo("ACTUALIZAR PEDIDO", "Pedido actualizado con éxito");
+        }
+    }
 
     /* PANEL INVENTARIO */
 
