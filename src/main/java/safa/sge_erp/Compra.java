@@ -1,87 +1,94 @@
 package safa.sge_erp;
 
 public class Compra {
-    Integer referenciaC;
-    String nombreC;
-    Float precioC;
-    Integer cantidadC;
-    Float totalC;
-    String proveedorC;
 
-    public Compra(Integer referenciaC, String nombreC, Float precioC, Integer cantidadC, Float totalC, String proveedorC, String detalleC) {
-        this.referenciaC = referenciaC;
-        this.nombreC = nombreC;
-        this.precioC = precioC;
-        this.cantidadC = cantidadC;
-        this.totalC = totalC;
-        this.proveedorC = proveedorC;
-        this.detalleC = detalleC;
+    Integer referencia;
+    String nombre;
+    Float precio;
+    Integer cantidad;
+    Float total;
+    String proveedor;
+    String detalle;
+
+    public Integer getReferencia() {
+        return referencia;
     }
 
-    String detalleC;
+    public void setReferencia(Integer referencia) {
+        this.referencia = referencia;
 
-    public Compra(String nombreC, Float precioC, Integer cantidadC, Float totalC, String proveedorC, String detalleC) {
-        this.nombreC = nombreC;
-        this.precioC = precioC;
-        this.cantidadC = cantidadC;
-        this.totalC = totalC;
-        this.proveedorC = proveedorC;
-        this.detalleC = detalleC;
     }
 
-    public Integer getReferenciaC() {
-        return referenciaC;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setReferenciaC(int referenciaC) {
-        this.referenciaC = referenciaC;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getNombreC() {
-        return nombreC;
+    public Float getPrecio() {
+        return precio;
     }
 
-    public void setNombreC(String nombreC) {
-        this.nombreC = nombreC;
+    public void setPrecio(Float precio) {
+        this.precio = precio;
     }
 
-    public Float getPrecioC() {
-        return precioC;
+    public Integer getCantidad() {
+        return cantidad;
     }
 
-    public void setPrecioC(float precioC) {
-        this.precioC = precioC;
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
     }
 
-    public Integer getcantidadC() {
-        return cantidadC;
+    public Float getTotal() {
+        return total;
     }
 
-    public void setcantidadC(int cantidadC) {
-        this.cantidadC = cantidadC;
+    public void setTotal(Float total) {
+        this.total = total;
     }
 
-    public Float getTotalC() {
-        return totalC;
+    public String getProveedor() {
+        return proveedor;
     }
 
-    public void setTotalC(float totalC) {
-        this.totalC = totalC;
+    public void setProveedor(String proveedor) {
+        this.proveedor = proveedor;
     }
 
-    public String getProveedorC() {
-        return proveedorC;
+    public String getDetalle() {
+        return detalle;
     }
 
-    public void setProveedorC(String proveedorC) {
-        this.proveedorC = proveedorC;
+    public void setDetalle(String detalle) {
+        this.detalle = detalle;
     }
 
-    public String getdetalleC() {
-        return detalleC;
-    }
 
-    public void setdetalleC(String detalleC) {
-        this.detalleC = detalleC;
+
+
+
+    // para crear desde formulario
+    public Compra(String nombre, Float precio, Integer cantidad, Float total, String proveedor, String detalle) {
+
+        this.nombre = nombre;
+        this.precio = precio;
+        this.cantidad = cantidad;
+        this.total = total;
+        this.proveedor = proveedor;
+        this.detalle = detalle;
+    }
+    //
+    public Compra(Integer referencia, String nombre, Float precio, Integer cantidad, Float total, String proveedor, String detalle) {
+        this.referencia = referencia;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.cantidad = cantidad;
+        this.total = total;
+        this.proveedor = proveedor;
+        this.detalle = detalle;
     }
 }
