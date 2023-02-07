@@ -69,7 +69,7 @@ public class Compra {
 
 
 
-    // para crear desde formulario
+
     public Compra(String nombre, Float precio, Integer cantidad, Float total, String proveedor, String detalle) {
 
         this.nombre = nombre;
