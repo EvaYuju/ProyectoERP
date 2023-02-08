@@ -15,6 +15,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
+
+
 import java.net.URL;
 import java.sql.*;
 import java.util.List;
@@ -426,17 +428,28 @@ public class ControladorPrincipal implements Initializable {
         }
     }
 
-
     @FXML
     void aceptaRegistro(ActionEvent event) throws SQLException, ClassNotFoundException {
+        // Comprobar si los campos de clave y confirmación de clave son iguales
+        TextField tfConfirmaClave = tfRegistroConfirmaClave;
+        if (!tfRegistroClave.getText().equals(tfConfirmaClave.getText())) {
+            // Mostrar un mensaje de error si no coinciden
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Mensaje de error");
+            alert.setContentText("Las claves no coinciden");
+            alert.showAndWait();
+            return;
+        }
+
         Connection connection = conexionBD("usuarios_erp");
         String sql = "INSERT INTO usuarios (nombre, clave, email) VALUES (?,?,?)";
         try {
 
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1,tfRegistroUsuario.getText());
-            statement.setString(2,tfRegistroClave.getText());
-            statement.setString(3,tfRegistroEmail.getText());
+            statement.setString(1, tfRegistroUsuario.getText());
+            statement.setString(2, tfRegistroClave.getText());
+            statement.setString(3, tfRegistroEmail.getText());
             System.out.println(statement);
             statement.execute();
 
@@ -450,10 +463,11 @@ public class ControladorPrincipal implements Initializable {
             panelRegistro.setVisible(false);
             panelLogin.setVisible(true);
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     @FXML
     void nuevoRegistro(ActionEvent event) {
@@ -553,10 +567,9 @@ public class ControladorPrincipal implements Initializable {
 
             // Creación de las tablas
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS compras (referencia INT PRIMARY KEY, nombre VARCHAR(50), precio FLOAT, cantidad INT, total FLOAT, proveedor VARCHAR(50), detalle VARCHAR(100));");
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS facturas (id INT AUTO_INCREMENT PRIMARY KEY, total DOUBLE);"); // ME DAN ERROR LA CREACION DE TABLAS: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''referencia' INT PRIMARY KEY, 'nombre' VARCHAR, 'precio' FLOAT, 'cantidad' IN...' at line 1
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS facturas (id INT AUTO_INCREMENT PRIMARY KEY, total DOUBLE);");
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS productos (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), stock INT, price DOUBLE);");
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS ventas (id INT AUTO_INCREMENT PRIMARY KEY, product_id INT, quantity INT, price DOUBLE);");
-
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS ventas (referencia INT PRIMARY KEY, nombre VARCHAR(50), cliente VARCHAR(50), precio FLOAT, cantidad INT, total FLOAT, detalle VARCHAR(100));");
             // Cerramos las conexiones
             statement.close();
             connection.close();
@@ -603,6 +616,8 @@ public class ControladorPrincipal implements Initializable {
                 ButtonType type = new ButtonType("Ok", ButtonBar.ButtonData.OK_DONE);
                 panelBD.setVisible(false);
                 panelConectado.setVisible(true);
+                panelMenu.setVisible(true);
+
 
             } catch (Exception e){
                 e.printStackTrace();
@@ -651,14 +666,15 @@ public class ControladorPrincipal implements Initializable {
 
 
     private void cargarFormCompras(Integer referencia) throws SQLException, ClassNotFoundException {
+
         Compra compra = null;
-        Statement statement = conexionBD("usuarios_erp").createStatement();
+        Statement statement = bdSeleccionada.createStatement();
         String query = "SELECT * FROM compras WHERE referencia = '" + referencia + "'";
         ResultSet datos = statement.executeQuery(query);
         while (datos.next()) {
             compra = new Compra(datos.getInt("referencia"), datos.getString("nombre"), datos.getFloat("precio"), datos.getInt("cantidad"), datos.getFloat("total"), datos.getString("proveedor"), datos.getString("detalle"));
         }
-        tfFormCompraReferencia.setEditable(false);
+
         tfFormCompraReferencia.setText(String.valueOf(compra.getReferencia()));
         tfFormCompraNombre.setText(compra.getNombre());
         tfFormCompraPrecioUnit.setText(String.valueOf(compra.getPrecio()));
@@ -684,7 +700,6 @@ public class ControladorPrincipal implements Initializable {
         ObservableList<Compra> listaCompras = FXCollections.observableArrayList();
 
         // Conexión con la base de datos
-        //Connection connection = conexionBD("usuarios_erp");
         Statement statement = bdSeleccionada.createStatement();
 
         String query = "SELECT * FROM compras";
@@ -711,10 +726,10 @@ public class ControladorPrincipal implements Initializable {
 
 
     Compra leerValoresCompra(){
-        Integer referencia = Integer.valueOf(leerCampo("referencia",tfFormCompraReferencia.getText(),"^[1-9]\\d*(\\.\\d+)?$"));
+        Integer referencia = Integer.valueOf(leerCampo("referencia",tfFormCompraReferencia.getText(),"^[0-9]\\d*(\\.\\d+)?$"));
         String nombre = leerCampo("nombre", tfFormCompraNombre.getText(), ".{1,50}");
         Float precio = Float.valueOf(leerCampo("precio", tfFormCompraPrecioUnit.getText(), "^[1-9]\\d*(\\.\\d+)?$"));
-        Integer cantidad = Integer.valueOf(leerCampo("cantidad", tfFormCompraCantidad.getText(), "^[1-9]\\d*(\\.\\d+)?$"));
+        Integer cantidad = Integer.valueOf(leerCampo("cantidad", tfFormCompraCantidad.getText(), "^[0-9]\\d*(\\.\\d+)?$"));
         Float total = precio * cantidad;
         String proveedor = leerCampo("proveedor", tfFormCompraProveedor.getText(), ".{1,50}");
         String detalle = leerCampo("detalle", tfFormCompraDetalle.getText(), ".{1,50}");
@@ -805,7 +820,7 @@ public class ControladorPrincipal implements Initializable {
             Alert error = new Alert(Alert.AlertType.ERROR);
             error.setTitle("Error");
             error.setHeaderText("CAMPOS ERRÓNEOS");
-            error.setContentText("Hay error en los siguientes campos:\n" + mensajeError.toString());
+            error.setContentText("Hay error en los siguientes campos:\n" + mensajeError);
             error.showAndWait();
         }
         return hayError;
@@ -848,10 +863,11 @@ public class ControladorPrincipal implements Initializable {
     void eliminarCompra(String referencia) throws SQLException, ClassNotFoundException {
         // Conexión con la base de datos
 
-        String sql = "DELETE FROM compras WHERE referencia = ?";
+        String sql = "DELETE FROM compras WHERE nombre = ?";
 
         try (PreparedStatement statement = bdSeleccionada.prepareStatement(sql)) {
-            statement.setString(1, referencia);
+
+            statement.setString(1, String.valueOf(referencia));
             statement.executeUpdate();
         }
     }
@@ -877,13 +893,15 @@ public class ControladorPrincipal implements Initializable {
             statement.setFloat(4, compra.getTotal());
             statement.setString(5, compra.getProveedor());
             statement.setString(6, compra.getDetalle());
+            statement.setInt(7, compra.getReferencia());
+
 
             statement.executeUpdate();// Ejecutar la consulta
             ventanaDialogo("ACTUALIZAR PEDIDO", "Pedido actualizado con éxito");
         }
     }
 
-    // private void cargarFormCompra
+
 
 
     /* PANEL VENTAS */
@@ -906,8 +924,8 @@ public class ControladorPrincipal implements Initializable {
             Alert confirmar = ventanaConfirmacion("ELIMINAR PEDIDO", "Eliminar pedido", "¿Está seguro de que desea eliminar este pedido?");
             Optional<ButtonType> resultado = confirmar.showAndWait();
             if (resultado.get() == confirmar.getButtonTypes().get(0)) {
-                eliminarCompra(nombre);
-                cargarTablaCompra();
+                eliminarVenta(nombre);
+                cargarTablaVenta();
             }
         } catch (NullPointerException | ClassNotFoundException e) {
             ventanaDialogo("ERROR", "No hay ningún pedido seleccionado");
@@ -919,8 +937,8 @@ public class ControladorPrincipal implements Initializable {
     void modificarVenta(ActionEvent event) throws SQLException {
         try {
             cargarFormVentas(tvVentas.getSelectionModel().getSelectedItem().getReferencia());
-            panelFormularioCompra.setVisible(true);
-            editaCompra = true;
+            panelFormularioVenta.setVisible(true);
+            editaVenta = true;
         } catch (NullPointerException | ClassNotFoundException npe) {
             ventanaDialogo("ERROR", "No hay ningún usuario seleccionado");
         }
@@ -959,7 +977,7 @@ public class ControladorPrincipal implements Initializable {
         ObservableList<Venta> listaVentas = FXCollections.observableArrayList();
 
         // Conexión con la base de datos
-        //Connection connection = conexionBD("usuarios_erp");
+
         Statement statement = bdSeleccionada.createStatement();
 
         String query = "SELECT * FROM ventas";
@@ -981,22 +999,23 @@ public class ControladorPrincipal implements Initializable {
         colPrecioUnitV.setCellValueFactory(new PropertyValueFactory<>("precio"));
         colCantidadV.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
         colTotalV.setCellValueFactory(new PropertyValueFactory<>("total"));
-        colDetalle.setCellValueFactory(new PropertyValueFactory<>("detalle"));
+        colDetalleV.setCellValueFactory(new PropertyValueFactory<>("detalle"));
     }
 
     Venta leerValoresVenta(){
-        Integer referencia = Integer.valueOf(leerCampo("referencia",tfFormVentaReferencia.getText(),"^[1-9]\\d*(\\.\\d+)?$"));
-        String nombre = leerCampo("nombre", tfFormCompraNombre.getText(), ".{1,50}");
+        Integer referencia = Integer.valueOf(leerCampo("referencia",tfFormVentaReferencia.getText(),"^[0-9]\\d*(\\.\\d+)?$"));
+        String nombre = leerCampo("nombre", tfFormVentaNombre.getText(), ".{1,50}");
         String cliente = leerCampo("cliente", tfFormVentaCliente.getText(), ".{1,50}");
         Float precio = Float.valueOf(leerCampo("precio", tfFormVentaPrecioUnit.getText(), "^[1-9]\\d*(\\.\\d+)?$"));
-        Integer cantidad = Integer.valueOf(leerCampo("cantidad", tfFormVentaCantidad.getText(), "^[1-9]\\d*(\\.\\d+)?$"));
+        Integer cantidad = Integer.valueOf(leerCampo("cantidad", tfFormVentaCantidad.getText(), "^[0-9]\\d*(\\.\\d+)?$"));
         Float total = precio * cantidad;
         String detalle = leerCampo("detalle", tfFormVentaDetalle.getText(), ".{1,50}");
         return new Venta(referencia, nombre, cliente, precio, cantidad, total, detalle);
     }
 
+
     // métodos comprueba error
-    private boolean compruebaReferenciaV(String referencia, StringBuilder mensajeError) {
+    private boolean compruebaReferenciaV(Integer referencia, StringBuilder mensajeError) {
         if (referencia == null) {
             mensajeError.append("Referencia (Escriba la referencia correcta)\n");
             tfFormVentaReferencia.setId("tfError");
@@ -1067,19 +1086,19 @@ public class ControladorPrincipal implements Initializable {
         boolean hayError = false;
         StringBuilder mensajeError = new StringBuilder();
 
-        hayError = compruebaReferencia(venta.getNombre(), mensajeError) ? true : hayError;
-        hayError = compruebaNombre(venta.getNombre(), mensajeError) ? true : hayError;
-        hayError = compruebaProveedor(venta.getCliente(), mensajeError) ? true : hayError;
-        hayError = compruebaPrecio(venta.getPrecio(), mensajeError) ? true : hayError;
-        hayError = compruebaCantidad(venta.getCantidad(), mensajeError) ? true : hayError;
-        hayError = compruebaDetalle(venta.getDetalle(), mensajeError) ? true : hayError;
+        hayError = compruebaReferenciaV(venta.getReferencia(), mensajeError) ? true : hayError;
+        hayError = compruebaNombreV(venta.getNombre(), mensajeError) ? true : hayError;
+        hayError = compruebaProveedorV(venta.getCliente(), mensajeError) ? true : hayError;
+        hayError = compruebaPrecioV(venta.getPrecio(), mensajeError) ? true : hayError;
+        hayError = compruebaCantidadV(venta.getCantidad(), mensajeError) ? true : hayError;
+        hayError = compruebaDetalleV(venta.getDetalle(), mensajeError) ? true : hayError;
 
 
         if (hayError) {
             Alert error = new Alert(Alert.AlertType.ERROR);
             error.setTitle("Error");
             error.setHeaderText("CAMPOS ERRÓNEOS");
-            error.setContentText("Hay error en los siguientes campos:\n" + mensajeError.toString());
+            error.setContentText("Hay error en los siguientes campos:\n" + mensajeError);
             error.showAndWait();
         }
         return hayError;
@@ -1104,7 +1123,7 @@ public class ControladorPrincipal implements Initializable {
         String sql = "INSERT INTO ventas (referencia, nombre, cliente, precio, cantidad, total, detalle) " + "VALUES (?, ?, ?, ?, ?, ?, ?)"; // Consulta para insertar pedido producto en la base de datos
         try (PreparedStatement statement = bdSeleccionada.prepareStatement(sql))
         {
-
+            int i = 1;
             statement.setInt(1, venta.getReferencia());
             statement.setString(2, venta.getNombre());
             statement.setString(3, venta.getCliente());
@@ -1125,7 +1144,7 @@ public class ControladorPrincipal implements Initializable {
         String sql = "DELETE FROM ventas WHERE referencia = ?";
 
         try (PreparedStatement statement = bdSeleccionada.prepareStatement(sql)) {
-            statement.setString(1, referencia);
+            statement.setInt(1, Integer.parseInt(referencia));
             statement.executeUpdate();
         }
     }
@@ -1142,7 +1161,7 @@ public class ControladorPrincipal implements Initializable {
     private void consultaActualizarVenta(Venta venta) throws SQLException, ClassNotFoundException {
         // Conexión con la base de datos
 
-        String sql = "UPDATE ventas SET nombre=?, proveedor=?, precio=?, cantidad=?, total=?, detalle=? WHERE referencia=?";
+        String sql = "UPDATE ventas SET nombre=?, cliente=?, precio=?, cantidad=?, total=?, detalle=? WHERE referencia=?";
         try (PreparedStatement statement = bdSeleccionada.prepareStatement(sql)) {
             int i = 1;
             statement.setString(1, venta.getNombre());
@@ -1151,6 +1170,7 @@ public class ControladorPrincipal implements Initializable {
             statement.setInt(4, venta.getCantidad());
             statement.setFloat(5, venta.getTotal());
             statement.setString(6, venta.getDetalle());
+            statement.setInt(7, venta.getReferencia());
 
             statement.executeUpdate();// Ejecutar la consulta
             ventanaDialogo("ACTUALIZAR PEDIDO", "Pedido actualizado con éxito");

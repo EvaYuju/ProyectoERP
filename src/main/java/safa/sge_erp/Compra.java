@@ -71,16 +71,6 @@ public class Compra {
 
 
 
-
-    public Compra(String nombre, Float precio, Integer cantidad, Float total, String proveedor, String detalle) {
-
-        this.nombre = nombre;
-        this.precio = precio;
-        this.cantidad = cantidad;
-        this.total = total;
-        this.proveedor = proveedor;
-        this.detalle = detalle;
-    }
     //
     public Compra(Integer referencia, String nombre, Float precio, Integer cantidad, Float total, String proveedor, String detalle) {
         this.referencia = referencia;
