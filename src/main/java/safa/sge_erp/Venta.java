@@ -2,7 +2,7 @@ package safa.sge_erp;
 
 public class Venta {
 
-    Integer referenciaV;
+    Integer referencia;
     String nombre;
     String cliente;
     Float precio;
@@ -11,7 +11,7 @@ public class Venta {
     String detalle;
 
     public Venta(Integer referencia, String nombre, String cliente, Float precio, Integer cantidad, Float total, String detalle) {
-        this.referenciaV = referencia;
+        this.referencia = referencia;
         this.nombre = nombre;
         this.cliente = cliente;
         this.precio = precio;
@@ -21,11 +21,11 @@ public class Venta {
     }
 
     public Integer getReferencia() {
-        return referenciaV;
+        return referencia;
     }
 
     public void setReferencia(Integer referencia) {
-        this.referenciaV = referencia;
+        this.referencia = referencia;
     }
 
     public String getNombre() {
