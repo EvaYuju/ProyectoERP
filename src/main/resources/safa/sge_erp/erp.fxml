@@ -27,11 +27,11 @@
                   <TextField fx:id="tfLoginClave" layoutX="151.0" layoutY="270.0" prefHeight="36.0" prefWidth="213.0" promptText="Clave" />
                   <Button id="btn1" fx:id="btnAcceder" layoutX="179.0" layoutY="360.0" mnemonicParsing="false" onAction="#acceder" prefHeight="27.0" prefWidth="167.0" stylesheets="@style.css" text="Acceder" />
                   <Button id="btn1" fx:id="btnRegistro" layoutX="179.0" layoutY="427.0" mnemonicParsing="false" onAction="#nuevoRegistro" prefHeight="27.0" prefWidth="167.0" stylesheets="@style.css" text="Registrarte" />
-                  <TextField fx:id="tfLoginUsuario" layoutX="152.0" layoutY="203.0" prefHeight="36.0" prefWidth="213.0" promptText="Nombre de usuario" />
                   <ImageView id="imgLogin" fitHeight="260.0" fitWidth="228.0" layoutX="143.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" styleClass="style.css">
                      <image>
                         <Image url="@img/loginOn.png" />
                      </image></ImageView>
+                  <TextField fx:id="tfLoginUsuario" layoutX="152.0" layoutY="203.0" prefHeight="36.0" prefWidth="213.0" promptText="Nombre de usuario" />
                </children>
             </AnchorPane>
             <AnchorPane id="panelInterno" fx:id="panelRegistro" prefHeight="200.0" prefWidth="200.0" stylesheets="@style.css" visible="false" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="100.0">
