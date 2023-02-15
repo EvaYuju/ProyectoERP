@@ -45,11 +45,25 @@
 
 }
 
-#textLabelFormularios{
-    -fx-font-family: "Corbel";
-    -fx-font-size: 20px;
-    -fx-text-fill: black;
+#panelesTodos {
 
+    -fx-background-image: url("img/fondo3.jpg");
+    -fx-background-repeat: no-repeat;
+
+}
+
+#formularios {
+    -fx-background-image: url("img/fondo3.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+
+}
+
+#textLabelFormularios{
+    -fx-font-family: "fantasy";
+    -fx-font-size: 20px;
+    -fx-border-color: #32fb04;
+    -fx-alignment: center;
 }
 
 #botonEliminar:hover {
@@ -85,8 +99,10 @@
     -fx-font-weight: bold;
 }
 
-#labelBDs {
-
+#labelFormtit {
+    -fx-font-size: 30px;
+    -fs-color: #32fb04;
+    -fx-font-family: "cursive";
 
 }
 
