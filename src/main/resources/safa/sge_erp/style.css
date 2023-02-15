@@ -10,12 +10,13 @@
     -fx-background-size: cover;
 }
 
+
 #boton {
     -fx-background-color: #30a8d2;
     -fx-font-size: 22px;
     -fx-background-radius: 20px;
     -fx-background-insets: 0;
-    -fx-border-color: #64b5f6;
+    -fx-border-color: #32fb04;
     -fx-border-width: 2px;
     -fx-border-radius: 20px;
     -fx-border-style: solid;
@@ -37,8 +38,11 @@
     -fx-text-fill: white;
 }
 #textMenu{
-    -fx-font-family: "Selawik";
+    -fx-font-family: "fantasy";
     -fx-font-size: 20px;
+    -fx-border-color: #32fb04;
+    -fx-alignment: center;
+
 }
 
 #textLabelFormularios{
@@ -53,7 +57,12 @@
 }
 
 #botonOpciones {
-    -fx-font-size: 22px;
+    -fx-font-size: 20px;
+    -fx-border-color: #32fb04;
+    -fs-color: #fff;
+    -fx-box-shadow: 0, 0, 40px 40px #3498db inset, 0 0 0 0 #3498db;
+    -fx-webkit-transition: all 150ms ease-in-out;
+    -fx-transition: all 150ms ease-in-out;
 }
 
 #panelConectar {
@@ -65,9 +74,20 @@
     -fx-background-color: lightgrey;
 }
 
+#panelMenu {
+    -fx-background-image: url("img/fondo3.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
 #labelConectar {
     -fx-font-size: 30px;
     -fx-font-weight: bold;
+}
+
+#labelBDs {
+
+
 }
 
 #btn1 {

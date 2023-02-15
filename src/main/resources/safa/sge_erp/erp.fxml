@@ -16,7 +16,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="safa.sge_erp.ControladorPrincipal">
    <children>
@@ -36,29 +35,34 @@
             </AnchorPane>
             <AnchorPane id="panelInterno" fx:id="panelRegistro" prefHeight="200.0" prefWidth="200.0" stylesheets="@style.css" visible="false" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="100.0">
                <children>
-                  <TextField fx:id="tfRegistroUsuario" layoutX="161.0" layoutY="140.0" promptText="Nombre de usuario" />
-                  <TextField fx:id="tfRegistroEmail" layoutX="161.0" layoutY="191.0" promptText="Correo electrónico" />
-                  <TextField fx:id="tfRegistroClave" layoutX="159.0" layoutY="249.0" promptText="Clave" />
-                  <TextField fx:id="tfRegistroConfirmaClave" layoutX="157.0" layoutY="307.0" promptText="Confirmar clave" />
-                  <Button fx:id="btnAceptarRegistro" layoutX="323.0" layoutY="382.0" mnemonicParsing="false" onAction="#aceptaRegistro" text="Registrarte" />
-                  <Button fx:id="btnCancelarRegistro" layoutX="88.0" layoutY="385.0" mnemonicParsing="false" onAction="#cancelaRegistro" text="Cancelar" />
+                  <TextField fx:id="tfRegistroUsuario" layoutX="184.0" layoutY="126.0" prefHeight="36.0" prefWidth="177.0" promptText="Nombre de usuario" />
+                  <TextField fx:id="tfRegistroEmail" layoutX="184.0" layoutY="181.0" prefHeight="36.0" prefWidth="177.0" promptText="Correo electrónico" />
+                  <TextField fx:id="tfRegistroClave" layoutX="184.0" layoutY="237.0" prefHeight="36.0" prefWidth="177.0" promptText="Clave" />
+                  <TextField fx:id="tfRegistroConfirmaClave" layoutX="182.0" layoutY="292.0" prefHeight="36.0" prefWidth="177.0" promptText="Confirmar clave" />
+                  <Button id="btn1" fx:id="btnAceptarRegistro" layoutX="181.0" layoutY="360.0" mnemonicParsing="false" onAction="#aceptaRegistro" prefHeight="27.0" prefWidth="160.0" stylesheets="@style.css" text="Registrarte" />
+                  <Button id="btn1" fx:id="btnCancelarRegistro" layoutX="183.0" layoutY="427.0" mnemonicParsing="false" onAction="#cancelaRegistro" prefHeight="27.0" prefWidth="160.0" stylesheets="@style.css" text="Cancelar" />
+                  <ImageView id="imgReg" fitHeight="141.0" fitWidth="167.0" layoutX="33.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" styleClass="style.css">
+                     <image>
+                        <Image url="@img/reg.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
          </children></AnchorPane>
       <AnchorPane id="panel" fx:id="panelBD" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" visible="false">
          <children>
-            <Label layoutX="60.0" layoutY="29.0" text="BASES DE DATOS" textFill="WHITE" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
+            <Label layoutX="51.0" layoutY="25.0" stylesheets="@style.css" text="BASES DE DATOS" textFill="#3ebec9" AnchorPane.leftAnchor="51.0" AnchorPane.topAnchor="25.0">
                <font>
-                  <Font name="Calibri Bold" size="60.0" />
+                  <Font name="Lucida Console" size="48.0" />
                </font>
             </Label>
-            <Button id="boton" fx:id="btnCrear" layoutX="472.0" layoutY="36.0" mnemonicParsing="false" onAction="#crearBD" stylesheets="@style.css" text="Crear" AnchorPane.leftAnchor="470.0" AnchorPane.topAnchor="36.0" />
-            <Label fx:id="labelBienvenido" layoutX="821.0" layoutY="30.0" text="Bienvenido, " textFill="WHITE" AnchorPane.rightAnchor="200.5999999999999" AnchorPane.topAnchor="30.0">
+            <Button id="boton" fx:id="btnCrear" layoutX="484.0" layoutY="25.0" mnemonicParsing="false" onAction="#crearBD" prefHeight="52.0" prefWidth="106.0" stylesheets="@style.css" text="Crear" textFill="WHITE" AnchorPane.leftAnchor="484.0" AnchorPane.topAnchor="25.0" />
+            <Label fx:id="labelBienvenido" layoutX="866.4000000000001" layoutY="29.0" text="Bienvenid@, " textFill="#a1ffca" AnchorPane.rightAnchor="204.5999999999999" AnchorPane.topAnchor="29.0">
                <font>
-                  <Font name="Calibri Bold" size="50.0" />
+                  <Font name="Marlett" size="36.0" />
                </font>
             </Label>
-            <SplitMenuButton id="botonOpciones" layoutX="1103.0" layoutY="38.0" mnemonicParsing="false" stylesheets="@style.css" text="Opciones" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="38.0">
+            <SplitMenuButton id="botonOpciones" layoutX="1095.0" layoutY="27.0" mnemonicParsing="false" stylesheets="@style.css" text="Opciones" AnchorPane.rightAnchor="31.0" AnchorPane.topAnchor="27.0">
               <items>
                 <MenuItem mnemonicParsing="false" text="Editar perfil" />
                 <MenuItem mnemonicParsing="false" text="Cerrar cesión" />
@@ -85,17 +89,17 @@
             </ScrollPane>
          </children>
       </AnchorPane>
-      <AnchorPane id="panel" fx:id="panelConectado" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" visible="false">
+      <AnchorPane id="panel" fx:id="panelConectado" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css">
          <children>
-            <AnchorPane fx:id="panelMenu" layoutX="65.0" layoutY="100.0" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: white;" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
+            <AnchorPane id="panelMenu" fx:id="panelMenu" layoutX="213.0" layoutY="125.0" prefHeight="570.0" prefWidth="901.0" style="-fx-background-image: white;" stylesheets="@style.css" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="213.0" AnchorPane.rightAnchor="201.0" AnchorPane.topAnchor="125.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
                <children>
 
-                  <Button id="botonCompras" fx:id="btnCompras" layoutX="318.0" layoutY="89.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#entrarCompras" prefHeight="150.0" prefWidth="150.0" text="Compras">
+                  <Button id="btn1" fx:id="btnCompras" layoutX="239.0" layoutY="89.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#entrarCompras" prefHeight="150.0" prefWidth="150.0" stylesheets="@style.css" text="Compras">
                      <graphic>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="139.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@img/compras1.png" />
                            </image>
@@ -103,9 +107,9 @@
                      </graphic>
                   </Button>
 
-                  <Button id="botonVentas" fx:id="btnVentas" layoutX="668.0" layoutY="89.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#entrarVentas" prefHeight="150.0" prefWidth="150.0">
+                  <Button id="btn1" fx:id="btnVentas" layoutX="503.0" layoutY="89.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#entrarVentas" prefHeight="150.0" prefWidth="150.0" stylesheets="@style.css">
                      <graphic>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="668.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="139.0" fitWidth="143.0" layoutX="668.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@img/ventas1.png" />
                            </image>
@@ -113,9 +117,9 @@
                      </graphic>
                   </Button>
 
-                  <Button id="botonInventario" fx:id="btnInventario" contentDisplay="CENTER" layoutX="318.0" layoutY="300.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#entrarInventario" prefHeight="150.0" prefWidth="150.0">
+                  <Button id="btn1" fx:id="btnInventario" contentDisplay="CENTER" layoutX="238.0" layoutY="328.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#entrarInventario" prefHeight="150.0" prefWidth="150.0" stylesheets="@style.css">
                      <graphic>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="149.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@img/inventario1.png" />
                            </image>
@@ -123,9 +127,9 @@
                      </graphic>
                   </Button>
 
-                  <Button id="botonFacturacion" fx:id="btnFacturas" layoutX="668.0" layoutY="300.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#entrarFacturas" prefHeight="150.0" prefWidth="150.0">
+                  <Button id="btn1" fx:id="btnFacturas" layoutX="503.0" layoutY="328.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#entrarFacturas" prefHeight="150.0" prefWidth="150.0" stylesheets="@style.css">
                      <graphic>
-                        <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="668.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="135.0" fitWidth="137.0" layoutX="668.0" layoutY="300.0" pickOnBounds="true" preserveRatio="true">
 
                            <image>
                               <Image url="@img/facturacion.png" />
@@ -133,11 +137,10 @@
                         </ImageView>
                      </graphic>
                   </Button>
-
-                  <Text id="textMenu" fill="WHITE" layoutX="342.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="COMPRAS" textAlignment="CENTER" />
-                  <Text id="textMenu" fill="WHITE" layoutX="704.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VENTAS" textAlignment="CENTER" />
-                  <Text id="textMenu" fill="WHITE" layoutX="670.0" layoutY="473.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FACTURACIÓN" textAlignment="CENTER" />
-                  <Text id="textMenu" fill="WHITE" layoutX="331.0" layoutY="473.0" strokeType="OUTSIDE" strokeWidth="0.0" text="INVENTARIO" textAlignment="CENTER" />
+                  <Label id="textMenu" layoutX="257.0" layoutY="245.0" prefHeight="17.0" prefWidth="113.0" stylesheets="@style.css" text="Compras" textFill="#53fff4" />
+                  <Label id="textMenu" layoutX="522.0" layoutY="245.0" prefHeight="17.0" prefWidth="113.0" stylesheets="@style.css" text="Ventas" textFill="#53fff4" />
+                  <Label id="textMenu" layoutX="257.0" layoutY="484.0" prefHeight="17.0" prefWidth="113.0" stylesheets="@style.css" text="Inventario" textFill="#53fff4" />
+                  <Label id="textMenu" layoutX="522.0" layoutY="484.0" prefHeight="17.0" prefWidth="113.0" stylesheets="@style.css" text="Facturación" textFill="#53fff4" />
 
 
 
