@@ -28,10 +28,6 @@
                   <Button id="btn1" fx:id="btnAcceder" layoutX="179.0" layoutY="360.0" mnemonicParsing="false" onAction="#acceder" prefHeight="27.0" prefWidth="167.0" stylesheets="@style.css" text="Acceder" />
                   <Button id="btn1" fx:id="btnRegistro" layoutX="179.0" layoutY="427.0" mnemonicParsing="false" onAction="#nuevoRegistro" prefHeight="27.0" prefWidth="167.0" stylesheets="@style.css" text="Registrarte" />
                   <TextField fx:id="tfLoginUsuario" layoutX="152.0" layoutY="203.0" prefHeight="36.0" prefWidth="213.0" promptText="Nombre de usuario" />
-                  <ImageView id="imgLogin" fitHeight="260.0" fitWidth="228.0" layoutX="143.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" styleClass="style.css">
-                     <image>
-                        <Image url="@img/loginOn.png" />
-                     </image></ImageView>
                </children>
             </AnchorPane>
             <AnchorPane id="panelInterno" fx:id="panelRegistro" prefHeight="200.0" prefWidth="200.0" stylesheets="@style.css" visible="false" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="400.0" AnchorPane.topAnchor="100.0">
@@ -45,7 +41,7 @@
                </children>
             </AnchorPane>
          </children></AnchorPane>
-      <AnchorPane id="panel" fx:id="panelBD" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" visible="false">
+      <AnchorPane id="panel" fx:id="panelBD" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label layoutX="60.0" layoutY="29.0" text="BASES DE DATOS" textFill="WHITE" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
                <font>
@@ -85,7 +81,7 @@
             </ScrollPane>
          </children>
       </AnchorPane>
-      <AnchorPane id="panel" fx:id="panelConectado" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" visible="false">
+      <AnchorPane id="panel" fx:id="panelConectado" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane fx:id="panelMenu" layoutX="65.0" layoutY="100.0" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
                <opaqueInsets>
@@ -243,26 +239,22 @@
                   <Button fx:id="btnFormVentaCrear" layoutX="653.0" layoutY="385.0" mnemonicParsing="false" onAction="#aceptarVenta" prefHeight="58.0" prefWidth="167.0" text="CREAR PEDIDO" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="panelFormularioProducto" layoutX="35.0" layoutY="135.0" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: turquoise;" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
+            <AnchorPane fx:id="panelFormularioProducto" layoutX="35.0" layoutY="135.0" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: turquoise;" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
                <children>
                   <Label layoutX="65.0" layoutY="51.0" prefHeight="17.0" prefWidth="177.0" text="NUEVO PRODUCTO" />
-                  <Label id="textLabelFormularios" layoutX="65.0" layoutY="123.0" stylesheets="@style.css" text="Referencia del producto" />
-                  <Label id="textLabelFormularios" layoutX="59.0" layoutY="200.0" prefHeight="17.0" prefWidth="206.0" stylesheets="@style.css" text="Nombre del producto" />
-                  <Label id="textLabelFormularios" layoutX="483.0" layoutY="200.0" prefHeight="23.0" prefWidth="243.0" stylesheets="@style.css" text="Precio unitario del producto" />
-                  <Label id="textLabelFormularios" layoutX="483.0" layoutY="120.0" prefHeight="17.0" prefWidth="206.0" stylesheets="@style.css" text="Cantidad de producto" />
-                  <Label id="textLabelFormularios" layoutX="59.0" layoutY="279.0" prefHeight="17.0" prefWidth="206.0" stylesheets="@style.css" text="Proveedor" />
-                  <Label id="textLabelFormularios" layoutX="483.0" layoutY="285.0" prefHeight="17.0" prefWidth="206.0" stylesheets="@style.css" text="Detalle del producto" />
-                  <TextField fx:id="tfFormCompraReferencia1" layoutX="59.0" layoutY="154.0" prefHeight="25.0" prefWidth="243.0" />
-                  <TextField fx:id="tfFormCompraNombre1" layoutX="59.0" layoutY="233.0" prefHeight="25.0" prefWidth="339.0" promptText="Ingrese el nombre del producto" />
-                  <TextField fx:id="tfFormCompraCantidad1" layoutX="483.0" layoutY="154.0" prefHeight="25.0" prefWidth="230.0" promptText="Ingrese la cantidad de producto" />
-                  <TextField fx:id="tfFormCompraProveedor1" layoutX="59.0" layoutY="312.0" prefHeight="25.0" prefWidth="339.0" promptText="Ingrese el proveedor del producto" />
-                  <TextField fx:id="tfFormCompraPrecioUnit1" layoutX="483.0" layoutY="233.0" prefHeight="25.0" prefWidth="230.0" promptText="Ingrese el precio unitario del producto" />
-                  <TextField fx:id="tfFormCompraDetalle1" layoutX="483.0" layoutY="318.0" prefHeight="25.0" prefWidth="365.0" promptText="Opcional" />
-                  <Button fx:id="btnVolverCompra1" layoutX="39.0" layoutY="510.0" mnemonicParsing="false" onAction="#volverCompras" text="VOLVER A COMPRAS" />
-                  <Button fx:id="btnFormCompraCrear1" layoutX="653.0" layoutY="385.0" mnemonicParsing="false" onAction="#aceptarCompra" prefHeight="58.0" prefWidth="167.0" text="CREAR PEDIDO" />
+                  <Label id="textLabelFormularios" layoutX="65.0" layoutY="123.0" stylesheets="@style.css" text="NOMBRE DEL PRODUCTO" />
+                  <Label id="textLabelFormularios" layoutX="59.0" layoutY="200.0" prefHeight="17.0" prefWidth="206.0" stylesheets="@style.css" text="CANTIDAD DEL PRODUCTO" />
+                  <Label id="textLabelFormularios" layoutX="483.0" layoutY="200.0" prefHeight="23.0" prefWidth="243.0" stylesheets="@style.css" text="PRECIO DE COMPRA" />
+                  <Label id="textLabelFormularios" layoutX="483.0" layoutY="120.0" prefHeight="17.0" prefWidth="206.0" stylesheets="@style.css" text="PRECIO DE VENTA" />
+                  <TextField fx:id="tfNombreProducto" layoutX="59.0" layoutY="154.0" prefHeight="25.0" prefWidth="243.0" />
+                  <TextField fx:id="tfCantidadProducto" layoutX="59.0" layoutY="233.0" prefHeight="25.0" prefWidth="339.0" promptText="Ingrese el nombre del producto" />
+                  <TextField fx:id="tfPrecioVentaProducto" layoutX="483.0" layoutY="154.0" prefHeight="25.0" prefWidth="230.0" promptText="Ingrese la cantidad de producto" />
+                  <TextField fx:id="tfPrecioCompraProducto" layoutX="483.0" layoutY="233.0" prefHeight="25.0" prefWidth="230.0" promptText="Ingrese el precio unitario del producto" />
+                  <Button fx:id="btnVolverProducto" layoutX="39.0" layoutY="510.0" mnemonicParsing="false" onAction="#volverProducto" text="VOLVER A COMPRAS" />
+                  <Button fx:id="btnAceptarProducto" layoutX="653.0" layoutY="385.0" mnemonicParsing="false" onAction="#aceptarProducto" prefHeight="58.0" prefWidth="167.0" text="Aceptar" />
                </children>
             </AnchorPane>
-            <SplitMenuButton id="botonOpciones" layoutX="1113.0" layoutY="41.0" mnemonicParsing="false" stylesheets="@style.css" text="Opciones">
+            <SplitMenuButton id="botonOpciones" layoutX="1113.0" layoutY="41.0" mnemonicParsing="false" stylesheets="@style.css" text="Opciones" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="38.0">
                <items>
                   <MenuItem mnemonicParsing="false" text="Editar perfil" />
                   <MenuItem mnemonicParsing="false" text="Cerrar cesión" />
