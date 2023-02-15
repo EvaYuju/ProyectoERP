@@ -31,39 +31,8 @@ import static safa.sge_erp.ConexionBD.conexionMySQL;
 
 public class ControladorPrincipal implements Initializable {
 
-    //public static FXMLLoader fxmlLoader;
-    @FXML
-    private AnchorPane panelUsuario;
-
-    @FXML
-    private AnchorPane panelLogin;
-
-    @FXML
-    private TextField tfLoginUsuario;
-
-    @FXML
-    private TextField tfLoginClave;
-
     @FXML
     private Button btnAcceder;
-
-    @FXML
-    private Button btnRegistro;
-
-    @FXML
-    private AnchorPane panelRegistro;
-
-    @FXML
-    private TextField tfRegistroUsuario;
-
-    @FXML
-    private TextField tfRegistroEmail;
-
-    @FXML
-    private TextField tfRegistroClave;
-
-    @FXML
-    private TextField tfRegistroConfirmaClave;
 
     @FXML
     private Button btnAceptarRegistro;
@@ -72,90 +41,10 @@ public class ControladorPrincipal implements Initializable {
     private Button btnCancelarRegistro;
 
     @FXML
-    private AnchorPane panelBD;
-
-    @FXML
-    private Button btnCrear;
-
-    @FXML
-    private Label labelBienvenido;
-
-    @FXML
-    private GridPane gpBasesDeDatos;
-
-    @FXML
-    private AnchorPane panelConectado;
-
-    @FXML
-    private AnchorPane panelMenu;
-
-    @FXML
-    private Button btnCompras;
-
-    @FXML
-    private Button btnVentas;
-
-    @FXML
-    private Button btnInventario;
-
-    @FXML
-    private Button btnFacturas;
-
-    @FXML
-    private AnchorPane panelCompra;
-
-    @FXML
-    private AnchorPane panelVentas;
-
-    @FXML
-    private AnchorPane panelInventario;
-
-    @FXML
-    private AnchorPane panelFacturas;
-    @FXML
-    private Button btnCrearCompra;
-
-    @FXML
-    private Button btnCrearVenta;
-
-    @FXML
-    private Button btnComprasVolver;
-
-    @FXML
-    private Button btnVentasVolver;
-
-    @FXML
-    private TextField tfBuscarCompra;
-
-    @FXML
     private Button btnCompraBuscar;
 
     @FXML
-    private AnchorPane panelFormularioCompra;
-
-    @FXML
-    private TextField tfFormCompraReferencia;
-
-    @FXML
-    private TextField tfFormCompraNombre;
-
-    @FXML
-    private TextField tfFormCompraCantidad;
-
-    @FXML
-    private TextField tfFormCompraProveedor;
-
-    @FXML
-    private TextField tfFormCompraPrecioUnit;
-
-    @FXML
-    private TextField tfFormCompraDetalle;
-
-    @FXML
-    private Button btnFormCompraCrear;
-
-    @FXML
-    private Button btnVolverCompra;
+    private Button btnCompras;
 
     @FXML
     private Button btnComprasBorrar;
@@ -164,73 +53,220 @@ public class ControladorPrincipal implements Initializable {
     private Button btnComprasModificar;
 
     @FXML
-    private TableView<Compra> tvCompras;
+    private Button btnComprasVolver;
 
     @FXML
-    private TableColumn<Compra, Integer> colRef;
+    private Button btnCrear;
 
     @FXML
-    private TableColumn<Compra, String> colNombre;
+    private Button btnCrearCompra;
 
     @FXML
-    private TableColumn<Compra, Float> colPrecioUnitario;
+    private Button btnCrearProducto;
 
     @FXML
-    private TableColumn<Compra, Integer> colCantidad;
+    private Button btnCrearVenta;
 
     @FXML
-    private TableColumn<Compra, Float> colPrecioTotal;
+    private Button btnFacturaBorrar;
 
     @FXML
-    private TableColumn<Compra, String> colProveedor;
+    private Button btnFacturaBuscar;
 
     @FXML
-    private TableColumn<Compra, String> colDetalle;
+    private Button btnFacturaPDF;
 
     @FXML
-    private TableView<Venta> tvVentas;
+    private Button btnFacturas;
 
     @FXML
-    private TableColumn<Venta, Integer> colRefV;
+    private Button btnFormCompraCrear;
 
     @FXML
-    private TableColumn<Venta, String> colNombreV;
+    private Button btnFormCompraCrear1;
 
     @FXML
-    private TableColumn<Venta, String> colClienteV;
+    private Button btnFormVentaCrear;
 
     @FXML
-    private TableColumn<Venta, Float> colPrecioUnitV;
+    private Button btnInventario;
 
     @FXML
-    private TableColumn<Venta, Integer> colCantidadV;
+    private Button btnProductoModificar;
 
     @FXML
-    private TableColumn<Venta, Float> colTotalV;
+    private Button btnProductoVolver;
 
     @FXML
-    private TableColumn<Venta, String> colDetalleV;
+    private Button btnProductosBuscar;
 
     @FXML
-    private TextField tfBuscarVenta;
-
-    @FXML
-    private Button btnVentasModificar;
-
-    @FXML
-    private Button btnVentasBorrar;
+    private Button btnRegistro;
 
     @FXML
     private Button btnVentaBuscar;
 
     @FXML
+    private Button btnVentas;
+
+    @FXML
+    private Button btnVentasBorrar;
+
+    @FXML
+    private Button btnVentasBorrar1;
+
+    @FXML
+    private Button btnVentasModificar;
+
+    @FXML
+    private Button btnVentasVolver;
+
+    @FXML
+    private Button btnVentasVolver11;
+
+    @FXML
+    private Button btnVolverCompra;
+
+    @FXML
+    private Button btnVolverCompra1;
+
+    @FXML
+    private Button btnVolverVenta;
+
+    @FXML
+    private TableColumn<Compra, Integer> colCantidad;
+
+    @FXML
+    private TableColumn<Venta, Integer> colCantidadV;
+
+    @FXML
+    private TableColumn<Venta, String> colClienteV;
+
+    @FXML
+    private TableColumn<Compra, String> colDetalle;
+
+    @FXML
+    private TableColumn<Venta, String> colDetalleV;
+
+    @FXML
+    private TableColumn<Compra, String> colNombre;
+
+    @FXML
+    private TableColumn<Venta, String> colNombreV;
+
+    @FXML
+    private TableColumn<Compra, Float> colPrecioTotal;
+
+    @FXML
+    private TableColumn<Venta, Float> colPrecioUnitV;
+
+    @FXML
+    private TableColumn<Compra, Float> colPrecioUnitario;
+
+    @FXML
+    private TableColumn<Compra, String> colProveedor;
+
+    @FXML
+    private TableColumn<Compra, Integer> colRef;
+
+    @FXML
+    private TableColumn<Venta, Integer> colRefV;
+
+    @FXML
+    private TableColumn<Venta, Float> colTotalV;
+
+    @FXML
+    private GridPane gpBasesDeDatos;
+
+    @FXML
+    private Label labelBienvenido;
+
+    @FXML
+    private AnchorPane panelBD;
+
+    @FXML
+    private AnchorPane panelCompra;
+
+    @FXML
+    private AnchorPane panelConectado;
+
+    @FXML
+    private AnchorPane panelFacturas;
+
+    @FXML
+    private AnchorPane panelFormularioCompra;
+
+    @FXML
+    private AnchorPane panelFormularioProducto;
+
+    @FXML
     private AnchorPane panelFormularioVenta;
 
     @FXML
-    private TextField tfFormVentaReferencia;
+    private AnchorPane panelLogin;
 
     @FXML
-    private TextField tfFormVentaNombre;
+    private AnchorPane panelMenu;
+
+    @FXML
+    private AnchorPane panelProductos;
+
+    @FXML
+    private AnchorPane panelRegistro;
+
+    @FXML
+    private AnchorPane panelUsuario;
+
+    @FXML
+    private AnchorPane panelVentas;
+
+    @FXML
+    private TextField tfBuscarCompra;
+
+    @FXML
+    private TextField tfBuscarFactura;
+
+    @FXML
+    private TextField tfBuscarProducto;
+
+    @FXML
+    private TextField tfBuscarVenta;
+
+    @FXML
+    private TextField tfFormCompraCantidad;
+
+    @FXML
+    private TextField tfFormCompraCantidad1;
+
+    @FXML
+    private TextField tfFormCompraDetalle;
+
+    @FXML
+    private TextField tfFormCompraDetalle1;
+
+    @FXML
+    private TextField tfFormCompraNombre;
+
+    @FXML
+    private TextField tfFormCompraNombre1;
+
+    @FXML
+    private TextField tfFormCompraPrecioUnit;
+
+    @FXML
+    private TextField tfFormCompraPrecioUnit1;
+
+    @FXML
+    private TextField tfFormCompraProveedor;
+
+    @FXML
+    private TextField tfFormCompraProveedor1;
+
+    @FXML
+    private TextField tfFormCompraReferencia;
+
+    @FXML
+    private TextField tfFormCompraReferencia1;
 
     @FXML
     private TextField tfFormVentaCantidad;
@@ -239,16 +275,46 @@ public class ControladorPrincipal implements Initializable {
     private TextField tfFormVentaCliente;
 
     @FXML
-    private TextField tfFormVentaPrecioUnit;
-
-    @FXML
     private TextField tfFormVentaDetalle;
 
     @FXML
-    private Button btnVolverVenta;
+    private TextField tfFormVentaNombre;
 
     @FXML
-    private Button btnFormVentaCrear;
+    private TextField tfFormVentaPrecioUnit;
+
+    @FXML
+    private TextField tfFormVentaReferencia;
+
+    @FXML
+    private TextField tfLoginClave;
+
+    @FXML
+    private TextField tfLoginUsuario;
+
+    @FXML
+    private TextField tfRegistroClave;
+
+    @FXML
+    private TextField tfRegistroConfirmaClave;
+
+    @FXML
+    private TextField tfRegistroEmail;
+
+    @FXML
+    private TextField tfRegistroUsuario;
+
+    @FXML
+    private TableView<Compra> tvCompras;
+
+    @FXML
+    private TableView<Factura> tvFacturas;
+
+    @FXML
+    private TableView<Producto> tvProductos;
+
+    @FXML
+    private TableView<Venta> tvVentas;
 
 
 
@@ -262,6 +328,7 @@ public class ControladorPrincipal implements Initializable {
     int counter = 0;
     Boolean editaCompra;
     Boolean editaVenta;
+    Boolean editaProducto;
 
 
 
@@ -282,7 +349,7 @@ public class ControladorPrincipal implements Initializable {
     @FXML
     void entrarInventario(ActionEvent event) {
         panelMenu.setVisible(false);
-        panelInventario.setVisible(true);
+        panelProductos.setVisible(true);
     }
 
     @FXML
@@ -295,7 +362,7 @@ public class ControladorPrincipal implements Initializable {
         panelCompra.setVisible(false);
         panelVentas.setVisible(false);
         panelFacturas.setVisible(false);
-        panelInventario.setVisible(false);
+        panelProductos.setVisible(false);
         panelMenu.setVisible(true);
     }
 
@@ -566,11 +633,17 @@ public class ControladorPrincipal implements Initializable {
             Statement statement = connection.createStatement();
 
             // Creación de las tablas
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS compras (referencia INT PRIMARY KEY, nombre VARCHAR(50), precio FLOAT, cantidad INT, total FLOAT, proveedor VARCHAR(50), detalle VARCHAR(100));");
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS facturas (id INT AUTO_INCREMENT PRIMARY KEY, total DOUBLE);");
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS productos (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), stock INT, price DOUBLE);");
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS ventas (referencia INT PRIMARY KEY, nombre VARCHAR(50), cliente VARCHAR(50), precio FLOAT, cantidad INT, total FLOAT, detalle VARCHAR(100));");
-            // Cerramos las conexiones
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS productos (idProducto INT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(50), cantidad INT, precioCompra FLOAT, precioVenta FLOAT);");
+
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS compras (referencia INT PRIMARY KEY, nombre VARCHAR(50), precio FLOAT, cantidad INT, total FLOAT, proveedor VARCHAR(50), detalle VARCHAR(100), idProducto INT, "
+                    + "FOREIGN KEY (idProducto) REFERENCES productos(idProducto) ON DELETE SET NULL);");
+
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS ventas (referencia INT PRIMARY KEY, nombre VARCHAR(50), cliente VARCHAR(50), precio FLOAT, cantidad INT, total FLOAT, detalle VARCHAR(100), idProducto INT, "
+                    + "FOREIGN KEY (idProducto) REFERENCES productos(idProducto) ON DELETE SET NULL);");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS facturas (idFactura INT AUTO_INCREMENT PRIMARY KEY, total DOUBLE, idCompra INT, idVenta INT, "
+                    + "FOREIGN KEY (idCompra) REFERENCES compras(referencia) ON DELETE SET NULL, "
+                    + "FOREIGN KEY (idVenta) REFERENCES ventas(referencia) ON DELETE SET NULL);");
+        // Cerramos las conexiones
             statement.close();
             connection.close();
         } catch (Exception e){
@@ -593,7 +666,7 @@ public class ControladorPrincipal implements Initializable {
         btnEliminar.setId("botonEliminar");
 
         btnConectar.setOnAction(accesoBD(nombre));
-        btnEliminar.setOnAction(accesoBD(nombre));
+        btnEliminar.setOnAction(borrarBD(nombre));
 
         HBox hbox = new HBox(lNombre, btnConectar, btnEliminar);
         hbox.setSpacing(50);
@@ -607,7 +680,9 @@ public class ControladorPrincipal implements Initializable {
         contadorFilas++;
     }
 
-
+    /*
+    Configura un botón para dar acceso a la base de datos seleccionada
+     */
     private EventHandler<ActionEvent> accesoBD(String nombre) {
         return event -> {
             try {
@@ -618,6 +693,24 @@ public class ControladorPrincipal implements Initializable {
                 panelConectado.setVisible(true);
                 panelMenu.setVisible(true);
 
+
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        };
+    }
+
+    /*
+    Configura un botón para borrar la base de datos seleccionada
+     */
+    private EventHandler<ActionEvent> borrarBD(String nombre) {
+        return event -> {
+            try {
+                Connection con = conexionMySQL();
+                Statement stmt = con.createStatement();
+
+                String sql = "DROP DATABASE " + formatoNombre(nombre);
+                stmt.executeUpdate(sql);
 
             } catch (Exception e){
                 e.printStackTrace();
@@ -1177,9 +1270,43 @@ public class ControladorPrincipal implements Initializable {
         }
     }
 
-    /* PANEL INVENTARIO */
+    /* PANEL PRODUCTO */
+
+    @FXML
+    void creaProducto(){
+
+    }
+
+    @FXML
+    void modificarProducto(){
+
+    }
+
+    @FXML
+    void borrarProducto(){
+
+    }
+
+    @FXML
+    void cargarTablaProducto(){
+
+    }
+
+
+
+
 
     /* PANEL FACTURACIÓN */
+
+    @FXML
+    void borrarFactura(){
+
+    }
+
+    @FXML
+    void cargarTablaFactura(){
+
+    }
 
     /* INICIALIZACIÓN */
     @Override

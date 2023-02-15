@@ -190,6 +190,28 @@
             <AnchorPane fx:id="panelInventario" layoutX="55.0" layoutY="155.0" prefHeight="620.0" prefWidth="1280.0" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0" />
             <AnchorPane fx:id="panelFacturas" layoutX="65.0" layoutY="165.0" prefHeight="620.0" prefWidth="1280.0" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0" />
             <AnchorPane id="formularios" fx:id="panelFormularioCompra" layoutX="25.0" layoutY="124.0" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: turquoise;" stylesheets="@style.css" visible="false" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="124.0">
+            <AnchorPane fx:id="panelProductos" layoutX="25.0" layoutY="125.0" prefHeight="570.0" prefWidth="1280.0" style="-fx-background-color: white;" visible="false">
+               <children>
+                  <Button fx:id="btnProductoVolver" layoutX="41.0" layoutY="503.0" mnemonicParsing="false" onAction="#volverMenu" text="VOLVER AL MENÚ" />
+                  <Button fx:id="btnCrearProducto" layoutX="64.0" layoutY="57.0" mnemonicParsing="false" onAction="#creaProducto" text="CREAR" />
+                  <TextField fx:id="tfBuscarProducto" layoutX="64.0" layoutY="118.0" prefHeight="25.0" prefWidth="379.0" />
+                  <TableView fx:id="tvProductos" layoutX="64.0" layoutY="179.0" prefHeight="200.0" prefWidth="772.0" />
+                  <Button fx:id="btnProductoModificar" layoutX="380.0" layoutY="419.0" mnemonicParsing="false" onAction="#modificarProducto" text="MODIFICAR" />
+                  <Button fx:id="btnVentasBorrar1" layoutX="478.0" layoutY="419.0" mnemonicParsing="false" onAction="#borrarProducto" text="BORRAR" />
+                  <Button fx:id="btnProductosBuscar" layoutX="471.0" layoutY="118.0" mnemonicParsing="false" onAction="#cargarTablaProducto" text="BUSCAR" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="panelFacturas" layoutX="25.0" layoutY="125.0" prefHeight="570.0" prefWidth="1280.0" style="-fx-background-color: white;" visible="false">
+               <children>
+                  <Button fx:id="btnVentasVolver11" layoutX="41.0" layoutY="503.0" mnemonicParsing="false" onAction="#volverMenu" text="VOLVER AL MENÚ" />
+                  <TextField fx:id="tfBuscarFactura" layoutX="64.0" layoutY="118.0" prefHeight="25.0" prefWidth="379.0" />
+                  <TableView fx:id="tvFacturas" layoutX="64.0" layoutY="179.0" prefHeight="200.0" prefWidth="772.0" />
+                  <Button fx:id="btnFacturaPDF" layoutX="380.0" layoutY="419.0" mnemonicParsing="false" onAction="#modificarVenta" text="MODIFICAR" />
+                  <Button fx:id="btnFacturaBorrar" layoutX="478.0" layoutY="419.0" mnemonicParsing="false" onAction="#borrarFactura" text="BORRAR" />
+                  <Button fx:id="btnFacturaBuscar" layoutX="471.0" layoutY="118.0" mnemonicParsing="false" onAction="#cargarTablaFactura" text="BUSCAR" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="panelFormularioCompra" layoutX="35.0" layoutY="135.0" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: turquoise;" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
                <children>
                   <Label layoutX="23.0" layoutY="14.0" prefHeight="45.0" prefWidth="439.0" text="Formulario compra producto" textAlignment="CENTER" textFill="#85ffd3">
                      <font>
@@ -243,6 +265,34 @@
                   </ImageView>
                </children>
             </AnchorPane>
+            <AnchorPane fx:id="panelFormularioProducto" layoutX="35.0" layoutY="135.0" prefHeight="620.0" prefWidth="1280.0" style="-fx-background-color: turquoise;" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0">
+               <children>
+                  <Label layoutX="65.0" layoutY="51.0" prefHeight="17.0" prefWidth="177.0" text="NUEVO PRODUCTO" />
+                  <Label id="textLabelFormularios" layoutX="65.0" layoutY="123.0" stylesheets="@style.css" text="Referencia del producto" />
+                  <Label id="textLabelFormularios" layoutX="59.0" layoutY="200.0" prefHeight="17.0" prefWidth="206.0" stylesheets="@style.css" text="Nombre del producto" />
+                  <Label id="textLabelFormularios" layoutX="483.0" layoutY="200.0" prefHeight="23.0" prefWidth="243.0" stylesheets="@style.css" text="Precio unitario del producto" />
+                  <Label id="textLabelFormularios" layoutX="483.0" layoutY="120.0" prefHeight="17.0" prefWidth="206.0" stylesheets="@style.css" text="Cantidad de producto" />
+                  <Label id="textLabelFormularios" layoutX="59.0" layoutY="279.0" prefHeight="17.0" prefWidth="206.0" stylesheets="@style.css" text="Proveedor" />
+                  <Label id="textLabelFormularios" layoutX="483.0" layoutY="285.0" prefHeight="17.0" prefWidth="206.0" stylesheets="@style.css" text="Detalle del producto" />
+                  <TextField fx:id="tfFormCompraReferencia1" layoutX="59.0" layoutY="154.0" prefHeight="25.0" prefWidth="243.0" />
+                  <TextField fx:id="tfFormCompraNombre1" layoutX="59.0" layoutY="233.0" prefHeight="25.0" prefWidth="339.0" promptText="Ingrese el nombre del producto" />
+                  <TextField fx:id="tfFormCompraCantidad1" layoutX="483.0" layoutY="154.0" prefHeight="25.0" prefWidth="230.0" promptText="Ingrese la cantidad de producto" />
+                  <TextField fx:id="tfFormCompraProveedor1" layoutX="59.0" layoutY="312.0" prefHeight="25.0" prefWidth="339.0" promptText="Ingrese el proveedor del producto" />
+                  <TextField fx:id="tfFormCompraPrecioUnit1" layoutX="483.0" layoutY="233.0" prefHeight="25.0" prefWidth="230.0" promptText="Ingrese el precio unitario del producto" />
+                  <TextField fx:id="tfFormCompraDetalle1" layoutX="483.0" layoutY="318.0" prefHeight="25.0" prefWidth="365.0" promptText="Opcional" />
+                  <Button fx:id="btnVolverCompra1" layoutX="39.0" layoutY="510.0" mnemonicParsing="false" onAction="#volverCompras" text="VOLVER A COMPRAS" />
+                  <Button fx:id="btnFormCompraCrear1" layoutX="653.0" layoutY="385.0" mnemonicParsing="false" onAction="#aceptarCompra" prefHeight="58.0" prefWidth="167.0" text="CREAR PEDIDO" />
+               </children>
+            </AnchorPane>
+            <SplitMenuButton id="botonOpciones" layoutX="1113.0" layoutY="41.0" mnemonicParsing="false" stylesheets="@style.css" text="Opciones">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Editar perfil" />
+                  <MenuItem mnemonicParsing="false" text="Cerrar cesión" />
+               </items>
+               <font>
+                  <Font name="Calibri" size="20.0" />
+               </font>
+            </SplitMenuButton>
          </children>
       </AnchorPane>
    </children>
