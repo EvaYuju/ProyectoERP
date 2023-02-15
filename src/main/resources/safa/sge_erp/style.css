@@ -4,7 +4,10 @@
 }
 
 #panelInterno {
-    -fx-background-color: white;
+
+    -fx-background-image: url("img/fondoLogin.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
 }
 
 #boton {
@@ -66,5 +69,14 @@
     -fx-font-size: 30px;
     -fx-font-weight: bold;
 }
+
+#btn1 {
+    -fx-border-color: #32fb04;
+    -fs-color: #fff;
+    -fx-box-shadow: 0, 0, 40px 40px #3498db inset, 0 0 0 0 #3498db;
+    -fx-webkit-transition: all 150ms ease-in-out;
+    -fx-transition: all 150ms ease-in-out;
+}
+
 
 
