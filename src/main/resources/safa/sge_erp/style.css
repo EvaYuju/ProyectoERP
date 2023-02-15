@@ -2,14 +2,20 @@
     -fx-background-image: url("img/fondo.jpg");
     -fx-background-repeat: round;
 }
-
 #panelInterno {
-
     -fx-background-image: url("img/fondoLogin.png");
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
 }
-
+#panelesTodos {
+    -fx-background-image: url("img/fondo3.jpg");
+    -fx-background-repeat: no-repeat;
+}
+#formularios {
+    -fx-background-image: url("img/fondo3.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
 
 #boton {
     -fx-background-color: #30a8d2;
@@ -45,19 +51,6 @@
 
 }
 
-#panelesTodos {
-
-    -fx-background-image: url("img/fondo3.jpg");
-    -fx-background-repeat: no-repeat;
-
-}
-
-#formularios {
-    -fx-background-image: url("img/fondo3.jpg");
-    -fx-background-repeat: no-repeat;
-    -fx-background-size: cover;
-
-}
 
 #textLabelFormularios{
     -fx-font-family: "fantasy";
