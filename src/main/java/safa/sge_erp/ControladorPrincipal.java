@@ -1338,7 +1338,7 @@ public class ControladorPrincipal implements Initializable {
     }
 
     @FXML
-    void aceptarProducto(){
+    void aceptarProducto() throws SQLException {
         if (editaProducto){
             //actualizaProducto();
         } else {
@@ -1346,7 +1346,7 @@ public class ControladorPrincipal implements Initializable {
         }
     }
 
-    private void insertarProducto() {
+    private void insertarProducto() throws SQLException {
         Producto producto = leerValoresProducto();
         if (mensajeErrorProducto(producto)){
             consultaInsertarProducto(producto);
