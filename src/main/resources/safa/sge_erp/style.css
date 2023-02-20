@@ -2,10 +2,17 @@
     -fx-background-image: url("img/fondo.jpg");
     -fx-background-repeat: round;
 }
-
 #panelInterno {
-
     -fx-background-image: url("img/fondoLogin.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+#panelesTodos {
+    -fx-background-image: url("img/fondo3.jpg");
+    -fx-background-repeat: no-repeat;
+}
+#formularios {
+    -fx-background-image: url("img/fondo3.jpg");
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
 }
@@ -15,7 +22,7 @@
     -fx-font-size: 22px;
     -fx-background-radius: 20px;
     -fx-background-insets: 0;
-    -fx-border-color: #64b5f6;
+    -fx-border-color: #32fb04;
     -fx-border-width: 2px;
     -fx-border-radius: 20px;
     -fx-border-style: solid;
@@ -37,15 +44,19 @@
     -fx-text-fill: white;
 }
 #textMenu{
-    -fx-font-family: "Selawik";
+    -fx-font-family: "fantasy";
     -fx-font-size: 20px;
+    -fx-border-color: #32fb04;
+    -fx-alignment: center;
+
 }
 
-#textLabelFormularios{
-    -fx-font-family: "Corbel";
-    -fx-font-size: 20px;
-    -fx-text-fill: black;
 
+#textLabelFormularios{
+    -fx-font-family: "fantasy";
+    -fx-font-size: 20px;
+    -fx-border-color: #32fb04;
+    -fx-alignment: center;
 }
 
 #botonEliminar:hover {
@@ -53,7 +64,12 @@
 }
 
 #botonOpciones {
-    -fx-font-size: 22px;
+    -fx-font-size: 20px;
+    -fx-border-color: #32fb04;
+    -fs-color: #fff;
+    -fx-box-shadow: 0, 0, 40px 40px #3498db inset, 0 0 0 0 #3498db;
+    -fx-webkit-transition: all 150ms ease-in-out;
+    -fx-transition: all 150ms ease-in-out;
 }
 
 #panelConectar {
@@ -65,9 +81,22 @@
     -fx-background-color: lightgrey;
 }
 
+#panelMenu {
+    -fx-background-image: url("img/fondo3.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}
+
 #labelConectar {
     -fx-font-size: 30px;
     -fx-font-weight: bold;
+}
+
+#labelFormtit {
+    -fx-font-size: 30px;
+    -fs-color: #32fb04;
+    -fx-font-family: "cursive";
+
 }
 
 #btn1 {
