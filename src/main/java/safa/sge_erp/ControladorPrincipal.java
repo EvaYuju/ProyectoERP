@@ -35,6 +35,9 @@ public class ControladorPrincipal implements Initializable {
     private Button btnAcceder;
 
     @FXML
+    private Button btnAceptarProducto;
+
+    @FXML
     private Button btnAceptarRegistro;
 
     @FXML
@@ -81,9 +84,6 @@ public class ControladorPrincipal implements Initializable {
 
     @FXML
     private Button btnFormCompraCrear;
-
-    @FXML
-    private Button btnAceptarProducto;
 
     @FXML
     private Button btnFormVentaCrear;
@@ -164,6 +164,18 @@ public class ControladorPrincipal implements Initializable {
     private TableColumn<Compra, Float> colPrecioUnitario;
 
     @FXML
+    private TableColumn<Producto, Integer> colProductoCantidad;
+
+    @FXML
+    private TableColumn<Producto, String> colProductoNombre;
+
+    @FXML
+    private TableColumn<Producto, Float> colProductoPrecioCompra;
+
+    @FXML
+    private TableColumn<Producto, Float> colProductoPrecioVenta;
+
+    @FXML
     private TableColumn<Compra, String> colProveedor;
 
     @FXML
@@ -239,9 +251,6 @@ public class ControladorPrincipal implements Initializable {
     private TextField tfBuscarVenta;
 
     @FXML
-    private TextField tfFormCompraPrecioUnit;
-
-    @FXML
     private TextField tfFormCompraCantidad;
 
     @FXML
@@ -251,10 +260,25 @@ public class ControladorPrincipal implements Initializable {
     private TextField tfFormCompraNombre;
 
     @FXML
+    private TextField tfFormCompraPrecioUnit;
+
+    @FXML
     private TextField tfFormCompraProveedor;
 
     @FXML
     private TextField tfFormCompraReferencia;
+
+    @FXML
+    private TextField tfFormProductoCantidad;
+
+    @FXML
+    private TextField tfFormProductoNombre;
+
+    @FXML
+    private TextField tfFormProductoPrecioCompra;
+
+    @FXML
+    private TextField tfFormProductoPrecioVenta;
 
     @FXML
     private TextField tfFormVentaCantidad;
@@ -275,28 +299,16 @@ public class ControladorPrincipal implements Initializable {
     private TextField tfFormVentaReferencia;
 
     @FXML
-    private TextField tfNombreProducto;
-
-    @FXML
-    private TextField tfCantidadProducto;
-
-    @FXML
-    private TextField tfPrecioVentaProducto;
-
-    @FXML
-    private TextField tfPrecioCompraProducto;
-
-    @FXML
-    private TextField tfLoginClave;
+    private PasswordField tfLoginClave;
 
     @FXML
     private TextField tfLoginUsuario;
 
     @FXML
-    private TextField tfRegistroClave;
+    private PasswordField tfRegistroClave;
 
     @FXML
-    private TextField tfRegistroConfirmaClave;
+    private PasswordField tfRegistroConfirmaClave;
 
     @FXML
     private TextField tfRegistroEmail;
@@ -326,6 +338,7 @@ public class ControladorPrincipal implements Initializable {
     Boolean editaCompra;
     Boolean editaVenta;
     Boolean editaProducto;
+    Integer idProd;
 
 
 
@@ -506,6 +519,7 @@ public class ControladorPrincipal implements Initializable {
                 // Carga el panel BD
                 panelLogin.setVisible(false);
                 panelBD.setVisible(true);
+
             } else {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Información");
@@ -649,8 +663,13 @@ public class ControladorPrincipal implements Initializable {
         tfRegistroClave.setText("");
         tfRegistroUsuario.setText("");
         tfRegistroConfirmaClave.setText("");
-        panelRegistro.setVisible(false);
-        panelLogin.setVisible(true);
+        if (editaUsuario){
+            panelUsuario.setVisible(false);
+        } else {
+            panelRegistro.setVisible(false);
+            panelLogin.setVisible(true);
+        }
+
     }
 
     /* PANEL BASES DE DATOS */
@@ -740,14 +759,14 @@ public class ControladorPrincipal implements Initializable {
             // Creación de las tablas
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS productos (idProducto INT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(50), cantidad INT, precioCompra FLOAT, precioVenta FLOAT);");
 
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS compras (referencia INT PRIMARY KEY, nombre VARCHAR(50), precio FLOAT, cantidad INT, total FLOAT, proveedor VARCHAR(50), detalle VARCHAR(100), idProducto INT, "
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS compras (idCompra INT AUTO_INCREMENT PRIMARY KEY, cantidad INT, total FLOAT, proveedor VARCHAR(50), detalle VARCHAR(100), idProducto INT, "
                     + "FOREIGN KEY (idProducto) REFERENCES productos(idProducto) ON DELETE SET NULL);");
 
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS ventas (referencia INT PRIMARY KEY, nombre VARCHAR(50), cliente VARCHAR(50), precio FLOAT, cantidad INT, total FLOAT, detalle VARCHAR(100), idProducto INT, "
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS ventas (idVenta INT PRIMARY KEY,  precio FLOAT, cantidad INT, total FLOAT, cliente VARCHAR(50), detalle VARCHAR(100), idProducto INT, "
                     + "FOREIGN KEY (idProducto) REFERENCES productos(idProducto) ON DELETE SET NULL);");
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS facturas (idFactura INT AUTO_INCREMENT PRIMARY KEY, total DOUBLE, idCompra INT, idVenta INT, "
-                    + "FOREIGN KEY (idCompra) REFERENCES compras(referencia) ON DELETE SET NULL, "
-                    + "FOREIGN KEY (idVenta) REFERENCES ventas(referencia) ON DELETE SET NULL);");
+                    + "FOREIGN KEY (idCompra) REFERENCES compras(idCompra) ON DELETE SET NULL, "
+                    + "FOREIGN KEY (idVenta) REFERENCES ventas(idProducto) ON DELETE SET NULL);");
         // Cerramos las conexiones
             statement.close();
             connection.close();
@@ -798,6 +817,9 @@ public class ControladorPrincipal implements Initializable {
                 panelConectado.setVisible(true);
                 panelMenu.setVisible(true);
 
+                cargarTablaProducto();
+                cargarTablaCompra();
+                cargarTablaVenta();
 
             } catch (Exception e){
                 e.printStackTrace();
@@ -1421,41 +1443,124 @@ public class ControladorPrincipal implements Initializable {
 
         tvProductos.setItems(listaProductos);
 
+        colProductoNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colProductoCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        colProductoPrecioCompra.setCellValueFactory(new PropertyValueFactory<>("precioCompra"));
+        colProductoPrecioVenta.setCellValueFactory(new PropertyValueFactory<>("precioVenta"));
 
     }
 
     @FXML
     void creaProducto(){
-        panelProductos.setVisible(false);
-        panelFormularioProducto.setVisible(true);
-
+        cambiarVistaFormProductos();
         editaProducto = false;
     }
 
-    @FXML
-    void modificarProducto(){
-
+    private void cambiarVistaFormProductos() {
+        panelProductos.setVisible(false);
+        panelFormularioProducto.setVisible(true);
     }
 
     @FXML
-    void borrarProducto(){
+    void modificarProducto() throws SQLException {
+        try{
+            cambiarVistaFormProductos();
+            editaProducto = true;
+            idProd = tvProductos.getSelectionModel().getSelectedItem().getIdProducto();
+            cargarFormProducto(idProd);
+        } catch (NullPointerException npe){
+            ventanaDialogo("ERROR", "No hay ningún producto seleccionado");
+        }
+    }
 
+    private void cargarFormProducto(Integer idProducto) throws SQLException {
+        Producto producto = null;
+        Statement stmt = bdSeleccionada.createStatement();
+
+        String query = "SELECT * FROM productos WHERE idProducto = '" + idProducto + "'";
+        ResultSet datos = stmt.executeQuery(query);
+
+        while(datos.next()){
+            producto = new Producto(datos.getInt("idProducto"), datos.getString("nombre"),
+                    datos.getInt("cantidad"), datos.getFloat("precioCompra"), datos.getFloat("precioVenta"));
+        }
+
+        tfFormProductoNombre.setText(producto.getNombre());
+        tfFormProductoCantidad.setText(String.valueOf(producto.getCantidad()));
+        tfFormProductoPrecioCompra.setText(String.valueOf(producto.getPrecioCompra()));
+        tfFormProductoPrecioVenta.setText(String.valueOf(producto.getPrecioVenta()));
+    }
+
+    @FXML
+    void borrarProducto() throws SQLException{
+        try {
+            String id = String.valueOf(tvProductos.getSelectionModel().getSelectedItem().getIdProducto());
+            Alert confirmar = ventanaConfirmacion("ELIMINAR PRODUCTO", "Eliminar producto",
+                    "¿Está seguro de que desea eliminar este producto?");
+            Optional<ButtonType> resultado = confirmar.showAndWait();
+            if (resultado.get() == confirmar.getButtonTypes().get(0)) {
+                eliminarProducto(id);
+                cargarTablaProducto();
+            }
+        } catch (NullPointerException e) {
+            ventanaDialogo("ERROR", "No hay ningún usuario seleccionado");
+        }
+    }
+
+    private void eliminarProducto(String id) throws SQLException{
+        String sql = "DELETE FROM productos WHERE idProducto = ?";
+        try (PreparedStatement stmt = bdSeleccionada.prepareStatement(sql)) {
+            stmt.setString(1, id);
+
+            stmt.executeUpdate();// Ejecutar la consulta
+            ventanaDialogo("ELIMINAR PRODUCTO", "Producto eliminado con éxito");
+        }
     }
 
     @FXML
     void aceptarProducto() throws SQLException {
         if (editaProducto){
-            //actualizaProducto();
+            actualizaProducto();
         } else {
             insertarProducto();
         }
     }
 
+    private void actualizaProducto() throws SQLException{
+        Producto producto = leerValoresProducto();
+        producto.setIdProducto(idProd);
+        if (!mensajeErrorProducto(producto)){
+            consultaActualizarProducto(producto);
+            cargarTablaProducto();
+            volverProducto();
+        }
+    }
+
+    private void consultaActualizarProducto(Producto producto) throws SQLException{
+        String sql = "UPDATE productos SET nombre=?, cantidad=?, precioCompra=?, precioVenta=? WHERE idProducto=?";
+        try (PreparedStatement stmt = bdSeleccionada.prepareStatement(sql)){
+
+            stmt.setString(1, producto.getNombre());
+            stmt.setString(2, String.valueOf(producto.getCantidad()));
+            stmt.setString(3, String.valueOf(producto.getPrecioCompra()));
+            stmt.setString(4, String.valueOf(producto.getPrecioVenta()));
+            stmt.setString(5, String.valueOf(producto.getIdProducto()));
+
+            System.out.println(stmt);
+
+            stmt.executeUpdate();// Ejecutar la consulta
+            ventanaDialogo("ACTUALIZAR PRODUCTO", "Producto actualizado con éxito");
+        }
+
+
+    }
+
     private void insertarProducto() throws SQLException {
         Producto producto = leerValoresProducto();
-        if (mensajeErrorProducto(producto)){
+        if (!mensajeErrorProducto(producto)){
             consultaInsertarProducto(producto);
             cargarTablaProducto();
+            volverProducto();
         }
     }
 
@@ -1466,8 +1571,8 @@ public class ControladorPrincipal implements Initializable {
 
             stmt.setString(1, producto.getNombre());
             stmt.setString(2, String.valueOf(producto.getCantidad()));
-            stmt.setString(2, String.valueOf(producto.getPrecioCompra()));
-            stmt.setString(2, String.valueOf(producto.getPrecioVenta()));
+            stmt.setString(3, String.valueOf(producto.getPrecioCompra()));
+            stmt.setString(4, String.valueOf(producto.getPrecioVenta()));
 
             stmt.executeUpdate();// Ejecutar la consulta
             ventanaDialogo("INSERTAR PRODUCTO", "Producto insertado con éxito");
@@ -1478,10 +1583,24 @@ public class ControladorPrincipal implements Initializable {
 
 
     private Producto leerValoresProducto() {
-        String nombre = leerCampo("Nombre", tfNombreProducto.getText(), ".{1,50}");
-        Integer cantidad = Integer.valueOf(leerCampo("Cantidad", tfCantidadProducto.getText(), "^[0-9]\\d*(\\.\\d+)?$"));
-        Float precioCompra = Float.valueOf(leerCampo("Precio de compra", tfPrecioCompraProducto.getText(), "^[0-9]+(\\.[0-9]+)?$"));
-        Float precioVenta = Float.valueOf(leerCampo("Precio de venta", tfPrecioVentaProducto.getText(), "^[0-9]+(\\.[0-9]+)?$"));
+        String nombre = leerCampo("Nombre", tfFormProductoNombre.getText(), ".{1,50}");
+        String auxCantidad = leerCampo("Cantidad", tfFormProductoCantidad.getText(), "^[0-9]\\d*(\\.\\d+)?$");
+        String auxPrecioCompra = leerCampo("Precio de compra", tfFormProductoPrecioCompra.getText(), "^[0-9]+(\\.[0-9]+)?$");
+        String auxPrecioVenta = leerCampo("Precio de venta", tfFormProductoPrecioVenta.getText(), "^[0-9]+(\\.[0-9]+)?$");
+
+        Integer cantidad = null;
+        Float precioCompra = null;
+        Float precioVenta = null;
+
+        if (auxCantidad != null){
+            cantidad = Integer.valueOf(auxCantidad);
+        }
+        if (auxPrecioCompra != null){
+            precioCompra = Float.valueOf(auxPrecioCompra);
+        }
+        if (auxPrecioVenta != null){
+            precioVenta = Float.valueOf(auxPrecioVenta);
+        }
         return new Producto(nombre, cantidad, precioCompra, precioVenta);
     }
 
@@ -1508,10 +1627,10 @@ public class ControladorPrincipal implements Initializable {
     @FXML
     void volverProducto(){
         panelFormularioProducto.setVisible(false);
-        tfNombreProducto.setText("");
-        tfCantidadProducto.setText("");
-        tfPrecioVentaProducto.setText("");
-        tfPrecioCompraProducto.setText("");
+        tfFormProductoNombre.setText("");
+        tfFormProductoCantidad.setText("");
+        tfFormProductoPrecioCompra.setText("");
+        tfFormProductoPrecioVenta.setText("");
         panelProductos.setVisible(true);
     }
 

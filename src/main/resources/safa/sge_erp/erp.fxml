@@ -88,7 +88,7 @@
       </AnchorPane>
       <AnchorPane id="panel" fx:id="panelConectado" prefHeight="720.0" prefWidth="1280.0" stylesheets="@style.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane id="panelMenu" fx:id="panelMenu" layoutX="213.0" layoutY="125.0" prefHeight="570.0" prefWidth="901.0" stylesheets="@style.css" visible="false" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="213.0" AnchorPane.rightAnchor="201.0" AnchorPane.topAnchor="125.0">
+            <AnchorPane id="panelMenu" fx:id="panelMenu" layoutX="213.0" layoutY="125.0" prefHeight="570.0" prefWidth="901.0" stylesheets="@style.css" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="213.0" AnchorPane.rightAnchor="201.0" AnchorPane.topAnchor="125.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -136,7 +136,7 @@
                   </Button>
                   <Label id="textMenu" layoutX="257.0" layoutY="245.0" prefHeight="17.0" prefWidth="113.0" stylesheets="@style.css" text="Compras" textFill="#53fff4" />
                   <Label id="textMenu" layoutX="522.0" layoutY="245.0" prefHeight="17.0" prefWidth="113.0" stylesheets="@style.css" text="Ventas" textFill="#53fff4" />
-                  <Label id="textMenu" layoutX="257.0" layoutY="484.0" prefHeight="17.0" prefWidth="113.0" stylesheets="@style.css" text="Inventario" textFill="#53fff4" />
+                  <Label id="textMenu" layoutX="257.0" layoutY="484.0" prefHeight="17.0" prefWidth="113.0" stylesheets="@style.css" text="Productos" textFill="#53fff4" />
                   <Label id="textMenu" layoutX="522.0" layoutY="484.0" prefHeight="17.0" prefWidth="113.0" stylesheets="@style.css" text="Facturación" textFill="#53fff4" />
 
 
@@ -194,13 +194,18 @@
                      </image>
                   </ImageView>
                </children></AnchorPane>
-            <AnchorPane id="panelesTodos" fx:id="panelInventario" layoutX="55.0" layoutY="155.0" prefHeight="620.0" prefWidth="1280.0" stylesheets="@style.css" visible="false" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="125.0" />
             <AnchorPane id="panelesTodos" fx:id="panelProductos" layoutX="25.0" layoutY="125.0" prefHeight="570.0" prefWidth="1280.0" stylesheets="@style.css" visible="false">
                <children>
                   <Button id="btn1" fx:id="btnProductoVolver" layoutX="47.0" layoutY="508.0" mnemonicParsing="false" onAction="#volverMenu" stylesheets="@style.css" text="VOLVER AL MENÚ" />
                   <Button id="btn1" fx:id="btnCrearProducto" layoutX="64.0" layoutY="57.0" mnemonicParsing="false" onAction="#creaProducto" stylesheets="@style.css" text="CREAR" />
                   <TextField fx:id="tfBuscarProducto" layoutX="71.0" layoutY="144.0" prefHeight="25.0" prefWidth="379.0" />
-                  <TableView fx:id="tvProductos" layoutX="71.0" layoutY="198.0" prefHeight="280.0" prefWidth="909.0" />
+                  <TableView fx:id="tvProductos" layoutX="71.0" layoutY="198.0" prefHeight="280.0" prefWidth="733.0">
+                     <columns>
+                        <TableColumn fx:id="colProductoNombre" prefWidth="175.0" text="Nombre" />
+                        <TableColumn fx:id="colProductoCantidad" prefWidth="190.0" text="Cantidad" />
+                        <TableColumn fx:id="colProductoPrecioCompra" prefWidth="168.0" text="Precio Compra" />
+                        <TableColumn fx:id="colProductoPrecioVenta" prefWidth="199.0" text="Precio Venta" />
+                     </columns></TableView>
                   <Button id="btn1" fx:id="btnProductoModificar" layoutX="429.0" layoutY="508.0" mnemonicParsing="false" onAction="#modificarProducto" stylesheets="@style.css" text="MODIFICAR" />
                   <Button id="btn1" fx:id="btnVentasBorrar1" layoutX="545.0" layoutY="508.0" mnemonicParsing="false" onAction="#borrarProducto" stylesheets="@style.css" text="BORRAR" />
                   <Button id="btn1" fx:id="btnProductosBuscar" layoutX="484.0" layoutY="141.0" mnemonicParsing="false" onAction="#cargarTablaProducto" prefHeight="27.0" prefWidth="92.0" stylesheets="@style.css" text="BUSCAR" />
@@ -281,20 +286,16 @@
                      <font>
                         <Font size="31.0" />
                      </font></Label>
-                  <Label id="textLabelFormularios" layoutX="309.0" layoutY="113.0" prefWidth="243.0" stylesheets="@style.css" text="Referencia del producto" textFill="#51cf5b" />
-                  <Label id="textLabelFormularios" layoutX="309.0" layoutY="221.0" prefHeight="17.0" prefWidth="243.0" stylesheets="@style.css" text="Nombre del producto" textFill="#51cf5b" />
-                  <Label id="textLabelFormularios" layoutX="731.0" layoutY="221.0" prefHeight="32.0" prefWidth="283.0" stylesheets="@style.css" text="Precio unitario del producto" textFill="#51cf5b" />
-                  <Label id="textLabelFormularios" layoutX="731.0" layoutY="113.0" prefHeight="32.0" prefWidth="283.0" stylesheets="@style.css" text="Cantidad de producto" textFill="#51cf5b" />
-                  <Label id="textLabelFormularios" layoutX="309.0" layoutY="329.0" prefHeight="17.0" prefWidth="243.0" stylesheets="@style.css" text="Proveedor" textFill="#51cf5b" />
-                  <Label id="textLabelFormularios" layoutX="731.0" layoutY="329.0" prefHeight="32.0" prefWidth="283.0" stylesheets="@style.css" text="Detalle del producto" textFill="#51cf5b" />
-                  <TextField fx:id="tfFormCompraReferencia1" layoutX="305.0" layoutY="162.0" prefHeight="35.0" prefWidth="339.0" />
-                  <TextField fx:id="tfFormCompraNombre1" layoutX="305.0" layoutY="266.0" prefHeight="35.0" prefWidth="339.0" promptText="Ingrese el nombre del producto" />
-                  <TextField fx:id="tfFormCompraCantidad1" layoutX="728.0" layoutY="162.0" prefHeight="35.0" prefWidth="365.0" promptText="Ingrese la cantidad de producto" />
-                  <TextField fx:id="tfFormCompraProveedor1" layoutX="305.0" layoutY="376.0" prefHeight="35.0" prefWidth="339.0" promptText="Ingrese el proveedor del producto" />
-                  <TextField fx:id="tfFormCompraPrecioUnit1" layoutX="728.0" layoutY="266.0" prefHeight="35.0" prefWidth="365.0" promptText="Ingrese el precio unitario del producto" />
-                  <TextField fx:id="tfFormCompraDetalle1" layoutX="728.0" layoutY="376.0" prefHeight="35.0" prefWidth="365.0" promptText="Opcional" />
-                  <Button id="btn1" fx:id="btnVolverCompra1" layoutX="39.0" layoutY="510.0" mnemonicParsing="false" onAction="#volverCompras" stylesheets="@style.css" text="VOLVER A COMPRAS" />
-                  <Button id="btn1" fx:id="btnFormCompraCrear1" layoutX="830.0" layoutY="462.0" mnemonicParsing="false" onAction="#aceptarCompra" prefHeight="58.0" prefWidth="167.0" stylesheets="@style.css" text="CREAR PEDIDO" />
+                  <Label id="textLabelFormularios" layoutX="305.0" layoutY="113.0" stylesheets="@style.css" text="Nombre" textFill="#51cf5b" />
+                  <Label id="textLabelFormularios" layoutX="309.0" layoutY="221.0" stylesheets="@style.css" text="Precio de compra" textFill="#51cf5b" />
+                  <Label id="textLabelFormularios" layoutX="731.0" layoutY="221.0" stylesheets="@style.css" text="Precio de venta" textFill="#51cf5b" />
+                  <Label id="textLabelFormularios" layoutX="731.0" layoutY="113.0" stylesheets="@style.css" text="Cantidad a añadir" textFill="#51cf5b" />
+                  <TextField fx:id="tfFormProductoNombre" layoutX="305.0" layoutY="162.0" prefHeight="35.0" prefWidth="339.0" promptText="Ingrese el nombre" />
+                  <TextField fx:id="tfFormProductoPrecioCompra" layoutX="305.0" layoutY="266.0" prefHeight="35.0" prefWidth="339.0" promptText="Ingrese el precio de compra" />
+                  <TextField fx:id="tfFormProductoCantidad" layoutX="728.0" layoutY="162.0" prefHeight="35.0" prefWidth="365.0" promptText="Ingrese la cantiidad a añadir" />
+                  <TextField fx:id="tfFormProductoPrecioVenta" layoutX="728.0" layoutY="266.0" prefHeight="35.0" prefWidth="365.0" promptText="Ingrese el precio de venta" />
+                  <Button id="btn1" fx:id="btnVolverProducto" layoutX="39.0" layoutY="478.0" mnemonicParsing="false" onAction="#volverProducto" stylesheets="@style.css" text="VOLVER A PRODUCTOS" />
+                  <Button id="btn1" fx:id="btnAceptarProducto" layoutX="615.0" layoutY="434.0" mnemonicParsing="false" onAction="#aceptarProducto" prefHeight="58.0" prefWidth="167.0" stylesheets="@style.css" text="ACEPTAR" />
                   <ImageView fitHeight="228.0" fitWidth="213.0" layoutX="39.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@img/inventario1.png" />
@@ -305,8 +306,8 @@
             </AnchorPane>
             <SplitMenuButton id="botonOpciones" layoutX="1113.0" layoutY="41.0" mnemonicParsing="false" stylesheets="@style.css" text="Opciones" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="38.0">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Editar perfil" />
-                  <MenuItem mnemonicParsing="false" text="Cerrar cesión" />
+                  <MenuItem mnemonicParsing="false" onAction="#editaPerfil" text="Editar perfil" />
+                  <MenuItem mnemonicParsing="false" onAction="#cerrarSesion" text="Cerrar cesión" />
                </items>
                <font>
                   <Font name="Calibri" size="20.0" />
