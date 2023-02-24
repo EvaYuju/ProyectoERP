@@ -182,6 +182,12 @@ public class ControladorPrincipal implements Initializable {
     private Label labelBienvenido;
 
     @FXML
+    private MenuItem miCerrarSesion;
+
+    @FXML
+    private MenuItem miEditaPerfil;
+
+    @FXML
     private AnchorPane panelBD;
 
     @FXML
@@ -310,16 +316,13 @@ public class ControladorPrincipal implements Initializable {
     @FXML
     private TableView<Venta> tvVentas;
 
-
-
-
     // Atributos
     Usuario usuario;
-    // Compra compra;
     int contadorFilas = 0;
     Connection bdSeleccionada;
     Gson gson = new Gson();
     int counter = 0;
+    Boolean editaUsuario;
     Boolean editaCompra;
     Boolean editaVenta;
     Boolean editaProducto;
@@ -327,7 +330,6 @@ public class ControladorPrincipal implements Initializable {
 
 
     // Cambio de paneles
-
     @FXML
     void entrarCompras(ActionEvent event) {
         panelMenu.setVisible(false);
@@ -433,6 +435,46 @@ public class ControladorPrincipal implements Initializable {
         return alert;
     }
 
+    @FXML
+    void editaPerfil() throws SQLException, ClassNotFoundException {
+        editaUsuario = true;
+
+        tfRegistroUsuario.setEditable(false);
+        panelBD.setVisible(false);
+        panelConectado.setVisible(false);
+        panelUsuario.setVisible(true);
+        panelRegistro.setVisible(true);
+        panelLogin.setVisible(false);
+
+        cargaFormUsuario();
+
+    }
+
+    void cargaFormUsuario() throws SQLException, ClassNotFoundException {
+        Usuario auxUsuario = null;
+        Connection connection = conexionBD("usuarios_erp");
+        Statement stmt = connection.createStatement();
+        String query = "SELECT * FROM usuarios WHERE nombre = '" + usuario.getNombre() + "'";
+        ResultSet datos = stmt.executeQuery(query);
+        while (datos.next()) {
+            auxUsuario = new Usuario(datos.getString("nombre"), datos.getString("clave"),
+                    datos.getString("email"));
+        }
+
+        tfRegistroUsuario.setText(auxUsuario.getNombre());
+        tfRegistroEmail.setText(auxUsuario.getEmail());
+        tfRegistroClave.setText(auxUsuario.getClave());
+        tfRegistroConfirmaClave.setText(auxUsuario.getClave());
+    }
+
+    @FXML
+    void cerrarSesion(){
+        panelBD.setVisible(false);
+        panelConectado.setVisible(false);
+        panelLogin.setVisible(true);
+        clearGridPane(gpBasesDeDatos);
+    }
+
     String leerCampo(String nombrecampo, String texto, String criterioValidacion) {
         return (texto == null || !texto.matches(criterioValidacion)) ? null : texto;
     }
@@ -454,7 +496,7 @@ public class ControladorPrincipal implements Initializable {
                 // Creamos el usuario
                 usuario = new Usuario(rs.getString("nombre"), rs.getString("clave"),
                         rs.getString("email"));
-                labelBienvenido.setText(labelBienvenido.getText()+usuario.getNombre());
+                labelBienvenido.setText("Bienvenid@, " +usuario.getNombre());
                 cargaBasesDatos(rs);
 
                 // Cerramos la conexión con la base de datos de usuarios
@@ -491,9 +533,39 @@ public class ControladorPrincipal implements Initializable {
 
     @FXML
     void aceptaRegistro(ActionEvent event) throws SQLException, ClassNotFoundException {
+        // Comprobamos el usuario
+        if (tfRegistroUsuario.getText().equals("")){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Mensaje de error");
+            alert.setContentText("El usuario no puede estar vacío");
+            alert.showAndWait();
+            return;
+        }
+
+        // Comprobamos el email
+        String email = leerCampo("Email", tfRegistroEmail.getText(), "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$");
+        if (email == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Mensaje de error");
+            alert.setContentText("El email no es válido");
+            alert.showAndWait();
+            return;
+        }
+
+        // Comprobar que la clave no esté vacía
+        if (tfRegistroClave.getText().equals("")){
+            // Mostrar mensaje de error si está vacío
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Mensaje de error");
+            alert.setContentText("La clave no puede estar vacía");
+            alert.showAndWait();
+            return;
+        }
         // Comprobar si los campos de clave y confirmación de clave son iguales
-        TextField tfConfirmaClave = tfRegistroConfirmaClave;
-        if (!tfRegistroClave.getText().equals(tfConfirmaClave.getText())) {
+        if (!tfRegistroClave.getText().equals(tfRegistroConfirmaClave.getText())) {
             // Mostrar un mensaje de error si no coinciden
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
@@ -502,39 +574,73 @@ public class ControladorPrincipal implements Initializable {
             alert.showAndWait();
             return;
         }
+        if (editaUsuario){
+            Connection connection = conexionBD("usuarios_erp");
+            String sql = "UPDATE usuarios SET  clave = ?, email = ? WHERE nombre = '" + usuario.getNombre() + "'";
+            try {
 
-        Connection connection = conexionBD("usuarios_erp");
-        String sql = "INSERT INTO usuarios (nombre, clave, email) VALUES (?,?,?)";
-        try {
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setString(1, tfRegistroClave.getText());
+                statement.setString(2, tfRegistroEmail.getText());
+                System.out.println(statement);
+                statement.execute();
 
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, tfRegistroUsuario.getText());
-            statement.setString(2, tfRegistroClave.getText());
-            statement.setString(3, tfRegistroEmail.getText());
-            System.out.println(statement);
-            statement.execute();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Información");
+                alert.setHeaderText("Mensaje de información");
+                alert.setContentText("USUARIO ACTUALIZADO");
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Información");
-            alert.setHeaderText("Mensaje de información");
-            alert.setContentText("USUARIO INSERTADO");
+                connection.close();
 
-            connection.close();
+                ventanaDialogo("USUARIO ACTUALIZAD0", "Usuario actualizado con éxito");
 
-            panelRegistro.setVisible(false);
-            panelLogin.setVisible(true);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+                panelRegistro.setVisible(false);
+                panelLogin.setVisible(false);
+                panelUsuario.setVisible(false);
+                panelBD.setVisible(true);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Connection connection = conexionBD("usuarios_erp");
+            String sql = "INSERT INTO usuarios (nombre, clave, email) VALUES (?,?,?)";
+            try {
+
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setString(1, tfRegistroUsuario.getText());
+                statement.setString(2, tfRegistroClave.getText());
+                statement.setString(3, tfRegistroEmail.getText());
+                System.out.println(statement);
+                statement.execute();
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Información");
+                alert.setHeaderText("Mensaje de información");
+                alert.setContentText("USUARIO INSERTADO");
+
+                connection.close();
+
+                ventanaDialogo("NUEVO USUARIO", "Usuario insertado con éxito");
+
+                panelRegistro.setVisible(false);
+                panelLogin.setVisible(true);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
 
     @FXML
     void nuevoRegistro(ActionEvent event) {
+        editaUsuario = false;
+        tfRegistroUsuario.setEditable(true);
         panelLogin.setVisible(false);
         panelRegistro.setVisible(true);
-
     }
 
     @FXML
@@ -544,7 +650,7 @@ public class ControladorPrincipal implements Initializable {
         tfRegistroUsuario.setText("");
         tfRegistroConfirmaClave.setText("");
         panelRegistro.setVisible(false);
-        panelBD.setVisible(true);
+        panelLogin.setVisible(true);
     }
 
     /* PANEL BASES DE DATOS */
@@ -927,7 +1033,6 @@ public class ControladorPrincipal implements Initializable {
         hayError = compruebaCantidad(compra.getCantidad(), mensajeError) ? true : hayError;
         hayError = compruebaProveedor(compra.getProveedor(), mensajeError) ? true : hayError;
         hayError = compruebaDetalle(compra.getDetalle(), mensajeError) ? true : hayError;
-
 
         if (hayError) {
             Alert error = new Alert(Alert.AlertType.ERROR);

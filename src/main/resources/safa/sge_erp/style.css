@@ -7,25 +7,18 @@
     -fx-background-repeat: no-repeat;
     -fx-background-size: cover;
 }
-#panelesTodos {
-    -fx-background-image: url("img/fondo3.jpg");
-    -fx-background-repeat: no-repeat;
-}
-#formularios {
-    -fx-background-image: url("img/fondo3.jpg");
-    -fx-background-repeat: no-repeat;
-    -fx-background-size: cover;
-}
+
 
 #boton {
     -fx-background-color: #30a8d2;
     -fx-font-size: 22px;
     -fx-background-radius: 20px;
     -fx-background-insets: 0;
-    -fx-border-color: #32fb04;
+    -fx-border-color: #0467fb;
     -fx-border-width: 2px;
     -fx-border-radius: 20px;
     -fx-border-style: solid;
+    -fx-text-fill: white;
 }
 
 #boton:hover {
@@ -46,7 +39,7 @@
 #textMenu{
     -fx-font-family: "fantasy";
     -fx-font-size: 20px;
-    -fx-border-color: #32fb04;
+    -fx-border-color: #0467fb;
     -fx-alignment: center;
 
 }
@@ -55,7 +48,7 @@
 #textLabelFormularios{
     -fx-font-family: "fantasy";
     -fx-font-size: 20px;
-    -fx-border-color: #32fb04;
+    -fx-border-color: #0467fb;
     -fx-alignment: center;
 }
 
@@ -65,7 +58,7 @@
 
 #botonOpciones {
     -fx-font-size: 20px;
-    -fx-border-color: #32fb04;
+    -fx-border-color: #0467fb;
     -fs-color: #fff;
     -fx-box-shadow: 0, 0, 40px 40px #3498db inset, 0 0 0 0 #3498db;
     -fx-webkit-transition: all 150ms ease-in-out;
@@ -78,13 +71,7 @@
     -fx-border-style: solid;
     -fx-border-radius: 30;
     -fx-background-radius: 30;
-    -fx-background-color: lightgrey;
-}
-
-#panelMenu {
-    -fx-background-image: url("img/fondo3.jpg");
-    -fx-background-repeat: no-repeat;
-    -fx-background-size: cover;
+    -fx-background-color: darkgrey;
 }
 
 #labelConectar {
@@ -94,13 +81,13 @@
 
 #labelFormtit {
     -fx-font-size: 30px;
-    -fs-color: #32fb04;
+    -fs-color: #0467fb;
     -fx-font-family: "cursive";
 
 }
 
 #btn1 {
-    -fx-border-color: #32fb04;
+    -fx-border-color: #0467fb;
     -fs-color: #fff;
     -fx-box-shadow: 0, 0, 40px 40px #3498db inset, 0 0 0 0 #3498db;
     -fx-webkit-transition: all 150ms ease-in-out;
