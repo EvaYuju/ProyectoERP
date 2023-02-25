@@ -2,37 +2,26 @@ package safa.sge_erp;
 
 public class Compra {
 
-    Integer referencia;
-    String nombre;
-    Float precio;
+    Integer idCompra;
     Integer cantidad;
     Float total;
     String proveedor;
     String detalle;
+    Integer idProducto;
 
-    public Integer getReferencia() {
-        return referencia;
+    public Compra(Integer cantidad, String proveedor, String detalle, Integer idProducto) {
+        this.cantidad = cantidad;
+        this.proveedor = proveedor;
+        this.detalle = detalle;
+        this.idProducto = idProducto;
     }
 
-    public void setReferencia(Integer referencia) {
-        this.referencia = referencia;
-
+    public Integer getIdCompra() {
+        return idCompra;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public Float getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(Float precio) {
-        this.precio = precio;
+    public void setIdCompra(Integer idCompra) {
+        this.idCompra = idCompra;
     }
 
     public Integer getCantidad() {
@@ -67,18 +56,28 @@ public class Compra {
         this.detalle = detalle;
     }
 
+    public Integer getIdProducto() {
+        return idProducto;
+    }
 
+    public void setIdProducto(Integer idProducto) {
+        this.idProducto = idProducto;
+    }
 
-
-
-    //
-    public Compra(Integer referencia, String nombre, Float precio, Integer cantidad, Float total, String proveedor, String detalle) {
-        this.referencia = referencia;
-        this.nombre = nombre;
-        this.precio = precio;
+    public Compra(Integer idCompra, Integer cantidad, Float total, String proveedor, String detalle, Integer idProducto) {
+        this.idCompra = idCompra;
         this.cantidad = cantidad;
         this.total = total;
         this.proveedor = proveedor;
         this.detalle = detalle;
+        this.idProducto = idProducto;
+    }
+
+    public Compra(Integer cantidad, Float total, String proveedor, String detalle, Integer idProducto) {
+        this.cantidad = cantidad;
+        this.total = total;
+        this.proveedor = proveedor;
+        this.detalle = detalle;
+        this.idProducto = idProducto;
     }
 }

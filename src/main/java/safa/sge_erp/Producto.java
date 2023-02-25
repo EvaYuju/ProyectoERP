@@ -8,6 +8,11 @@ public class Producto {
     Float precioCompra;
     Float precioVenta;
 
+    @Override
+    public String toString() {
+        return nombre;
+    }
+
     public Producto(Integer idProducto, String nombre, Integer cantidad, Float precioCompra, Float precioVenta) {
         this.idProducto = idProducto;
         this.nombre = nombre;
