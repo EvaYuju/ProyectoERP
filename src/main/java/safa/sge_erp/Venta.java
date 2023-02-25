@@ -2,54 +2,19 @@ package safa.sge_erp;
 
 public class Venta {
 
-    Integer referencia;
-    String nombre;
-    String cliente;
-    Float precio;
+    Integer idVenta;
     Integer cantidad;
     Float total;
+    String cliente;
     String detalle;
+    Integer idProducto;
 
-    public Venta(Integer referencia, String nombre, String cliente, Float precio, Integer cantidad, Float total, String detalle) {
-        this.referencia = referencia;
-        this.nombre = nombre;
-        this.cliente = cliente;
-        this.precio = precio;
-        this.cantidad = cantidad;
-        this.total = total;
-        this.detalle = detalle;
+    public Integer getIdVenta() {
+        return idVenta;
     }
 
-    public Integer getReferencia() {
-        return referencia;
-    }
-
-    public void setReferencia(Integer referencia) {
-        this.referencia = referencia;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(String cliente) {
-        this.cliente = cliente;
-    }
-
-    public Float getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(Float precio) {
-        this.precio = precio;
+    public void setIdVenta(Integer idVenta) {
+        this.idVenta = idVenta;
     }
 
     public Integer getCantidad() {
@@ -68,6 +33,14 @@ public class Venta {
         this.total = total;
     }
 
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
+
     public String getDetalle() {
         return detalle;
     }
@@ -76,5 +49,35 @@ public class Venta {
         this.detalle = detalle;
     }
 
+    public Integer getIdProducto() {
+        return idProducto;
+    }
 
+    public void setIdProducto(Integer idProducto) {
+        this.idProducto = idProducto;
+    }
+
+    public Venta(Integer idVenta, Integer cantidad, Float total, String cliente, String detalle, Integer idProducto) {
+        this.idVenta = idVenta;
+        this.cantidad = cantidad;
+        this.total = total;
+        this.cliente = cliente;
+        this.detalle = detalle;
+        this.idProducto = idProducto;
+    }
+
+    public Venta(Integer cantidad, Float total, String cliente, String detalle, Integer idProducto) {
+        this.cantidad = cantidad;
+        this.total = total;
+        this.cliente = cliente;
+        this.detalle = detalle;
+        this.idProducto = idProducto;
+    }
+
+    public Venta(Integer cantidad, String cliente, String detalle, Integer idProducto) {
+        this.cantidad = cantidad;
+        this.cliente = cliente;
+        this.detalle = detalle;
+        this.idProducto = idProducto;
+    }
 }
